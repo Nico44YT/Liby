@@ -1,6 +1,7 @@
 plugins {
     id 'fabric-loom' version '1.7-SNAPSHOT'
     id 'maven-publish'
+    id 'signing'
 }
 
 version = project.mod_version
@@ -87,6 +88,8 @@ publishing {
     publications {
         create("mavenJava", MavenPublication) {
             artifactId = project.archives_base_name
+            groupId = project.maven_group
+            version = project.mod_version
             from components.java
         }
     }
@@ -94,7 +97,17 @@ publishing {
     // See https://docs.gradle.org/current/userguide/publishing_maven.html for information on how to set up publishing.
     repositories {
         maven {
-            name = "Liby"
+            name = "MavenCentral"
+            url = "https://oss.sonatype.org/repository/maven-releases/"
+            credentials {
+                username = System.getenv("MAVEN_NAME")
+                password = System.getenv("MAVEN_TOKEN")
+            }
         }
     }
 }
+
+signing {
+    sign publishing.publications.mavenJava
+}
+
