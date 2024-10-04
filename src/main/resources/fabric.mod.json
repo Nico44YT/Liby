@@ -1,0 +1,32 @@
+{
+  "schemaVersion": 1,
+  "id": "liby",
+  "version": "${version}",
+  "name": "Liby",
+  "description": "",
+  "authors": [],
+  "contact": {},
+  "license": "GPL-3.0",
+  "icon": "assets/liby/icon.png",
+  "environment": "*",
+  "entrypoints": {
+    "client": [
+      "nazario.liby.client.LibyClient"
+    ],
+    "main": [
+      "nazario.liby.Liby"
+    ]
+  },
+  "mixins": [
+    "liby.mixins.json",
+    {
+      "config": "liby.client.mixins.json",
+      "environment": "client"
+    }
+  ],
+  "depends": {
+    "fabricloader": ">=${loader_version}",
+    "fabric": "*",
+    "minecraft": "${minecraft_version}"
+  }
+}
