@@ -18,8 +18,6 @@ import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Direction;
 import net.minecraft.util.shape.VoxelShape;
 import net.minecraft.util.shape.VoxelShapes;
-import net.minecraft.world.BlockRenderView;
-import net.minecraft.world.BlockView;
 import net.minecraft.world.World;
 import net.minecraft.world.WorldView;
 import net.minecraft.world.event.GameEvent;
@@ -48,17 +46,19 @@ public abstract class LibyMultiBlock extends BlockWithEntity {
     public void onPlaced(World world, BlockPos masterPos, BlockState masterState, @Nullable LivingEntity placer, ItemStack itemStack) {
         Direction facing = placer.getHorizontalFacing(); // Get player's facing direction
 
-        if (world.getBlockEntity(masterPos) instanceof LibyMultiBlockEntity multiblockEntity) {
-            multiblockEntity.setParentPos(masterPos);
-        }
+        world.setBlockState(masterPos, Blocks.AIR.getDefaultState());
 
         for (int i = 0; i < childBlocks.length; i++) {
             BlockPos rotatedChildPos = rotateBlockPos(childBlocks[i], facing); // Rotate based on facing
             BlockPos childWorldPos = masterPos.add(rotatedChildPos);
 
-            world.setBlockState(childWorldPos, masterState.with(PARENT, false));
+            world.setBlockState(childWorldPos, masterState.with(PARENT, i == 0));
 
-            ((LibyMultiBlockEntity) world.getBlockEntity(childWorldPos)).setParentPos(masterPos);
+            ((LibyMultiBlockEntity) world.getBlockEntity(childWorldPos)).setParentPos(childBlocks[0]);
+        }
+
+        if (world.getBlockEntity(childBlocks[0]) instanceof LibyMultiBlockEntity multiblockEntity) {
+            multiblockEntity.setParentPos(childBlocks[0]);
         }
     }
 
