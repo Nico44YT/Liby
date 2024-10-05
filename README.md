@@ -1,31 +1,32 @@
 ## How to Add Liby to Your Project
-Currently, you need to manually download the Liby JAR file and include it in your project. Follow these steps to set it up:
 
-**Step 1: Add the Liby JAR to Your Project**
-
-Download the Liby JAR: Obtain the Liby JAR file from the source.
-Create a libs Folder: If you don’t have a libs folder in your project directory, create one.
-Place the JAR File: Move the downloaded liby.jar into the libs folder. Your project structure should look like this:
-
+**Step 1: Add the CurseMaven Repository**
+To download Liby from CurseMaven, you first need to add the repository to your ```build.gradle``` file:
 ```gradle
-Project
-├ src
-├ libs
-│  └ liby.jar
-├ build.gradle
-├ gradle.properties
-└ settings.gradle
+repositories {
+    maven {
+        url "https://cursemaven.com"
+    }
+}
 ```
+**Step 2: Add the Liby Dependency**
+1. Find the Correct Maven Snippet:
+- Go to the [CurseForge project page](https://www.curseforge.com/minecraft/mc-mods/liby) for Liby.
+- Navigate to the Files section and find the version compatible with your Minecraft setup.
+- Expand the Curse Maven Snippet for the version you need.
+- Copy the provided Maven snippet.
 
-**Step 2: Modify Your build.gradle**
-
-To include the Liby JAR in your project’s dependencies, update the build.gradle file:
-
+2. Add the Dependency:
+- After copying the snippet, add it to the dependencies block in your build.gradle. Here’s an example:
 ```gradle
 dependencies {
-    // Other dependencies
-    modImplementation files("./libs/liby-1.21.1-build-1.0.jar") // Ensure the filename matches your downloaded JAR
+    // Add the Liby dependency using the Maven snippet
+    modImplementation "curse.maven:liby-1115157:5783866"
+
+    // Required reflection library
+    implementation "org.reflections:reflections:1.10.2"
 }
+
 ```
 
 
