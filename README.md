@@ -24,7 +24,7 @@ dependencies {
     modImplementation "curse.maven:liby-1115157:5783866"
 
     // Required reflection library
-    implementation "org.reflections:reflections:1.10.2"
+    implementation "org.reflections:reflections:0.10.2"
 }
 
 ```
