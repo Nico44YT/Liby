@@ -54,7 +54,7 @@ public abstract class LibyMultiBlock extends BlockWithEntity {
 
             world.setBlockState(childWorldPos, masterState.with(PARENT, i == 0));
 
-            ((LibyMultiBlockEntity) world.getBlockEntity(childWorldPos)).setParentPos(childBlocks[0]);
+            ((LibyMultiBlockEntity) world.getBlockEntity(childWorldPos)).setParentPos(masterPos.add(childBlocks[0]));
         }
 
         if (world.getBlockEntity(childBlocks[0]) instanceof LibyMultiBlockEntity multiblockEntity) {
@@ -101,7 +101,6 @@ public abstract class LibyMultiBlock extends BlockWithEntity {
                     world.setBlockState(childWorldPos, state.with(PARENT, false).with(DESTROYED, true));
                 }
             }
-            //world.setBlockState(pos, Blocks.AIR.getDefaultState());
             world.setBlockState(pos, Blocks.AIR.getDefaultState());
             super.onStateReplaced(state, world, pos, newState, moved);
             return;
