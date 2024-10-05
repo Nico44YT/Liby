@@ -138,7 +138,7 @@ public abstract class LibyMultiBlock extends BlockWithEntity {
         return onMultiBlockUse(world, state, state, pos, pos, player, hit);
     }
 
-    public ActionResult onMultiBlockUse(World world, BlockState state, BlockState parentState, BlockPos pos, BlockPos parentPos, PlayerEntity player ,BlockHitResult hit) {
+    public ActionResult onMultiBlockUse(World world, BlockState clickedState, BlockState parentState, BlockPos clickedPos, BlockPos parentPos, PlayerEntity player, BlockHitResult hit) {
         return ActionResult.PASS;
     }
 
@@ -172,7 +172,7 @@ public abstract class LibyMultiBlock extends BlockWithEntity {
         return onMultiBlockWithItem(world, stack, player, hand, hit, state, state, pos, pos);
     }
 
-    public ItemActionResult onMultiBlockWithItem(World world, ItemStack stack, PlayerEntity player, Hand hand, BlockHitResult hit, BlockState state, BlockState parentState, BlockPos pos, BlockPos parentPos) {
+    public ItemActionResult onMultiBlockWithItem(World world, ItemStack stack, PlayerEntity player, Hand hand, BlockHitResult hit, BlockState clickedState, BlockState parentState, BlockPos clickedPos, BlockPos parentPos) {
         return ItemActionResult.PASS_TO_DEFAULT_BLOCK_INTERACTION;
     }
 
@@ -209,4 +209,6 @@ public abstract class LibyMultiBlock extends BlockWithEntity {
     protected void appendProperties(StateManager.Builder<Block, BlockState> builder) {
         builder.add(PARENT, FACING, DESTROYED); // Add FACING to block properties
     }
+
+
 }

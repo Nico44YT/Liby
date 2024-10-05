@@ -49,7 +49,11 @@ public class LibyRegistryLoader {
                 // Get and invoke the static register method
                 Method registerMethod = clazz.getDeclaredMethod(classWithPriority.getRegisterMethodName());
                 if (java.lang.reflect.Modifier.isStatic(registerMethod.getModifiers())) {
-                    registerMethod.invoke(null);  // null because it's a static method
+                    try{
+                        registerMethod.invoke(null);  // null because it's a static method
+                    }catch (Exception e) {
+                        e.printStackTrace();
+                    }
                 }
             } catch (Exception e) {
                 e.printStackTrace();
