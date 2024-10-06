@@ -28,12 +28,12 @@ public class LibyItemGroupRegister extends LibyRegister {
                         .build());
     }
 
-    public ItemGroup registerItemGroup(LibyItemGroup libyItemGroup) {
-        return Registry.register(Registries.ITEM_GROUP, Identifier.of(namespace, libyItemGroup.id), libyItemGroup.build());
+    public ItemGroup registerItemGroup(LibyItemGroup libyItemGroupBuilder) {
+        return Registry.register(Registries.ITEM_GROUP, Identifier.of(namespace, libyItemGroupBuilder.id), libyItemGroupBuilder.build());
     }
 
-    public void registerItemGroups(LibyItemGroup... libyItemGroups) {
-        for(LibyItemGroup group : libyItemGroups) {
+    public void registerItemGroups(LibyItemGroup... libyItemGroupBuilders) {
+        for(LibyItemGroup group : libyItemGroupBuilders) {
             this.registerItemGroup(group);
         }
     }

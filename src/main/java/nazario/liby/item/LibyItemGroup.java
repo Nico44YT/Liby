@@ -24,15 +24,13 @@ public class LibyItemGroup {
         this.builder.displayName(displayName);
     }
 
-    public LibyItemGroup(String id, Text displayName, ItemStack iconStack) {
-        this(id, displayName);
-        this.builder.icon(() -> iconStack);
+    public ItemGroup.Builder getBuilder() {
+        return this.builder;
     }
 
-    public LibyItemGroup(String id, Text displayName, ItemStack iconStack, boolean noScrollbar, boolean special) {
-        this(id, displayName, iconStack);
-        if(noScrollbar) this.builder.noScrollbar();
-        if(special) this.builder.special();
+    public LibyItemGroup setIcon(ItemStack stack) {
+        this.builder.icon(() -> stack);
+        return this;
     }
 
     public LibyItemGroup addItem(ItemConvertible... itemConvertibles) {

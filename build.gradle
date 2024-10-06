@@ -35,6 +35,10 @@ dependencies {
     modImplementation "net.fabricmc.fabric-api:fabric-api:${project.fabric_version}"
 
     implementation "org.reflections:reflections:${project.reflections_version}"
+    include "org.reflections:reflections:${project.reflections_version}"
+
+    implementation "org.javassist:javassist:${project.javassist_version}"
+    include "org.javassist:javassist:${project.javassist_version}"
 }
 
 processResources {
