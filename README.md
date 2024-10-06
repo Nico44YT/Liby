@@ -22,9 +22,6 @@ repositories {
 dependencies {
     // Add the Liby dependency using the Maven snippet
     modImplementation "curse.maven:liby-1115157:5783866"
-
-    // Required reflection library
-    implementation "org.reflections:reflections:0.10.2"
 }
 
 ```
