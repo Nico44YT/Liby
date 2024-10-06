@@ -21,7 +21,7 @@ repositories {
 ```gradle
 dependencies {
     // Add the Liby dependency using the Maven snippet
-    modImplementation "curse.maven:liby-1115157:5783866"
+    implementation "curse.maven:liby-1115157:5783866"
 }
 
 ```
