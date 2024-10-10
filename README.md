@@ -127,6 +127,32 @@ Since the item group has an icon, ensure items are registered first by setting t
 
 
 
+### Additional Information on Registration
+
+If you prefer not to name each registration method register, you can specify a custom method name directly in the ```@LibyAutoRegister``` annotation. This allows for more descriptive method names that can enhance code readability and organization.
+```java
+@LibyAutoRegister(priority = 2, register = "registerItemGroup")
+public class ItemGroupRegistry {
+    public static void registerItemGroup() {
+        // Registration logic for item groups
+    }
+}
+
+```
+
+If you prefer to keep all your registrations within your registry package, and you also want to handle client-side registration there, you need to include a ```LibyEntrypoint``` in the ```@LibyAutoRegister``` annotation.
+(The default Entrypoint is ```MAIN```)
+```java
+@LibyAutoRegister(priority = 0, entrypoint = LibyEntrypoints.CLIENT)
+public class ClientRegistry {
+    public static void register() {
+        
+    }
+}
+```
+
+
+
 ### Creating Multiblocks with Liby
 
 Liby provides a simple way for creating multiblocks. To get started, you need to define a BlockEntityRegistry.
@@ -214,31 +240,6 @@ When creating multiblock structures larger than the standard 3x3x3 block model l
     protected float getAmbientOcclusionLightLevel(BlockState state, BlockView world, BlockPos pos) {
         return state.get(PARENT)?super.getAmbientOcclusionLightLevel(state, world, pos):1;
     }
-```
-
-
-### Additional Information on Registration
-
-If you prefer not to name each registration method register, you can specify a custom method name directly in the ```@LibyAutoRegister``` annotation. This allows for more descriptive method names that can enhance code readability and organization.
-```java
-@LibyAutoRegister(priority = 2, register = "registerItemGroup")
-public class ItemGroupRegistry {
-    public static void registerItemGroup() {
-        // Registration logic for item groups
-    }
-}
-
-```
-
-If you prefer to keep all your registrations within your registry package, and you also want to handle client-side registration there, you need to include a ```LibyEntrypoint``` in the ```@LibyAutoRegister``` annotation.
-(The default Entrypoint is ```MAIN```)
-```java
-@LibyAutoRegister(priority = 0, entrypoint = LibyEntrypoints.CLIENT)
-public class ClientRegistry {
-    public static void register() {
-        
-    }
-}
 ```
 
 ### Networking (Experimental)
