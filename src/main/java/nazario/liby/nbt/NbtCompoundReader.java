@@ -2,6 +2,7 @@ package nazario.liby.nbt;
 
 import net.minecraft.nbt.NbtCompound;
 import net.minecraft.util.math.BlockPos;
+import net.minecraft.util.math.Vec2f;
 import net.minecraft.util.math.Vec3d;
 import net.minecraft.util.math.Vec3i;
 
@@ -42,6 +43,20 @@ public class NbtCompoundReader {
         return Vec3i.ZERO;
     }
 
+    public Vec2f getVec2f(String key){
+        NbtCompound element = nbtCompound.getCompound(key);
+
+        try{
+            if(element.getString("type").equals("vec2f")) {
+                return new Vec2f(element.getInt("x"), element.getInt("y"));
+            }
+        }catch(Exception e) {
+            e.printStackTrace();
+        }
+
+        return Vec2f.ZERO;
+    }
+
     public BlockPos getBlockPos(String key) {
         NbtCompound element = nbtCompound.getCompound(key);
 
@@ -54,10 +69,6 @@ public class NbtCompoundReader {
         }
 
         return BlockPos.ORIGIN;
-    }
-
-    public NbtCompound getCompound(String key) {
-        return nbtCompound.getCompound(key);
     }
 
     public float[] getFloatArray(String key) {
@@ -75,5 +86,33 @@ public class NbtCompoundReader {
             e.printStackTrace();
         }
         return new float[]{};
+    }
+
+    public NbtCompound getCompound(String key) {
+        return nbtCompound.getCompound(key);
+    }
+
+    public NbtCompoundReader getCompoundAsReader(String key) {
+        return NbtCompoundReader.create(getCompound(key));
+    }
+
+    public NbtCompoundBuilder getCompoundAsBuilder(String key) {
+        return NbtCompoundBuilder.create(getCompound(key));
+    }
+
+    public boolean isPresent(String key) {
+        return nbtCompound.contains(key);
+    }
+
+    public boolean isPresent(String key, int type) {
+        return nbtCompound.contains(key, type);
+    }
+
+    public boolean isUuidPresent(String key) {
+        return nbtCompound.containsUuid(key);
+    }
+
+    public NbtCompound asCompound() {
+        return this.nbtCompound;
     }
 }

@@ -3,9 +3,14 @@
   "id": "liby",
   "version": "${version}",
   "name": "Liby",
-  "description": "",
-  "authors": [],
-  "contact": {},
+  "description": "Registration and MultiBlock Library",
+  "authors": [
+    "Nico_44"
+  ],
+  "contact": {
+    "homepage": "https://nico44yt.github.io/",
+    "issues": "https://github.com/Nico44YT/Liby/issues"
+  },
   "license": "GPL-3.0",
   "icon": "assets/liby/icon.png",
   "environment": "*",
@@ -28,5 +33,14 @@
     "fabricloader": ">=${loader_version}",
     "fabric": "*",
     "minecraft": "${minecraft_version}"
+  },
+
+
+  "custom": {
+    "modmenu": {
+      "links": {
+        "modmenu.source": "https://github.com/Nico44YT/Liby"
+      }
+    }
   }
 }

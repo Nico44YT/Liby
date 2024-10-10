@@ -1,5 +1,6 @@
 package nazario.liby.registry.auto;
 
+import org.jetbrains.annotations.ApiStatus;
 import org.reflections.Reflections;
 
 import java.lang.reflect.Method;
@@ -11,6 +12,10 @@ import java.util.Set;
 public class LibyRegistryLoader {
 
     public static void load(String registryPackage) {
+        load(registryPackage, LibyEntrypoints.MAIN);
+    }
+
+    public static void load(String registryPackage, LibyEntrypoints entrypoint) {
         Reflections reflections = new Reflections(registryPackage);
 
         // Find all classes annotated with @AutoRegister
@@ -26,6 +31,10 @@ public class LibyRegistryLoader {
                 if (clazz.isAnnotationPresent(LibyAutoRegister.class)) {
                     // Get the annotation instance
                     LibyAutoRegister annotation = clazz.getAnnotation(LibyAutoRegister.class);
+
+                    LibyEntrypoints annotationEntrypoint = annotation.entrypoint();
+
+                    if(!annotationEntrypoint.equals(entrypoint)) continue;
 
                     // Get the priority from the annotation
                     int priority = annotation.priority();
@@ -61,7 +70,7 @@ public class LibyRegistryLoader {
         }
     }
 
-    // Helper class to store class and its priority
+    @ApiStatus.Internal
     static class ClassWithPriority {
         private final Class<?> clazz;
         private final int priority;

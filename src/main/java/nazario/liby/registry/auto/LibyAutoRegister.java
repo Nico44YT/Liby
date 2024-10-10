@@ -11,4 +11,6 @@ import java.lang.annotation.Target;
 public @interface LibyAutoRegister {
     int priority() default 0;
     String register() default "register";
+
+    LibyEntrypoints entrypoint() default LibyEntrypoints.MAIN;
 }

@@ -3,6 +3,7 @@ package nazario.liby.nbt;
 import net.minecraft.nbt.NbtCompound;
 import net.minecraft.nbt.NbtElement;
 import net.minecraft.util.math.BlockPos;
+import net.minecraft.util.math.Vec2f;
 import net.minecraft.util.math.Vec3d;
 import net.minecraft.util.math.Vec3i;
 
@@ -154,6 +155,18 @@ public class NbtCompoundBuilder {
                 .putInt("x", value.getX())
                 .putInt("y", value.getY())
                 .putInt("z", value.getZ())
+                .build();
+
+        this.nbtCompound.put(key, nbt);
+
+        return this;
+    }
+
+    public NbtCompoundBuilder putVec2f(String key, Vec2f value) {
+        NbtCompound nbt = NbtCompoundBuilder.create()
+                .putString("type", "vec2f")
+                .putFloat("x", value.x)
+                .putFloat("y", value.y)
                 .build();
 
         this.nbtCompound.put(key, nbt);
