@@ -217,7 +217,7 @@ When creating multiblock structures larger than the standard 3x3x3 block model l
 ```
 
 
-### Additional Information
+### Additional Information on Registration
 
 If you prefer not to name each registration method register, you can specify a custom method name directly in the ```@LibyAutoRegister``` annotation. This allows for more descriptive method names that can enhance code readability and organization.
 ```java
@@ -229,3 +229,50 @@ public class ItemGroupRegistry {
 }
 
 ```
+
+If you prefer to keep all your registrations within your registry package, and you also want to handle client-side registration there, you need to include a ```LibyEntrypoint``` in the ```@LibyAutoRegister``` annotation.
+(The default Entrypoint is ```MAIN```)
+```java
+@LibyAutoRegister(priority = 0, entrypoint = LibyEntrypoints.CLIENT)
+public class ClientRegistry {
+    public static void register() {
+        
+    }
+}
+```
+
+### Networking (Experimental)
+
+If you have a variable that needs to be synced across all players, Liby provides a simple solution for that.
+
+To sync a variable over the network, you need to annotate it with ```@LibySyncedValue```. The class inside the parentheses should correspond to the data type of the variable. (Not all variables are supported—generally, all primitive data types are supported, along with ```String```, ```BlockPos```, ```Vec3d```, ```Vec3i```, ```Vec2f```, and ```NbtCompound```.)
+```java
+public class SyncedBlock extends Block {
+
+    // Annotates the variable to sync its value across the network, specifying Integer as its data type
+    @LibySyncedValue(Integer.class) 
+    public int clicksValue;
+
+    public SyncedBlock(Settings settings) {
+        super(settings);
+    }
+
+    // Called when the block is right-clicked by a player
+    @Override
+    protected ActionResult onUse(BlockState state, World world, BlockPos pos, PlayerEntity player, BlockHitResult hit) {
+
+        // Sends a message to the player, showing whether the action occurred on the Client or Server, and displays the current clicksValue
+        player.sendMessage(Text.literal("<" + (world.isClient ? "Client" : "Server") + "> Value: " + clicksValue));
+
+        // Increases the clicksValue by 1 on the server side and syncs the new value across all players
+        if (!world.isClient) {
+            this.clicksValue += 1; // Increment the value
+            LibyNetworker.syncBlock(world, pos, this); // Sync the updated value with all players
+        }
+
+        return super.onUse(state, world, pos, player, hit);
+    }
+}
+```
+
+
