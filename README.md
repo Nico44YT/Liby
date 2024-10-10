@@ -22,6 +22,9 @@ repositories {
 dependencies {
     // Add the Liby dependency using the Maven snippet
     modImplementation "curse.maven:liby-1115157:5783866"
+
+    // Liby dependency
+    implementation "org.reflections:reflections:0.10.2"
 }
 
 ```
@@ -197,7 +200,21 @@ Now we want the player to be able to right click our Workbench, for that you nee
     }
 ```
 
+**Notice**
 
+When creating multiblock structures larger than the standard 3x3x3 block model limit in vanilla, you may encounter weird lighting issues. These issues arise because the game’s lighting engine thinks your childs blocks are solid, even tho there are invisible and don't render any model at all. To fix these issues we will tell the game that the childs blocks are transparent like glass, this will stop the light engine from drawing shadows on our model texture.
+
+```java
+    @Override
+    protected int getOpacity(BlockState state, BlockView world, BlockPos pos) {
+        return state.get(PARENT)?super.getOpacity(state, world, pos):0;
+    }
+
+    @Override
+    protected float getAmbientOcclusionLightLevel(BlockState state, BlockView world, BlockPos pos) {
+        return state.get(PARENT)?super.getAmbientOcclusionLightLevel(state, world, pos):1;
+    }
+```
 
 
 ### Additional Information
