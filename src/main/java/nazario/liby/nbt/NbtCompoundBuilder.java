@@ -110,6 +110,20 @@ public class NbtCompoundBuilder {
     }
 
     //Custom
+
+    @SuppressWarnings({ "rawtypes" })
+    public NbtCompoundBuilder putEnum(String key, Enum<?> value, Class<? extends Enum> enumClass) {
+        NbtCompound enumNbt = new NbtCompound();
+
+        enumNbt.putString("value", value.toString());
+        enumNbt.putString("class", enumClass.getCanonicalName());
+        enumNbt.putString("type", "enum");
+
+        nbtCompound.put(key, enumNbt);
+
+        return this;
+    }
+
     public NbtCompoundBuilder putFloatArray(String key, float[] value) {
         NbtCompound array = new NbtCompound();
         array.putString("type", "floatArray");

@@ -5,6 +5,7 @@ import nazario.liby.networking.payloads.LibySyncPacket;
 import net.fabricmc.fabric.api.networking.v1.PlayerLookup;
 import net.fabricmc.fabric.api.networking.v1.ServerPlayNetworking;
 import net.minecraft.block.Block;
+import net.minecraft.block.entity.BlockEntity;
 import net.minecraft.component.type.NbtComponent;
 import net.minecraft.nbt.NbtCompound;
 import net.minecraft.nbt.NbtElement;
@@ -18,35 +19,49 @@ import net.minecraft.world.World;
 import org.jetbrains.annotations.ApiStatus;
 
 import java.lang.reflect.Field;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.UUID;
+import java.util.*;
 
 @ApiStatus.Experimental
 public class LibyNetworker {
-
     @ApiStatus.Experimental
     public static void syncBlock(World world, BlockPos pos, Block block) {
-        for(ServerPlayerEntity serverPlayer : PlayerLookup.tracking((ServerWorld) world, pos)) {
-            LibyNetworker.syncBlock(serverPlayer, block, pos);
+        NbtCompoundBuilder packetBuilder = NbtCompoundBuilder.create();
+        packetBuilder.putEnum("type", LibySyncType.BLOCK_SYNC, LibySyncType.class);
+        packetBuilder.putBlockPos("pos", pos);
+
+        for(ServerPlayerEntity serverPlayer : PlayerLookup.tracking((ServerWorld)world, pos)) {
+            LibyNetworker.sync(serverPlayer, packetBuilder, block);
+        }
+    }
+
+    public static void syncBlockEntity(World world, BlockPos pos, BlockEntity blockEntity) {
+        NbtCompoundBuilder packetBuilder = NbtCompoundBuilder.create();
+        packetBuilder.putEnum("type", LibySyncType.BLOCK_ENTITY_SYNC, LibySyncType.class);
+        packetBuilder.putBlockPos("pos", pos);
+
+        for(ServerPlayerEntity serverPlayer : PlayerLookup.tracking((ServerWorld)world, pos)) {
+            LibyNetworker.sync(serverPlayer, packetBuilder, blockEntity);
         }
     }
 
     @ApiStatus.Experimental
-    public static void syncBlock(ServerPlayerEntity playerEntity, Block block, BlockPos pos) {
-        NbtCompoundBuilder packetBuilder = NbtCompoundBuilder.create();
-        packetBuilder.putString("type", "block_sync");
-        packetBuilder.putBlockPos("pos", pos);
-        packetBuilder.putString("class", block.getClass().getCanonicalName());
+    public static void sync(ServerPlayerEntity playerEntity, NbtCompoundBuilder packetBuilder, Object object) {
+        packetBuilder.putString("class", object.getClass().getCanonicalName());
 
+        packetBuilder.put("data", addObject(object).build());
+
+        ServerPlayNetworking.send(playerEntity, new LibySyncPacket(packetBuilder.build()));
+    }
+
+    @ApiStatus.Internal
+    public static NbtCompoundBuilder addObject(Object object) {
         NbtCompoundBuilder dataBuilder = NbtCompoundBuilder.create();
 
         try {
-            for (Field field : block.getClass().getDeclaredFields()) {
+            for (Field field : object.getClass().getFields()) {
                 if (field.isAnnotationPresent(LibySyncedValue.class)) {
                     field.setAccessible(true); // Make private fields accessible
-                    Object value = field.get(block);
+                    Object value = field.get(object);
 
                     //region
                     Map<Class<?>, Runnable> typeHandlers = new HashMap<>();
@@ -76,7 +91,7 @@ public class LibyNetworker {
                     });
 
                     typeHandlers.put(UUID.class, () -> {
-                       dataBuilder.putUUID(field.getName(), (UUID) value);
+                        dataBuilder.putUUID(field.getName(), (UUID) value);
                     });
 
                     typeHandlers.put(BlockPos.class, () -> {
@@ -126,8 +141,6 @@ public class LibyNetworker {
                     typeHandlers.put(NbtElement.class, () -> {
                         dataBuilder.put(field.getName(), (NbtElement) value);
                     });
-
-
                     //endregion
 
                     Class<?> annotationClass = field.getAnnotation(LibySyncedValue.class).value();
@@ -145,8 +158,6 @@ public class LibyNetworker {
             e.printStackTrace(); // Handle the exception appropriately for debugging
         }
 
-        packetBuilder.put("data", dataBuilder.build());
-
-        ServerPlayNetworking.send(playerEntity, new LibySyncPacket(packetBuilder.build()));
+        return dataBuilder;
     }
 }

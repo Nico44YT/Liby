@@ -16,6 +16,24 @@ public class NbtCompoundReader {
         this.nbtCompound = nbtCompound;
     }
 
+    @SuppressWarnings({ "unchecked", "rawtypes" })
+    public Enum<?> getEnum(String key) {
+        NbtCompound element = nbtCompound.getCompound(key);
+        try{
+            if(element.getString("type").equals("enum")) {
+                Class<?> enumClass = Class.forName(element.getString("class"));
+                if(enumClass.isEnum()) {
+                    return Enum.valueOf((Class<? extends Enum>) enumClass, element.getString("value"));
+                }
+
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        return null;
+    }
+
     public Vec3d getVec3d(String key) {
         NbtCompound element = nbtCompound.getCompound(key);
         try{

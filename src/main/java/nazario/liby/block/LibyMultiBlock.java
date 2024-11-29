@@ -125,13 +125,12 @@ public abstract class LibyMultiBlock extends BlockWithEntity {
 
         if(state.getBlock() instanceof LibyMultiBlock) {
             LibyMultiBlockEntity entity = getEntity(world, pos);
-            if(entity != null && !entity.isDestroyed() && !state.get(PARENT)) {
-                BlockPos parentPos = entity.parentPos;
+            if (entity != null && !entity.isDestroyed() && !state.get(PARENT)) {
+                BlockPos parentPos = entity.getParentPos();
                 BlockState parentState = world.getBlockState(parentPos);
                 this.onStateReplaced(parentState, world, parentPos, Blocks.AIR.getDefaultState(), moved);
             }
         }
-
         super.onStateReplaced(state, world, pos, newState, moved);
     }
 
@@ -141,15 +140,15 @@ public abstract class LibyMultiBlock extends BlockWithEntity {
     protected ActionResult onUse(BlockState state, World world, BlockPos pos, PlayerEntity player, BlockHitResult hit) {
         if(!state.get(PARENT)) {
             LibyMultiBlockEntity entity = (LibyMultiBlockEntity)world.getBlockEntity(pos);
-            if(entity.parentPos == null) return super.onUse(state, world, pos, player, hit);
-            return onMultiBlockUse(world, state, world.getBlockState(entity.parentPos), pos, entity.parentPos, player, hit);
+            if(entity.getParentPos() == null) return super.onUse(state, world, pos, player, hit);
+            return onMultiBlockUse(world, state, world.getBlockState(entity.getParentPos()), pos, entity.getParentPos(), player, hit);
         }
 
         return onMultiBlockUse(world, state, state, pos, pos, player, hit);
     }
 
     public ActionResult onMultiBlockUse(World world, BlockState clickedState, BlockState parentState, BlockPos clickedPos, BlockPos parentPos, PlayerEntity player, BlockHitResult hit) {
-        return ActionResult.PASS;
+        return super.onUse(parentState, world, parentPos, player, hit);
     }
 
 
