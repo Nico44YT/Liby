@@ -187,6 +187,19 @@ public class NbtCompoundBuilder {
         return this;
     }
 
+    public NbtCompoundBuilder putUUIDArray(String key, UUID... value) {
+        NbtCompound array = new NbtCompound();
+        array.putString("type","uuidArray");
+        array.putInt("length", value.length);
+
+        for(int i = 0; i < value.length; i++) {
+            array.putUuid(String.valueOf(i), value[i]);
+        }
+
+        nbtCompound.put(key, array);
+        return this;
+    }
+
     //endregion
 
     public NbtCompound build() {

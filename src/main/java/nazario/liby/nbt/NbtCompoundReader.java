@@ -6,6 +6,8 @@ import net.minecraft.util.math.Vec2f;
 import net.minecraft.util.math.Vec3d;
 import net.minecraft.util.math.Vec3i;
 
+import java.util.UUID;
+
 public class NbtCompoundReader {
 
     NbtCompound nbtCompound;
@@ -86,6 +88,24 @@ public class NbtCompoundReader {
             e.printStackTrace();
         }
         return new float[]{};
+    }
+
+    public UUID[] getUUIDArray(String key) {
+        NbtCompound element = nbtCompound.getCompound(key);
+
+        try{
+            if(element.getString("type").equals("uuidArray")) {
+                UUID[] array = new UUID[element.getInt("length")];
+                for(int i = 0;i<array.length;i++) {
+                    array[i] = element.getUuid(String.valueOf(i));
+                }
+                return array;
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        return new UUID[]{};
     }
 
     public NbtCompound getCompound(String key) {
