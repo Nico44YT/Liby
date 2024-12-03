@@ -4,9 +4,7 @@
   "package": "nazario.liby.mixin",
   "compatibilityLevel": "JAVA_17",
   "mixins": [
-    "BlockStateArgumentMixin",
-    "LivingEntityMixin",
-    "PlayerEntityMixin"
+    "BlockStateArgumentMixin"
   ],
   "injectors": {
     "defaultRequire": 1
