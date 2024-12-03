@@ -6,7 +6,6 @@ import net.minecraft.block.BlockState;
 import net.minecraft.block.entity.BlockEntity;
 import net.minecraft.block.entity.BlockEntityType;
 import net.minecraft.nbt.NbtCompound;
-import net.minecraft.registry.RegistryWrapper;
 import net.minecraft.util.math.BlockPos;
 
 public abstract class LibyMultiBlockEntity extends BlockEntity {
@@ -35,22 +34,22 @@ public abstract class LibyMultiBlockEntity extends BlockEntity {
     }
 
     @Override
-    protected void readNbt(NbtCompound nbt, RegistryWrapper.WrapperLookup registryLookup) {
+    public void readNbt(NbtCompound nbt) {
         NbtCompoundReader reader = NbtCompoundReader.create(nbt);
 
         this.parentPos = reader.getBlockPos("parentPos");
         this.destroyed = reader.asCompound().getBoolean("destroyed");
 
-        super.readNbt(nbt, registryLookup);
+        super.readNbt(nbt);
     }
 
     @Override
-    protected void writeNbt(NbtCompound nbt, RegistryWrapper.WrapperLookup registryLookup) {
+    protected void writeNbt(NbtCompound nbt) {
         NbtCompoundBuilder builder = NbtCompoundBuilder.create(nbt);
 
         builder.putBlockPos("parentPos", this.parentPos);
         builder.putBoolean("destroyed", this.destroyed);
 
-        super.writeNbt(builder.build(), registryLookup);
+        super.writeNbt(builder.build());
     }
 }

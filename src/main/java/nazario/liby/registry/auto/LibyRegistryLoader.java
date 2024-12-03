@@ -3,6 +3,7 @@ package nazario.liby.registry.auto;
 import org.jetbrains.annotations.ApiStatus;
 import org.reflections.Reflections;
 
+import java.lang.annotation.Annotation;
 import java.lang.reflect.Method;
 import java.util.ArrayList;
 import java.util.Comparator;
@@ -18,37 +19,45 @@ public class LibyRegistryLoader {
     public static void load(String registryPackage, LibyEntrypoints entrypoint) {
         Reflections reflections = new Reflections(registryPackage);
 
-        // Find all classes annotated with @AutoRegister
-        Set<Class<?>> registryClasses = reflections.getTypesAnnotatedWith(LibyAutoRegister.class);
+        Set<Class<?>> classes = reflections.getTypesAnnotatedWith(LibyAutoRegister.class);
+        classes.addAll(reflections.getTypesAnnotatedWith(LibyAutoRegisters.class));
 
-        // List to hold classes and their priorities
         List<ClassWithPriority> classList = new ArrayList<>();
 
-        // Iterate over annotated classes
-        for (Class<?> clazz : registryClasses) {
-            try {
-                // Check if the class has the @AutoRegister annotation
-                if (clazz.isAnnotationPresent(LibyAutoRegister.class)) {
-                    // Get the annotation instance
-                    LibyAutoRegister annotation = clazz.getAnnotation(LibyAutoRegister.class);
+        for(Class<?> clazz : classes) {
+            if(clazz.isAnnotationPresent(LibyAutoRegisters.class)) {
+                for(LibyAutoRegister libyAnnotation : clazz.getAnnotation(LibyAutoRegisters.class).value()) {
+                    if(!libyAnnotation.entrypoint().equals(entrypoint)) continue;
 
-                    LibyEntrypoints annotationEntrypoint = annotation.entrypoint();
+                    int priority = libyAnnotation.priority();
+                    String registerMethodName = libyAnnotation.register();
 
-                    if(!annotationEntrypoint.equals(entrypoint)) continue;
-
-                    // Get the priority from the annotation
-                    int priority = annotation.priority();
-                    String registerMethodName = annotation.register();
-
-                    // Add class and its priority to the list
                     classList.add(new ClassWithPriority(clazz, priority, registerMethodName));
                 }
-            } catch (Exception e) {
-                e.printStackTrace();
+            } else {
+                LibyAutoRegister libyAnnotation = clazz.getAnnotation(LibyAutoRegister.class);
+
+                if(!libyAnnotation.entrypoint().equals(entrypoint)) continue;
+
+                int priority = libyAnnotation.priority();
+                String registerMethodName = libyAnnotation.register();
+
+                classList.add(new ClassWithPriority(clazz, priority, registerMethodName));
             }
         }
 
-        // Sort the classes by priority (ascending)
+        for (ClassWithPriority item : classList) {
+            System.out.println("Class: " + item.clazz.getName() +
+                    ", Priority: " + item.priority +
+                    ", Method: " + item.registerMethodName);
+        }
+
+
+        loadOnPriority(classList);
+    }
+
+    @ApiStatus.Internal
+    protected static void loadOnPriority(List<ClassWithPriority> classList) {
         classList.sort(Comparator.comparingInt(ClassWithPriority::getPriority));
 
         // Now call the static register method in priority order

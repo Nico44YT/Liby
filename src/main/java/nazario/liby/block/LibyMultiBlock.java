@@ -1,17 +1,19 @@
 package nazario.liby.block;
 
+import nazario.liby.interfaces.LibySetBlockListener;
 import net.minecraft.block.*;
 import net.minecraft.block.piston.PistonBehavior;
+import net.minecraft.command.argument.BlockStateArgument;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.ItemPlacementContext;
 import net.minecraft.item.ItemStack;
+import net.minecraft.server.world.ServerWorld;
 import net.minecraft.state.StateManager;
 import net.minecraft.state.property.BooleanProperty;
 import net.minecraft.state.property.DirectionProperty;
 import net.minecraft.util.ActionResult;
 import net.minecraft.util.Hand;
-import net.minecraft.util.ItemActionResult;
 import net.minecraft.util.function.BooleanBiFunction;
 import net.minecraft.util.hit.BlockHitResult;
 import net.minecraft.util.math.BlockPos;
@@ -20,14 +22,14 @@ import net.minecraft.util.shape.VoxelShape;
 import net.minecraft.util.shape.VoxelShapes;
 import net.minecraft.world.World;
 import net.minecraft.world.WorldView;
-import net.minecraft.world.event.GameEvent;
 import org.jetbrains.annotations.ApiStatus;
 import org.jetbrains.annotations.Nullable;
+import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public abstract class LibyMultiBlock extends BlockWithEntity {
+public abstract class LibyMultiBlock extends BlockWithEntity implements LibySetBlockListener {
     public static final BooleanProperty PARENT = BooleanProperty.of("parent");
     public static final DirectionProperty FACING = HorizontalFacingBlock.FACING; // Add facing property for horizontal placement
 
@@ -36,15 +38,25 @@ public abstract class LibyMultiBlock extends BlockWithEntity {
     public final BlockPos[] childBlocks;
 
     protected LibyMultiBlock(Settings settings, BlockPos[] childBlocks) {
-        super(settings.pistonBehavior(PistonBehavior.BLOCK));
+        super(settings);
 
         this.childBlocks = childBlocks;
         this.SHAPE = createVoxelShape();
     }
 
     @Override
-    public void onPlaced(World world, BlockPos masterPos, BlockState masterState, @Nullable LivingEntity placer, ItemStack itemStack) {
-        Direction facing = placer.getHorizontalFacing(); // Get player's facing direction
+    public PistonBehavior getPistonBehavior(BlockState state) {
+        return PistonBehavior.BLOCK;
+    }
+
+    @Override
+    public void onPlaced(World world, BlockPos masterPos, BlockState masterState, LivingEntity placer, @Nullable ItemStack itemStack) {
+        Direction facing;
+        if(placer != null) {
+            facing = placer.getHorizontalFacing(); // Get player's facing direction
+        } else {
+            facing = masterState.get(FACING);
+        }
 
         world.setBlockState(masterPos, Blocks.AIR.getDefaultState());
 
@@ -62,11 +74,10 @@ public abstract class LibyMultiBlock extends BlockWithEntity {
         }
     }
 
-
     @Nullable
     @Override
     public BlockState getPlacementState(ItemPlacementContext ctx) {
-        return this.getDefaultState().with(FACING, ctx.getHorizontalPlayerFacing());
+        return this.getDefaultState().with(FACING, Direction.fromRotation(ctx.getPlayerYaw()));
     }
 
     // Helper method to rotate BlockPos based on the facing direction
@@ -81,14 +92,7 @@ public abstract class LibyMultiBlock extends BlockWithEntity {
     }
 
     @Override
-    public BlockState onBreak(World world, BlockPos pos, BlockState state, PlayerEntity player) {
-        this.spawnBreakParticles(world, player, pos, state);
-        world.emitGameEvent(GameEvent.BLOCK_DESTROY, pos, GameEvent.Emitter.of(player, state));
-        return state;
-    }
-
-    @Override
-    protected void onStateReplaced(BlockState state, World world, BlockPos pos, BlockState newState, boolean moved) {
+    public void onStateReplaced(BlockState state, World world, BlockPos pos, BlockState newState, boolean moved) {
         if(state.equals(newState)) return;
 
         if(state.get(PARENT)) {
@@ -136,12 +140,11 @@ public abstract class LibyMultiBlock extends BlockWithEntity {
     }
 
 
-
     @Override @ApiStatus.Internal
-    protected ActionResult onUse(BlockState state, World world, BlockPos pos, PlayerEntity player, BlockHitResult hit) {
+    public ActionResult onUse(BlockState state, World world, BlockPos pos, PlayerEntity player, Hand hand, BlockHitResult hit) {
         if(!state.get(PARENT)) {
             LibyMultiBlockEntity entity = (LibyMultiBlockEntity)world.getBlockEntity(pos);
-            if(entity.parentPos == null) return super.onUse(state, world, pos, player, hit);
+            if(entity.parentPos == null) return super.onUse(state, world, pos, player, hand, hit);
             return onMultiBlockUse(world, state, world.getBlockState(entity.parentPos), pos, entity.parentPos, player, hit);
         }
 
@@ -154,7 +157,7 @@ public abstract class LibyMultiBlock extends BlockWithEntity {
 
 
     @Override @ApiStatus.Internal
-    protected boolean canPlaceAt(BlockState state, WorldView world, BlockPos pos) {
+    public boolean canPlaceAt(BlockState state, WorldView world, BlockPos pos) {
         Direction facing = state.get(FACING); // Get player's facing direction
 
         if (world.getBlockEntity(pos) instanceof LibyMultiBlockEntity multiblockEntity) {
@@ -165,25 +168,17 @@ public abstract class LibyMultiBlock extends BlockWithEntity {
             BlockPos rotatedChildPos = rotateBlockPos(childBlocks[i], facing); // Rotate based on facing
             BlockPos childWorldPos = pos.add(rotatedChildPos);
 
-            if(!world.getBlockState(childWorldPos).isReplaceable()) return false;
+            if(!world.getBlockState(childWorldPos).isAir()) return false;
         }
 
         return true;
     }
 
     @Override
-    protected ItemActionResult onUseWithItem(ItemStack stack, BlockState state, World world, BlockPos pos, PlayerEntity player, Hand hand, BlockHitResult hit) {
-        if(!state.get(PARENT)) {
-            LibyMultiBlockEntity entity = (LibyMultiBlockEntity)world.getBlockEntity(pos);
-            if(entity.getParentPos() == null) return super.onUseWithItem(stack, state, world, pos, player, hand, hit);
-            return onMultiBlockWithItem(world, stack, player, hand, hit, state, world.getBlockState(entity.getParentPos()), pos, entity.getParentPos());
-        }
-
-        return onMultiBlockWithItem(world, stack, player, hand, hit, state, state, pos, pos);
-    }
-
-    public ItemActionResult onMultiBlockWithItem(World world, ItemStack stack, PlayerEntity player, Hand hand, BlockHitResult hit, BlockState clickedState, BlockState parentState, BlockPos clickedPos, BlockPos parentPos) {
-        return ItemActionResult.PASS_TO_DEFAULT_BLOCK_INTERACTION;
+    public void setBlockStateEventHead(BlockStateArgument blockStateArgument, ServerWorld world, BlockPos pos, int flags, CallbackInfoReturnable<Boolean> cir) {
+        BlockState blockState = LibyMultiBlock.postProcessState(blockStateArgument.getBlockState(), world, pos);
+        this.onPlaced(world, pos, blockState, null, null);
+        cir.setReturnValue(true);
     }
 
     //@Override
@@ -231,5 +226,4 @@ public abstract class LibyMultiBlock extends BlockWithEntity {
     public LibyMultiBlockEntity getEntity(World world, BlockPos pos) {
         return (LibyMultiBlockEntity)world.getBlockEntity(pos);
     }
-
 }

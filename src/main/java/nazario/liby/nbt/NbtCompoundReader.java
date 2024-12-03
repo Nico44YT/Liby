@@ -1,10 +1,15 @@
 package nazario.liby.nbt;
 
+import net.minecraft.entity.Entity;
+import net.minecraft.entity.EntityType;
 import net.minecraft.nbt.NbtCompound;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Vec2f;
 import net.minecraft.util.math.Vec3d;
 import net.minecraft.util.math.Vec3i;
+import net.minecraft.util.registry.Registry;
+
+import java.util.UUID;
 
 public class NbtCompoundReader {
 
@@ -86,6 +91,42 @@ public class NbtCompoundReader {
             e.printStackTrace();
         }
         return new float[]{};
+    }
+
+    public UUID[] getUUIDArray(String key) {
+        NbtCompound element = nbtCompound.getCompound(key);
+
+        try{
+            if(element.getString("type").equals("uuidArray")) {
+                UUID[] array = new UUID[element.getInt("length")];
+                for(int i = 0;i<array.length;i++) {
+                    array[i] = element.getUuid(String.valueOf(i));
+                }
+                return array;
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        return new UUID[]{};
+    }
+
+    public EntityType<? extends Entity> getEntityType(String key) {
+        NbtCompound element = nbtCompound.getCompound(key);
+
+        try{
+            if(element.getString("type").equals("entity_type")) {
+                EntityType<? extends Entity> entityType = Registry.ENTITY_TYPE.stream()
+                        .filter(entry -> entry.toString().equals(element.getString("entity_type")))
+                        .findFirst()
+                        .orElse(null);
+                return entityType;
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        return null;
     }
 
     public NbtCompound getCompound(String key) {

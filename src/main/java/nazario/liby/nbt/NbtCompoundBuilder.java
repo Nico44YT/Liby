@@ -1,5 +1,7 @@
 package nazario.liby.nbt;
 
+import net.minecraft.entity.Entity;
+import net.minecraft.entity.EntityType;
 import net.minecraft.nbt.NbtCompound;
 import net.minecraft.nbt.NbtElement;
 import net.minecraft.util.math.BlockPos;
@@ -187,9 +189,38 @@ public class NbtCompoundBuilder {
         return this;
     }
 
+    public NbtCompoundBuilder putUUIDArray(String key, UUID... value) {
+        NbtCompound array = new NbtCompound();
+        array.putString("type","uuidArray");
+        array.putInt("length", value.length);
+
+        for(int i = 0; i < value.length; i++) {
+            array.putUuid(String.valueOf(i), value[i]);
+        }
+
+        nbtCompound.put(key, array);
+        return this;
+    }
+
+    public NbtCompoundBuilder putEntityType(String key, EntityType<? extends Entity> entityType) {
+        NbtCompound entityTypeCompound = new NbtCompound();
+        entityTypeCompound.putString("type", "entity_type");
+        entityTypeCompound.putString("entity_type", entityType.toString());
+
+        return this;
+    }
+
     //endregion
 
     public NbtCompound build() {
         return this.nbtCompound;
+    }
+
+    public NbtCompoundReader toReader() {
+        return NbtCompoundReader.create(this.build());
+    }
+
+    public NbtCompoundBuilder copy() {
+        return NbtCompoundBuilder.create(this.build());
     }
 }

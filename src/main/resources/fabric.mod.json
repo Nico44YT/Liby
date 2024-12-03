@@ -16,10 +16,10 @@
   "environment": "*",
   "entrypoints": {
     "client": [
-      "nazario.liby.client.LibyClient"
+      "nazario.liby.client.LibyClientEntry"
     ],
     "main": [
-      "nazario.liby.Liby"
+      "nazario.liby.LibyMainEntry"
     ]
   },
   "mixins": [
