@@ -6,6 +6,9 @@
   "client": [
     "BipedEntityModelMixin",
     "EntityRendererMixin",
+    "ItemRendererAccessor",
+    "ItemRendererMixin",
+    "ModelLoaderMixin",
     "PlayerEntityRendererMixin"
   ],
   "injectors": {

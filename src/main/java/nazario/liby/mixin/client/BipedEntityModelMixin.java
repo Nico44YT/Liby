@@ -34,14 +34,14 @@ public abstract class BipedEntityModelMixin<T extends LivingEntity> extends Anim
     }
 
     @Inject(method = "positionRightArm", at = @At("HEAD"), cancellable = true)
-    private void grimoire$positionRightArm(T entity, CallbackInfo ci) {
+    private void liby$positionRightArm(T entity, CallbackInfo ci) {
         if(entity.getMainHandStack().getItem() instanceof LibyItemRenderOverrider customHandAnimation) {
             customHandAnimation.animateHoldingItem(rightArm, leftArm, head, (BipedEntityModel<? extends LivingEntity>)(Object)this, true, ci);
         }
     }
 
     @Inject(method = "positionLeftArm", at = @At("HEAD"), cancellable = true)
-    private void grimoire$positionLeftArm(T entity, CallbackInfo ci) {
+    private void liby$positionLeftArm(T entity, CallbackInfo ci) {
         if(entity.getMainHandStack().getItem() instanceof LibyItemRenderOverrider customHandAnimation) {
             customHandAnimation.animateHoldingItem(rightArm, leftArm, head, (BipedEntityModel<? extends LivingEntity>)(Object)this, false, ci);
         }
@@ -49,7 +49,7 @@ public abstract class BipedEntityModelMixin<T extends LivingEntity> extends Anim
 
 
     @Inject(method = "setAngles(Lnet/minecraft/entity/LivingEntity;FFFFF)V", at = @At("TAIL"), cancellable = true)
-    private void disableArmSway(T livingEntity, float f, float g, float h, float i, float j, CallbackInfo ci) {
+    private void liby$disableArmSway(T livingEntity, float f, float g, float h, float i, float j, CallbackInfo ci) {
         if(livingEntity.getMainHandStack().getItem() instanceof LibyItemRenderOverrider customHandAnimation) {
             customHandAnimation.setPlayerModelAngles(livingEntity, f, g, h, i, j, (BipedEntityModel<? extends LivingEntity>)(Object)this, ci);
         }

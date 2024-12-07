@@ -10,7 +10,7 @@ import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 
 @Mixin(BlockStateArgument.class)
-public class BlockStateArgumentMixin {
+public abstract class BlockStateArgumentMixin {
     @Inject(method = "setBlockState", at = @At("HEAD"), cancellable = true)
     public void liby$setBlockStateHead(ServerWorld world, BlockPos pos, int flags, CallbackInfoReturnable<Boolean> cir) {
         BlockStateArgument blockStateArgument = (BlockStateArgument)(Object)this;

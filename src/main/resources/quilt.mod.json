@@ -1,0 +1,50 @@
+{
+  "schemaVersion": 1,
+  "quilt_loader": {
+    "id": "liby",
+    "group": "nazario.liby",
+    "version": "${version}",
+    "metadata": {
+      "name": "Liby",
+      "description": "Registration and MultiBlock Library",
+      "authors": [
+        "Nico_44"
+      ],
+      "contact": {
+        "homepage": "https://nico44yt.github.io/",
+        "issues": "https://github.com/Nico44YT/Liby/issues"
+      },
+      "license": "GPL-3.0",
+      "icon": "assets/liby/icon.png"
+    },
+    "environment": "*",
+    "entrypoints": {
+      "client": [
+        "nazario.liby.client.LibyClientEntry"
+      ],
+      "main": [
+        "nazario.liby.LibyMainEntry"
+      ]
+    },
+    "mixins": [
+      "liby.mixins.json",
+      {
+        "config": "liby.client.mixins.json",
+        "environment": "client"
+      }
+    ],
+    "depends": {
+      "quilted_fabric_api": "*",
+      "minecraft": "${minecraft_version}"
+    },
+
+
+    "custom": {
+      "modmenu": {
+        "links": {
+          "modmenu.source": "https://github.com/Nico44YT/Liby"
+        }
+      }
+    }
+  }
+}
