@@ -13,7 +13,7 @@ import net.minecraft.client.render.RenderLayer;
 import net.minecraft.client.render.entity.EntityRendererFactory;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityType;
-import net.minecraft.util.registry.Registry;
+import net.minecraft.registry.Registries;
 
 public class LibyClientEntry implements ClientModInitializer {
 
@@ -27,17 +27,17 @@ public class LibyClientEntry implements ClientModInitializer {
             }
         });
 
-        for(Block block : Registry.BLOCK) {
+        for(Block block : Registries.BLOCK) {
             if(block.getClass().isAnnotationPresent(BlockCutoutLayer.class)) {
                 BlockRenderLayerMap.INSTANCE.putBlock(block, RenderLayer.getCutout());
             }
         }
 
-        HudRenderCallback.EVENT.register((matrixStack, tickDelta) -> {
+        HudRenderCallback.EVENT.register((drawContext, tickDelta) -> {
             MinecraftClient.getInstance().player.getHandItems().forEach(stack -> {
                 if(stack != null) {
                     if(stack.getItem() instanceof LibyItemRenderOverrider customHudRender) {
-                        customHudRender.renderItemHud(matrixStack, tickDelta, stack);
+                        customHudRender.renderItemHud(drawContext, tickDelta, stack);
                     }
                 }
             });

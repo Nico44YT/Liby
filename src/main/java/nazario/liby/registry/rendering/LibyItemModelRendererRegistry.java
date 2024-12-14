@@ -1,6 +1,6 @@
 package nazario.liby.registry.rendering;
 
-import net.minecraft.client.render.model.json.ModelTransformation;
+import net.minecraft.client.render.model.json.ModelTransformationMode;
 import net.minecraft.client.util.ModelIdentifier;
 import net.minecraft.item.ItemConvertible;
 import org.jetbrains.annotations.ApiStatus;
@@ -16,7 +16,7 @@ public class LibyItemModelRendererRegistry {
     @ApiStatus.Internal
     protected static final List<ModelIdentifier> modelList = new ArrayList<>();
 
-    public static void register(ItemConvertible itemConvertible, ModelIdentifier modelIdentifier, ModelTransformation.Mode... modes) {
+    public static void register(ItemConvertible itemConvertible, ModelIdentifier modelIdentifier, ModelTransformationMode... modes) {
         renderList.put(itemConvertible, new LibyItemModelObject(itemConvertible, modelIdentifier, modes));
     }
 

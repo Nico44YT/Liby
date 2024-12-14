@@ -2,7 +2,6 @@ package nazario.liby.block;
 
 import nazario.liby.interfaces.LibySetBlockListener;
 import net.minecraft.block.*;
-import net.minecraft.block.piston.PistonBehavior;
 import net.minecraft.command.argument.BlockStateArgument;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.player.PlayerEntity;
@@ -44,10 +43,6 @@ public abstract class LibyMultiBlock extends BlockWithEntity implements LibySetB
         this.SHAPE = createVoxelShape();
     }
 
-    @Override
-    public PistonBehavior getPistonBehavior(BlockState state) {
-        return PistonBehavior.BLOCK;
-    }
 
     @Override
     public void onPlaced(World world, BlockPos masterPos, BlockState masterState, LivingEntity placer, @Nullable ItemStack itemStack) {

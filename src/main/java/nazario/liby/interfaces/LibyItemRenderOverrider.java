@@ -1,5 +1,6 @@
 package nazario.liby.interfaces;
 
+import net.minecraft.client.gui.DrawContext;
 import net.minecraft.client.model.ModelPart;
 import net.minecraft.client.network.AbstractClientPlayerEntity;
 import net.minecraft.client.network.ClientPlayerEntity;
@@ -23,5 +24,5 @@ public interface LibyItemRenderOverrider {
     default void animateArmSwing(Entity entity, BipedEntityModel<? extends LivingEntity> model, float animationProgress, CallbackInfo ci) {}
     default void setPlayerModelAngles(LivingEntity livingEntity, float f, float g, float h, float i, float j, BipedEntityModel<? extends LivingEntity> model, CallbackInfo ci) {}
     default void animateHoldingItem(ModelPart holdingArm, net.minecraft.client.model.ModelPart otherArm, ModelPart head, BipedEntityModel<? extends LivingEntity> model, boolean rightArmed, CallbackInfo ci) {}
-    default void renderItemHud(MatrixStack matrixStack, float tickDelta, ItemStack stack) {}
+    default void renderItemHud(DrawContext drawContext, float tickDelta, ItemStack stack) {}
 }
