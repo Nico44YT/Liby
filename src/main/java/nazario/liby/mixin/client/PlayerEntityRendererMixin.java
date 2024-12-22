@@ -1,6 +1,6 @@
 package nazario.liby.mixin.client;
 
-import nazario.liby.interfaces.LibyItemRenderOverrider;
+import nazario.liby.api.item.LibyItemRenderOverrider;
 import net.minecraft.client.network.AbstractClientPlayerEntity;
 import net.minecraft.client.render.VertexConsumerProvider;
 import net.minecraft.client.render.entity.PlayerEntityRenderer;
@@ -16,7 +16,7 @@ public abstract class PlayerEntityRendererMixin {
             at = @At("TAIL"))
     public void liby$render(AbstractClientPlayerEntity player, float tickDelta, float g, MatrixStack matrixStack, VertexConsumerProvider vertexConsumerProvider, int light, CallbackInfo ci) {
         if (player.getMainHandStack().getItem() instanceof LibyItemRenderOverrider customItemPlayerRenderer) {
-            customItemPlayerRenderer.renderPlayer((PlayerEntityRenderer) (Object) this, player, tickDelta, g, matrixStack, vertexConsumerProvider, light, ci);
+            customItemPlayerRenderer.liby$renderPlayer((PlayerEntityRenderer) (Object) this, player, tickDelta, g, matrixStack, vertexConsumerProvider, light, ci);
         }
     }
 }

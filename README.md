@@ -38,12 +38,11 @@ To utilize the Liby library for registering your mod's elements, follow these st
 
 Define the Package for Registries: Start by specifying the package where Liby will search for your registries.
 
-
 ```java
 package group.your_fabric_mod;
 
 import net.fabricmc.api.ModInitializer;
-import nazario.liby.registry.auto.LibyRegistryLoader;
+import nazario.liby.api.registry.auto.LibyRegistryLoader;
 import net.minecraft.util.Identifier;
 
 public class YourFabricMod implements ModInitializer {

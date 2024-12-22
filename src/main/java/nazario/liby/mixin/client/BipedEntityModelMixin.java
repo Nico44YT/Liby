@@ -1,6 +1,6 @@
 package nazario.liby.mixin.client;
 
-import nazario.liby.interfaces.LibyItemRenderOverrider;
+import nazario.liby.api.item.LibyItemRenderOverrider;
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
 import net.minecraft.client.model.ModelPart;
@@ -22,36 +22,40 @@ public abstract class BipedEntityModelMixin<T extends LivingEntity> extends Anim
     @Final
     public ModelPart rightArm;
 
-    @Shadow @Final public ModelPart leftArm;
+    @Shadow
+    @Final
+    public ModelPart leftArm;
 
-    @Shadow @Final public ModelPart head;
+    @Shadow
+    @Final
+    public ModelPart head;
 
     @Inject(method = "animateArms", at = @At("HEAD"), cancellable = true)
-    protected void animateArms(T entity, float animationProgress, CallbackInfo ci) {
-        if(entity.getMainHandStack().getItem() instanceof LibyItemRenderOverrider customHandAnimation) {
-            customHandAnimation.animateArmSwing(entity, (BipedEntityModel<? extends LivingEntity>)(Object)this, animationProgress, ci);
+    protected void liby$animateArms(T entity, float animationProgress, CallbackInfo ci) {
+        if (entity.getMainHandStack().getItem() instanceof LibyItemRenderOverrider customHandAnimation) {
+            customHandAnimation.liby$animateArmSwing(entity, (BipedEntityModel<? extends LivingEntity>) (Object) this, animationProgress, ci);
         }
     }
 
     @Inject(method = "positionRightArm", at = @At("HEAD"), cancellable = true)
     private void liby$positionRightArm(T entity, CallbackInfo ci) {
-        if(entity.getMainHandStack().getItem() instanceof LibyItemRenderOverrider customHandAnimation) {
-            customHandAnimation.animateHoldingItem(rightArm, leftArm, head, (BipedEntityModel<? extends LivingEntity>)(Object)this, true, ci);
+        if (entity.getMainHandStack().getItem() instanceof LibyItemRenderOverrider customHandAnimation) {
+            customHandAnimation.liby$animateHoldingItem(rightArm, leftArm, head, (BipedEntityModel<? extends LivingEntity>) (Object) this, true, ci);
         }
     }
 
     @Inject(method = "positionLeftArm", at = @At("HEAD"), cancellable = true)
     private void liby$positionLeftArm(T entity, CallbackInfo ci) {
-        if(entity.getMainHandStack().getItem() instanceof LibyItemRenderOverrider customHandAnimation) {
-            customHandAnimation.animateHoldingItem(rightArm, leftArm, head, (BipedEntityModel<? extends LivingEntity>)(Object)this, false, ci);
+        if (entity.getMainHandStack().getItem() instanceof LibyItemRenderOverrider customHandAnimation) {
+            customHandAnimation.liby$animateHoldingItem(rightArm, leftArm, head, (BipedEntityModel<? extends LivingEntity>) (Object) this, false, ci);
         }
     }
 
 
     @Inject(method = "setAngles(Lnet/minecraft/entity/LivingEntity;FFFFF)V", at = @At("TAIL"), cancellable = true)
-    private void liby$disableArmSway(T livingEntity, float f, float g, float h, float i, float j, CallbackInfo ci) {
-        if(livingEntity.getMainHandStack().getItem() instanceof LibyItemRenderOverrider customHandAnimation) {
-            customHandAnimation.setPlayerModelAngles(livingEntity, f, g, h, i, j, (BipedEntityModel<? extends LivingEntity>)(Object)this, ci);
+    private void liby$setAngles(T livingEntity, float f, float g, float h, float i, float j, CallbackInfo ci) {
+        if (livingEntity.getMainHandStack().getItem() instanceof LibyItemRenderOverrider customHandAnimation) {
+            customHandAnimation.liby$setPlayerModelAngles(livingEntity, f, g, h, i, j, (BipedEntityModel<? extends LivingEntity>) (Object) this, ci);
         }
     }
 }
