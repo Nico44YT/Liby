@@ -5,7 +5,9 @@
   "compatibilityLevel": "JAVA_17",
   "client": [
     "BipedEntityModelMixin",
+    "BlockModelsMixin",
     "EntityRendererMixin",
+    "HeldItemRendererMixin",
     "ItemRendererAccessor",
     "ItemRendererMixin",
     "ModelLoaderMixin",

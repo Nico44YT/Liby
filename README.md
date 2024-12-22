@@ -11,7 +11,7 @@ repositories {
 ```
 **Step 2: Add the Liby Dependency**
 1. Find the Correct Maven Snippet:
-- Go to the [CurseForge project page](https://www.curseforge.com/minecraft/mc-mods/liby) for Liby.
+- Go to the [CurseForge project page](https://www.curseforge.com/minecraft/mc-mods/nazario.liby) for Liby.
 - Navigate to the Files section and find the version compatible with your Minecraft setup.
 - Expand the Curse Maven Snippet for the version you need.
 - Copy the provided Maven snippet.
@@ -21,7 +21,7 @@ repositories {
 ```gradle
 dependencies {
     // Add the Liby dependency using the Maven snippet
-    modImplementation "curse.maven:liby-1115157:5783866"
+    modImplementation "curse.maven:nazario.liby-1115157:5783866"
 
     // Liby dependency
     implementation "org.reflections:reflections:0.10.2"
@@ -43,7 +43,7 @@ Define the Package for Registries: Start by specifying the package where Liby wi
 package group.your_fabric_mod;
 
 import net.fabricmc.api.ModInitializer;
-import nazario.liby.registry.auto.LibyRegistryLoader;
+import nazario.nazario.liby.registry.auto.LibyRegistryLoader;
 import net.minecraft.util.Identifier;
 
 public class YourFabricMod implements ModInitializer {
