@@ -62,7 +62,10 @@ public abstract class ModelLoaderMixin {
     public void liby$loadModelFromJson(Identifier id, CallbackInfoReturnable<JsonUnbakedModel> cir) {
         LibyModelRegistry.getList().forEach(model -> {
             if (model.getId().equals(id)) {
-                cir.setReturnValue(model.bake());
+                UnbakedModel model1 = model.bake();
+                if(model1 instanceof JsonUnbakedModel jsonUnbakedModel) {
+                    cir.setReturnValue(jsonUnbakedModel);
+                }
             }
         });
     }
