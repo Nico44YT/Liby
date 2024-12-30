@@ -26,7 +26,6 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 
 import java.util.Map;
-import java.util.Set;
 
 @Environment(EnvType.CLIENT)
 @Mixin(ModelLoader.class)
@@ -42,10 +41,6 @@ public abstract class ModelLoaderMixin {
     @Shadow
     @Final
     private Map<Identifier, UnbakedModel> modelsToBake;
-
-    @Shadow
-    @Final
-    private Set<Identifier> modelsToLoad;
 
     @Shadow
     @Final
@@ -74,7 +69,10 @@ public abstract class ModelLoaderMixin {
     public void liby$loadModelFromJson(Identifier id, CallbackInfoReturnable<JsonUnbakedModel> cir) {
         LibyModelRegistry.getList().forEach(model -> {
             if (model.getId().equals(id)) {
-                cir.setReturnValue(model.bake());
+                UnbakedModel model1 = model.bake();
+                if(model1 instanceof JsonUnbakedModel jsonUnbakedModel) {
+                    cir.setReturnValue(jsonUnbakedModel);
+                }
             }
         });
     }

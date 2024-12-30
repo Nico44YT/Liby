@@ -15,7 +15,6 @@ loom {
     accessWidenerPath = file("src/main/resources/liby.accesswidener")
 }
 
-
 repositories {
 
 }
@@ -89,18 +88,6 @@ publishing {
             groupId = project.maven_group
             version = project.mod_version
             from components.java
-        }
-    }
-
-    // See https://docs.gradle.org/current/userguide/publishing_maven.html for information on how to set up publishing.
-    repositories {
-        maven {
-            name = "MavenCentral"
-            url = "https://oss.sonatype.org/repository/maven-releases/"
-            credentials {
-                username = System.getenv("MAVEN_NAME")
-                password = System.getenv("MAVEN_TOKEN")
-            }
         }
     }
 }

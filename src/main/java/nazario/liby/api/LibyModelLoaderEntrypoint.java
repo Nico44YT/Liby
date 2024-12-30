@@ -12,8 +12,6 @@ public interface LibyModelLoaderEntrypoint {
         LibyItemSpecialModelRegistry._addModel(modelIdentifier);
     }
 
-    ;
-
     default void liby$registerItemConvertible(ItemConvertible itemConvertible, ModelIdentifier modelIdentifier, ModelTransformation.Mode... modes) {
         LibyItemSpecialModelRegistry._addModel(modelIdentifier);
         LibyItemSpecialModelRegistry.register(itemConvertible, modelIdentifier, modes);
