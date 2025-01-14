@@ -9,10 +9,7 @@ import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 @Mixin(TagGroupLoader.class)
 public abstract class TagGroupLoaderMixin {
@@ -29,6 +26,9 @@ public abstract class TagGroupLoaderMixin {
 
         // Ensure the tag group loader and its data type map exist
         TagGroupLoader<?> tagGroupLoader = (TagGroupLoader<?>) (Object) this;
+
+        System.out.println(tagGroupLoader.dataType);
+
         Map<Identifier, List<TagGroupLoader.TrackedEntry>> additionalTags =
                 LibyTagRegistry.getMap().get(tagGroupLoader.dataType);
 

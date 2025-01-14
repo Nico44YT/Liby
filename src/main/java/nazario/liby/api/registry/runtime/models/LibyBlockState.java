@@ -1,19 +1,19 @@
 package nazario.liby.api.registry.runtime.models;
 
-import net.minecraft.block.BlockState;
-import net.minecraft.client.render.block.BlockModels;
-import net.minecraft.client.util.ModelIdentifier;
+import net.minecraft.client.render.model.ModelLoader;
+import net.minecraft.util.Identifier;
 
-public class LibyBlockState {
-    public BlockState state;
-    public LibyModel model;
+import java.util.List;
 
-    public LibyBlockState(BlockState state, LibyModel model) {
-        this.state = state;
-        this.model = model;
+public abstract class LibyBlockState {
+    public Identifier id;
+    public String resourcePackName;
+
+    public Identifier getId() {
+        return this.id;
     }
 
-    public ModelIdentifier getModelIdentifier() {
-        return BlockModels.getModelId(state);
+    public List<ModelLoader.SourceTrackedData> createTrackedData() {
+        return List.of();
     }
 }

@@ -11,11 +11,11 @@ import org.spongepowered.asm.mixin.injection.ModifyVariable;
 import java.util.Map;
 
 @Mixin(RecipeManager.class)
-public class RecipeManagerMixin {
+public abstract class RecipeManagerMixin {
 
     @ModifyVariable(method = "apply(Ljava/util/Map;Lnet/minecraft/resource/ResourceManager;Lnet/minecraft/util/profiler/Profiler;)V", at = @At("HEAD"), order = 1, argsOnly = true)
     private Map<Identifier, JsonElement> liby$apply(Map<Identifier, JsonElement> map) {
-        LibyRecipeRegistry.getMap().forEach(map::putIfAbsent);
+        LibyRecipeRegistry.get().getResourceMap().forEach(map::putIfAbsent);
         return map;
     }
 }

@@ -43,6 +43,7 @@ public abstract class LibyMultiBlock extends BlockWithEntity implements LibySetB
         this.SHAPE = createVoxelShape();
     }
 
+
     @Override
     public void onPlaced(World world, BlockPos masterPos, BlockState masterState, LivingEntity placer, @Nullable ItemStack itemStack) {
         Direction facing;
