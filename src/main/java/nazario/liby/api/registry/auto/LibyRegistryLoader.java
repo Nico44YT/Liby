@@ -1,5 +1,6 @@
 package nazario.liby.api.registry.auto;
 
+import nazario.liby.registry.auto.LibyAutoRegisters;
 import org.jetbrains.annotations.ApiStatus;
 import org.reflections.Reflections;
 import org.slf4j.Logger;

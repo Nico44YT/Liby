@@ -1,13 +1,15 @@
 package nazario.liby.api.registry.runtime.models;
 
+import com.google.gson.JsonObject;
+import net.minecraft.client.render.model.UnbakedModel;
 import net.minecraft.client.render.model.json.JsonUnbakedModel;
 import net.minecraft.util.Identifier;
 
 public class LibyJsonModel implements LibyModel {
     public final Identifier identifier;
-    public final String jsonModel;
+    public final JsonObject jsonModel;
 
-    public LibyJsonModel(Identifier id, String jsonModel) {
+    public LibyJsonModel(Identifier id, JsonObject jsonModel) {
         this.identifier = id;
         this.jsonModel = jsonModel;
     }
@@ -17,12 +19,20 @@ public class LibyJsonModel implements LibyModel {
         return this.identifier;
     }
 
-    public String jsonModel() {
+    public JsonObject jsonModel() {
         return this.jsonModel;
     }
 
     @Override
-    public JsonUnbakedModel bake() {
-        return JsonUnbakedModel.deserialize(jsonModel);
+    public UnbakedModel bake() {
+        return JsonUnbakedModel.deserialize(jsonModel.toString());
+    }
+
+    @Override
+    public String toString() {
+        return "LibyJsonModel{\n" +
+                identifier.toString() + "\n" +
+                jsonModel.toString() + "\n" +
+                "}";
     }
 }

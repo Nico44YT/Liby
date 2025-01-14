@@ -1,5 +1,7 @@
 package nazario.liby.api.registry.auto;
 
+import nazario.liby.registry.auto.LibyAutoRegisters;
+
 import java.lang.annotation.*;
 
 // Define an annotation to specify registration priority

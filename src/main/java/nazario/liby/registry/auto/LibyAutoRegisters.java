@@ -1,5 +1,6 @@
-package nazario.liby.api.registry.auto;
+package nazario.liby.registry.auto;
 
+import nazario.liby.api.registry.auto.LibyAutoRegister;
 import org.jetbrains.annotations.ApiStatus;
 
 import java.lang.annotation.ElementType;

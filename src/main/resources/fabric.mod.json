@@ -21,6 +21,9 @@
     ],
     "main": [
       "nazario.liby.LibyMainEntry"
+    ],
+    "liby_model_loader": [
+      "nazario.liby.LibyClientEntry"
     ]
   },
   "mixins": [
