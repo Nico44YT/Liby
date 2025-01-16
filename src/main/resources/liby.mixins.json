@@ -4,6 +4,13 @@
   "package": "nazario.liby.mixin",
   "compatibilityLevel": "JAVA_21",
   "mixins": [
+    "AxeItemMixin",
+    "BlockMixin",
+    "BlockStateArgumentMixin",
+    "ItemMixin",
+    "RecipeManagerMixin",
+    "RegistriesMixin",
+    "TagGroupLoaderMixin"
   ],
   "injectors": {
     "defaultRequire": 1

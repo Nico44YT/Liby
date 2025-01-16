@@ -14,12 +14,16 @@
   "license": "GPL-3.0",
   "icon": "assets/liby/icon.png",
   "environment": "*",
+  "accessWidener": "liby.accesswidener",
   "entrypoints": {
     "client": [
-      "nazario.liby.client.LibyClient"
+      "nazario.liby.LibyClientEntry"
     ],
     "main": [
-      "nazario.liby.Liby"
+      "nazario.liby.LibyMainEntry"
+    ],
+    "liby_model_loader": [
+      "nazario.liby.LibyClientEntry"
     ]
   },
   "mixins": [
@@ -30,7 +34,6 @@
     }
   ],
   "depends": {
-    "fabricloader": ">=${loader_version}",
     "fabric": "*",
     "minecraft": "${minecraft_version}"
   },
@@ -41,6 +44,10 @@
       "links": {
         "modmenu.source": "https://github.com/Nico44YT/Liby"
       }
+    },
+    "loom:injected_interfaces": {
+      "net/minecraft/class_1792": ["nazario/liby/api/item/LibyItemExtendedMethods"],
+      "net/minecraft/class_2248": ["nazario/liby/api/block/LibyBlockExtendedMethods"]
     }
   }
 }

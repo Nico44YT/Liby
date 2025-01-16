@@ -4,6 +4,14 @@
   "package": "nazario.liby.mixin.client",
   "compatibilityLevel": "JAVA_21",
   "client": [
+    "BipedEntityModelMixin",
+    "BlockStateLoaderMixin",
+    "EntityRendererMixin",
+    "HeldItemRendererMixin",
+    "ItemRendererAccessor",
+    "ItemRendererMixin",
+    "ModelLoaderMixin",
+    "PlayerEntityRendererMixin"
   ],
   "injectors": {
     "defaultRequire": 1
