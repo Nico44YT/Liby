@@ -12,6 +12,7 @@ import net.minecraft.util.math.Vec3i;
 import java.util.List;
 import java.util.UUID;
 
+@Deprecated
 public class LibyNbtCompoundBuilder {
 
     NbtCompound nbtCompound;
@@ -208,6 +209,8 @@ public class LibyNbtCompoundBuilder {
         NbtCompound entityTypeCompound = new NbtCompound();
         entityTypeCompound.putString("type", "entity_type");
         entityTypeCompound.putString("entity_type", entityType.toString());
+
+        nbtCompound.put(key, entityTypeCompound);
 
         return this;
     }

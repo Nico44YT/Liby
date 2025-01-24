@@ -11,6 +11,7 @@ import net.minecraft.util.registry.Registry;
 
 import java.util.UUID;
 
+@Deprecated
 public class LibyNbtCompoundReader {
 
     NbtCompound nbtCompound;
