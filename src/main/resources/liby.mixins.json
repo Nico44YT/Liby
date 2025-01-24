@@ -9,6 +9,7 @@
     "BlockStateArgumentMixin",
     "ItemMixin",
     "RecipeManagerMixin",
+    "RegistriesMixin",
     "TagGroupLoaderMixin"
   ],
   "injectors": {
