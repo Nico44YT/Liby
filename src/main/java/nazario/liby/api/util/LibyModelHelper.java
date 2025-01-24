@@ -68,6 +68,8 @@ public class LibyModelHelper {
             texturesObject.addProperty("layer" + i, spriteIdentifier[i].toString());
         }
 
+        model.add("textures", texturesObject);
+
         return new LibyJsonModel(Identifier.of(id.getNamespace(), "item/" + id.getPath()), model);
     }
 

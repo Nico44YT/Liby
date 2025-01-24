@@ -32,7 +32,7 @@ public interface LibyItemRenderOverrider {
     default void liby$setPlayerModelAngles(LivingEntity livingEntity, float f, float g, float h, float i, float j, BipedEntityModel<? extends LivingEntity> model, CallbackInfo ci) {
     }
 
-    default void liby$animateHoldingItem(ModelPart holdingArm, net.minecraft.client.model.ModelPart otherArm, ModelPart head, BipedEntityModel<? extends LivingEntity> model, boolean rightArmed, CallbackInfo ci) {
+    default void liby$animateHoldingItem(ModelPart holdingArm, ModelPart otherArm, ModelPart head, BipedEntityModel<? extends LivingEntity> model, boolean rightArmed, CallbackInfo ci) {
     }
 
     default void liby$renderItemHud(MatrixStack matrices, float tickDelta, ItemStack stack) {
