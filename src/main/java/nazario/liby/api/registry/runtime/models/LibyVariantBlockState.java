@@ -17,24 +17,23 @@ public class LibyVariantBlockState extends LibyBlockState {
         this(id, resourcePackName, new HashMap<>());
     }
 
-
     public LibyVariantBlockState(Identifier id, String resourcePackName, HashMap<ModelIdentifier, JsonObject> jsonIdentifiers) {
         this.id = id;
         this.resourcePackName = resourcePackName;
         this.modelIdentifierMap = jsonIdentifiers;
     }
 
-    public LibyBlockState addState(String variant, String model) {
+    public LibyVariantBlockState addState(String variant, String model) {
         return this.addState(variant, model, 0, 0, false, 1);
     }
 
-    public LibyBlockState addState(String variant, String model, int x_rotation, int y_rotation, boolean uv_lock, int weight) {
+    public LibyVariantBlockState addState(String variant, String model, int x_rotation, int y_rotation, boolean uv_lock, int weight) {
         JsonObject jsonObject = new JsonObject();
 
         jsonObject.addProperty("model", model);
         jsonObject.addProperty("x", x_rotation);
         jsonObject.addProperty("y", y_rotation);
-        jsonObject.addProperty("uv_lock", uv_lock);
+        jsonObject.addProperty("uvlock", uv_lock);
         jsonObject.addProperty("weight", weight);
 
         this.modelIdentifierMap.put(new ModelIdentifier(id, variant), jsonObject);

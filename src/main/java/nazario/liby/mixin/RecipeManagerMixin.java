@@ -15,7 +15,9 @@ public abstract class RecipeManagerMixin {
 
     @ModifyVariable(method = "apply(Ljava/util/Map;Lnet/minecraft/resource/ResourceManager;Lnet/minecraft/util/profiler/Profiler;)V", at = @At("HEAD"), order = 1, argsOnly = true)
     private Map<Identifier, JsonElement> liby$apply(Map<Identifier, JsonElement> map) {
-        LibyRecipeRegistry.get().getResourceMap().forEach(map::putIfAbsent);
+        LibyRecipeRegistry.get().getResourceMap().forEach((identifier, element) -> {
+            if(element != null) map.put(identifier, element);
+        });
         return map;
     }
 }

@@ -31,7 +31,7 @@ public class LibyMultipartBlockState extends LibyBlockState {
         applyObject.addProperty("model", model);
         applyObject.addProperty("x", x_rotation);
         applyObject.addProperty("y", y_rotation);
-        applyObject.addProperty("uv_lock", uv_lock);
+        applyObject.addProperty("uvlock", uv_lock);
         applyObject.addProperty("weight", weight);
 
         mainObject.add("apply", applyObject);
