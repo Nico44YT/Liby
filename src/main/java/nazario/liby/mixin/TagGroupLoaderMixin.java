@@ -33,10 +33,7 @@ public abstract class TagGroupLoaderMixin {
         Map<Identifier, List<TagGroupLoader.TrackedEntry>> additionalTags =
                 LibyTagRegistry.getMap().get(tagGroupLoader.dataType);
 
-        System.out.println(tagGroupLoader.dataType);
-        if(tagGroupLoader.dataType.equals(LibyTagRegistry.TagTypes.BLOCKS)) {
-            System.out.println("F");
-        }
+        //        System.out.println(tagGroupLoader.dataType);
 
         if (additionalTags != null) {
             for (Map.Entry<Identifier, List<TagGroupLoader.TrackedEntry>> entry : additionalTags.entrySet()) {
