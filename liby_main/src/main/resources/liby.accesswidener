@@ -1,0 +1,21 @@
+accessWidener v2 named
+
+accessible method net/minecraft/util/Identifier isNamespaceValid (Ljava/lang/String;)Z
+
+accessible method net/minecraft/client/render/model/json/ModelVariant$Deserializer deserializeModel (Lcom/google/gson/JsonObject;)Lnet/minecraft/util/Identifier;
+accessible method net/minecraft/client/render/model/json/ModelVariant$Deserializer deserializeUvLock (Lcom/google/gson/JsonObject;)Z
+accessible method net/minecraft/client/render/model/json/ModelVariant$Deserializer deserializeWeight (Lcom/google/gson/JsonObject;)I
+accessible field net/minecraft/client/render/model/json/ModelVariantMap$DeserializationContext gson Lcom/google/gson/Gson;
+
+accessible class net/minecraft/client/render/model/json/ModelElement$Deserializer
+accessible class net/minecraft/client/render/model/json/ModelElementFace$Deserializer
+accessible class net/minecraft/client/render/model/json/ModelElementTexture$Deserializer
+accessible class net/minecraft/client/render/model/json/Transformation$Deserializer
+accessible class net/minecraft/client/render/model/json/ModelTransformation$Deserializer
+accessible class net/minecraft/client/render/model/json/ModelOverride$Deserializer
+accessible method net/minecraft/client/render/model/json/JsonUnbakedModel$Deserializer parentFromJson (Lcom/google/gson/JsonObject;)Ljava/lang/String;
+accessible method net/minecraft/client/render/model/json/JsonUnbakedModel$Deserializer texturesFromJson (Lcom/google/gson/JsonObject;)Ljava/util/Map;
+
+accessible method net/minecraft/client/render/model/json/ModelElement$Deserializer deserializeFacesValidating (Lcom/google/gson/JsonDeserializationContext;Lcom/google/gson/JsonObject;)Ljava/util/Map;
+accessible method net/minecraft/client/render/model/json/ModelElement$Deserializer deserializeVec3f (Lcom/google/gson/JsonObject;Ljava/lang/String;)Lorg/joml/Vector3f;
+accessible method net/minecraft/client/render/model/json/ModelElement$Deserializer deserializeRotation (Lcom/google/gson/JsonObject;)Lnet/minecraft/client/render/model/json/ModelRotation;

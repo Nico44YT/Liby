@@ -1,0 +1,7 @@
+{
+  "liby.resourcepack.name": "Liby",
+
+
+  
+  "liby.animation.fail": "§cAnimation is not compatible for Entity %s, animation is for entity-type %s"
+}

@@ -1,0 +1,50 @@
+{
+  "schemaVersion": 1,
+  "id": "liby_animations",
+  "version": "${version}",
+
+  "name": "LibyAnimations-1.20.1",
+  "description": "",
+  "authors": [
+    "Nico_44"
+  ],
+  "contact": {
+    "issues": "https://github.com/Nico44YT/Liby/issues",
+    "sources": "https://github.com/Nico44YT/Liby"
+  },
+
+  "license": "GPL-3.0",
+  "icon": "assets/liby_animations/icon.png",
+
+  "environment": "*",
+  "entrypoints": {
+    "main": [
+      "nazario.liby.LibyAnimationsMain"
+    ],
+    "cardinal-components": [
+      "nazario.liby.internal.animation.AnimationEntrypoint"
+    ]
+  },
+
+  "mixins": [
+    "libyanimations.mixins.json"
+  ],
+
+  "depends": {
+    "fabricloader": ">=${loader_version}",
+    "fabric": "*",
+    "minecraft": "${minecraft_version}"
+  },
+
+  "custom": {
+    "cardinal-components": [
+      "liby:entity_animation"
+    ],
+    "modmenu": {
+      "parent": "liby",
+      "links": {
+        "modmenu.wiki": "https://github.com/Nico44YT/Liby/wiki"
+      }
+    }
+  }
+}

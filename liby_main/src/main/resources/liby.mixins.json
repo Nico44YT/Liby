@@ -1,0 +1,28 @@
+{
+  "required": true,
+  "minVersion": "0.8",
+  "package": "nazario.liby.mixin",
+  "compatibilityLevel": "JAVA_17",
+  "mixins": [
+    "BlockEntityMixin",
+    "BlockMixin",
+    "FluidMixin",
+    "IdentifierMixin",
+    "ItemMixin",
+    "LivingEntityMixin",
+    "manager.RecipeManagerMixin",
+    "manager.TagGroupLoaderDataTypeAccessor",
+    "manager.TagGroupLoaderMixin"
+  ],
+  "client": [
+    "client.BipedEntityModelMixin",
+    "client.EntityRendererMixin",
+    "client.HeldItemRendererMixin",
+    "client.ItemRendererAccessor",
+    "client.ItemRendererMixin",
+    "client.PlayerEntityRendererMixin"
+  ],
+  "injectors": {
+    "defaultRequire": 1
+  }
+}

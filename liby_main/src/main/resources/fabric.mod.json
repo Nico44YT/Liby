@@ -1,0 +1,49 @@
+{
+  "schemaVersion": 1,
+  "id": "liby_main",
+  "version": "${version}",
+  "name": "LibyMain-1.20.1",
+  "description": "",
+  "authors": [
+    "Nico_44"
+  ],
+  "contact": {
+    "issues": "https://github.com/Nico44YT/Liby/issues",
+    "sources": "https://github.com/Nico44YT/Liby"
+  },
+  "license": "GPL-3.0",
+  "icon": "assets/liby/icon.png",
+  "environment": "*",
+  "accessWidener": "liby.accesswidener",
+  "entrypoints": {
+    "client": [
+      "nazario.liby.client.LibyClient"
+    ],
+    "main": [
+      "nazario.liby.LibyMain"
+    ]
+  },
+  "mixins": [
+    "liby.mixins.json"
+  ],
+  "depends": {
+    "fabricloader": ">=${loader_version}",
+    "fabric": "*",
+    "minecraft": "${minecraft_version}"
+  },
+  "custom": {
+    "loom:injected_interfaces": {
+      "net/minecraft/class_1792": ["nazario/liby/internal/injections/LibyIdentifierResolvable"],
+      "net/minecraft/class_2248": ["nazario/liby/internal/injections/LibyIdentifierResolvable"],
+      "net/minecraft/class_2960": ["nazario/liby/internal/injections/LibyIdentifierResolvable"],
+      "net/minecraft/class_3611": ["nazario/liby/internal/injections/LibyIdentifierResolvable"],
+      "net/minecraft/class_2586": ["nazario/liby/internal/injections/LibyBlockEntityInjects"]
+    },
+    "modmenu": {
+      "parent": "liby",
+      "links": {
+        "modmenu.wiki": "https://github.com/Nico44YT/Liby/wiki"
+      }
+    }
+  }
+}

@@ -1,0 +1,29 @@
+{
+  "schemaVersion": 1,
+  "id": "liby_ui",
+  "version": "${version}",
+
+  "name": "liby_ui",
+  "description": "",
+  "authors": [],
+  "contact": {},
+
+  "license": "GPL-3.0",
+  "icon": "assets/liby_ui/icon.png",
+
+  "environment": "*",
+  "entrypoints": {
+    "client": ["nazario.liby_ui.client.Liby_uiClient"],
+    "main": ["nazario.liby_ui.Liby_ui"]
+  },
+
+  "mixins": [
+    "liby_ui.mixins.json"
+  ],
+
+  "depends": {
+    "fabricloader": ">=${loader_version}",
+    "fabric": "*",
+    "minecraft": "${minecraft_version}"
+  }
+}

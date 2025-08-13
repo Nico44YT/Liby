@@ -1,0 +1,38 @@
+{
+  "schemaVersion": 1,
+  "id": "liby",
+  "version": "${version}",
+
+  "name": "Liby-1.20.1",
+  "description": "",
+  "authors": [
+    "Nico_44"
+  ],
+  "contact": {
+    "issues": "https://github.com/Nico44YT/Liby/issues",
+    "sources": "https://github.com/Nico44YT/Liby"
+  },
+
+  "license": "GPL-3.0",
+  "icon": "assets/liby/icon.png",
+
+  "environment": "*",
+  "entrypoints": {
+
+  },
+
+
+  "depends": {
+    "fabricloader": ">=${loader_version}",
+    "fabric": "*",
+    "minecraft": "${minecraft_version}"
+  },
+
+  "custom": {
+    "modmenu": {
+      "links": {
+        "modmenu.wiki": "https://github.com/Nico44YT/Liby/wiki"
+      }
+    }
+  }
+}

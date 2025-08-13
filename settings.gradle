@@ -1,0 +1,14 @@
+pluginManagement {
+    repositories {
+        maven {
+            name = 'Fabric'
+            url = 'https://maven.fabricmc.net/'
+        }
+        gradlePluginPortal()
+    }
+}
+
+
+rootProject.name = "liby_root"
+
+include "test_mod", "liby_main", "liby_animations", "liby_animations_v2", "liby_networking", "liby_ui", "liby_assetgen"

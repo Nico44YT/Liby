@@ -1,0 +1,23 @@
+{
+  "required": true,
+  "minVersion": "0.8",
+  "package": "nazario.liby.mixin.assetgen.v1",
+  "compatibilityLevel": "JAVA_17",
+  "mixins": [
+  ],
+  "client": [
+    "manager.client.PackScreenMixin",
+    "manager.client.ResourcePackManagerMixin",
+    "manager.client.SpriteLoaderMixin",
+    "manager.client.format.BakedQuadFactoryMixin",
+    "manager.client.format.JsonUnbakedModelMixin",
+    "manager.client.format.ModelRotationInjection",
+    "manager.client.format.ModelVariantMapFormatMixin"
+  ],
+  "injectors": {
+    "defaultRequire": 1
+  },
+  "overwrites": {
+    "requireAnnotations": true
+  }
+}

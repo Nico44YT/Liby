@@ -1,0 +1,40 @@
+{
+  "schemaVersion": 1,
+  "id": "liby_animations",
+  "version": "${version}",
+
+  "name": "LibyAnimations",
+  "description": "",
+  "authors": [],
+  "contact": {},
+
+  "license": "GPL-3.0",
+  "icon": "assets/liby_animations/icon.png",
+
+  "environment": "*",
+  "entrypoints": {
+    "client": [
+      "nazario.liby.client.LibyAnimationsV2Client"
+    ],
+    "main": [
+      "nazario.liby.LibyAnimationsV2"
+    ]
+  },
+
+  "mixins": [
+    "liby_animations.mixins.json"
+  ],
+
+  "depends": {
+    "fabricloader": ">=${loader_version}",
+    "fabric": "*",
+    "minecraft": "${minecraft_version}"
+  },
+  "custom": {
+    "loom:injected_interfaces": {
+      "nazario/liby/internal/registry/LibyImplementedRegistry": ["nazario/liby/api/animation/v2/registry/LibyAnimationRegistry"],
+      "net/minecraft/class_1297": ["nazario/liby/api/animation/v2/LibyAnimatable"],
+      "net/minecraft/class_2586": ["nazario/liby/api/animation/v2/LibyAnimatable"]
+    }
+  }
+}
