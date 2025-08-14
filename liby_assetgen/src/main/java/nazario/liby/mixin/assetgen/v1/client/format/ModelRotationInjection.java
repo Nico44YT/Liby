@@ -1,4 +1,4 @@
-package nazario.liby.mixin.assetgen.v1.manager.client.format;
+package nazario.liby.mixin.assetgen.v1.client.format;
 
 import nazario.liby.internal.assetgen.v1.client.format.LibyFreeFormRotation;
 import nazario.liby.internal.assetgen.v1.client.mixin_injects.LibyModelRotation;

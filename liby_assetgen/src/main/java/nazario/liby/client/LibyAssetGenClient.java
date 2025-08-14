@@ -18,6 +18,9 @@ public class LibyAssetGenClient implements ClientModInitializer {
         LibyModelRegistry.get().registerModel("test", LibyModelHelper.createFromParent(Identifier.of("test","block/test_block"), Identifier.of("minecraft","block/cube_all"), List.of(
                 new Pair<>("all", Identifier.of("test","block/test_block"))
         )));
+
+        LibyAssetRegistry registry = LibyAssetRegistry.of("test");
+        registry.registerItemPredicateModel(Items.APPLE, new ModelIdentifier("minecraft", "iron_ingot", "inventory"), (mode, stack, leftHand) -> leftHand);
          */
     }
 }

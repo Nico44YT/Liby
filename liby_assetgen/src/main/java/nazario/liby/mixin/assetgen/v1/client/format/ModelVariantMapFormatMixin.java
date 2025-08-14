@@ -1,4 +1,4 @@
-package nazario.liby.mixin.assetgen.v1.manager.client.format;
+package nazario.liby.mixin.assetgen.v1.client.format;
 
 import com.google.gson.*;
 import nazario.liby.LibyAssetGenMain;
