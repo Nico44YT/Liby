@@ -42,7 +42,7 @@ public class ListAnimationsCommand {
 
         });
 
-        source.sendFeedback(() -> text, false);
+        source.sendFeedback(text, false);
 
         return 0;
     }

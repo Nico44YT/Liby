@@ -1,6 +1,5 @@
 accessWidener v2 named
 
-accessible method net/minecraft/resource/ResourcePackProfile <init> (Ljava/lang/String;ZLnet/minecraft/resource/ResourcePackProfile$PackFactory;Lnet/minecraft/text/Text;Lnet/minecraft/resource/ResourcePackProfile$Metadata;Lnet/minecraft/resource/ResourcePackCompatibility;Lnet/minecraft/resource/ResourcePackProfile$InsertionPosition;ZLnet/minecraft/resource/ResourcePackSource;)V
 accessible class net/minecraft/client/texture/ResourceTexture$TextureData
 accessible method net/minecraft/client/texture/ResourceTexture loadTextureData (Lnet/minecraft/resource/ResourceManager;)Lnet/minecraft/client/texture/ResourceTexture$TextureData;
 
@@ -14,3 +13,4 @@ accessible method net/minecraft/client/render/model/json/JsonUnbakedModel$Deseri
 accessible method net/minecraft/client/render/model/json/JsonUnbakedModel$Deserializer texturesFromJson (Lcom/google/gson/JsonObject;)Ljava/util/Map;
 
 accessible method net/minecraft/client/render/model/json/ModelElement$Deserializer deserializeFaces (Lcom/google/gson/JsonDeserializationContext;Lcom/google/gson/JsonObject;)Ljava/util/Map;
+accessible field net/minecraft/client/render/model/json/ModelVariantMap$DeserializationContext gson Lcom/google/gson/Gson;

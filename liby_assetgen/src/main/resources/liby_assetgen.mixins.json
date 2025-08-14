@@ -8,7 +8,6 @@
   "client": [
     "manager.client.PackScreenMixin",
     "manager.client.ResourcePackManagerMixin",
-    "manager.client.SpriteLoaderMixin",
     "manager.client.format.BakedQuadFactoryMixin",
     "manager.client.format.JsonUnbakedModelMixin",
     "manager.client.format.ModelRotationInjection",

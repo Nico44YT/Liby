@@ -2,14 +2,14 @@ package nazario.liby.api.assetgen.v1.client.model;
 
 import com.google.gson.JsonObject;
 import nazario.liby.internal.assetgen.v1.client.model.LibyModel;
-import net.minecraft.resource.InputSupplier;
 import net.minecraft.util.Identifier;
 
 import java.io.ByteArrayInputStream;
 import java.io.InputStream;
 import java.nio.charset.StandardCharsets;
+import java.util.function.Supplier;
 
-public class LibyJsonModel implements LibyModel<InputSupplier<InputStream>> {
+public class LibyJsonModel implements LibyModel<Supplier<InputStream>> {
     public final Identifier identifier;
     public final JsonObject jsonModel;
 
@@ -28,7 +28,7 @@ public class LibyJsonModel implements LibyModel<InputSupplier<InputStream>> {
     }
 
     @Override
-    public InputSupplier<InputStream> bake() {
+    public Supplier<InputStream> bake() {
         return () -> new ByteArrayInputStream(
                 this.jsonModel.toString().getBytes(StandardCharsets.UTF_8)
         );

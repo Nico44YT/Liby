@@ -12,9 +12,7 @@ import nazario.liby.api.registry.helper.*;
 import nazario.liby.api.tag.TagTypesList;
 import nazario.liby.internal.LibyRuntimeErrors;
 import nazario.liby.internal.injections.LibyIdentifierResolvable;
-import net.fabricmc.fabric.api.itemgroup.v1.ItemGroupEvents;
 import net.fabricmc.fabric.api.object.builder.v1.block.entity.FabricBlockEntityTypeBuilder;
-import net.fabricmc.fabric.api.object.builder.v1.entity.FabricEntityTypeBuilder;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockEntityProvider;
 import net.minecraft.block.entity.BlockEntity;
@@ -23,14 +21,12 @@ import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityType;
 import net.minecraft.fluid.Fluid;
 import net.minecraft.item.*;
-import net.minecraft.registry.Registries;
-import net.minecraft.registry.Registry;
-import net.minecraft.registry.RegistryKey;
-import net.minecraft.registry.RegistryKeys;
-import net.minecraft.registry.tag.TagEntry;
-import net.minecraft.registry.tag.TagKey;
 import net.minecraft.sound.SoundEvent;
+import net.minecraft.tag.TagEntry;
+import net.minecraft.tag.TagKey;
 import net.minecraft.util.Identifier;
+import net.minecraft.util.registry.Registry;
+import net.minecraft.util.registry.RegistryKey;
 import org.jetbrains.annotations.ApiStatus;
 import org.jetbrains.annotations.NotNull;
 
@@ -80,7 +76,7 @@ public class LibyImplementedRegistry implements LibyItemRegistry, LibyBlockRegis
 	@Override
 	public <T extends Item> T registerItem(Identifier identifier, T item) {
 		LibyItemRegistry.items.put(identifier.getNamespace(), item);
-		return Registry.register(Registries.ITEM, identifier, item);
+		return Registry.register(Registry.ITEM, identifier, item);
 	}
 	@Override
 	public <T extends Item> T registerItem(String name, T item) {
@@ -105,20 +101,12 @@ public class LibyImplementedRegistry implements LibyItemRegistry, LibyBlockRegis
 		return this.registerItem(Identifier.of(this.namespace, name), itemSupplier);
 	}
 
-	@Override
-	public void addAllToItemGroup(RegistryKey<ItemGroup> itemGroupRegistryKey) {
-		ItemGroupEvents.modifyEntriesEvent(itemGroupRegistryKey)
-				.register(content -> content.addAll(
-						LibyItemRegistry.items.getList(this.namespace).stream().map(Item::getDefaultStack).toList()
-				));
-	}
-
 	//endregion
 
 	//region// * Blocks * //
 	@Override
 	public <T extends Block> T registerBlock(Identifier identifier, T block) {
-		return Registry.register(Registries.BLOCK, identifier, block);
+		return Registry.register(Registry.BLOCK, identifier, block);
 	}
 
 	@Override
@@ -159,7 +147,7 @@ public class LibyImplementedRegistry implements LibyItemRegistry, LibyBlockRegis
 	//region// * BlockEntity * //
 	@Override
 	public <T extends BlockEntityType<?>> T registerBlockEntityType(Identifier id, T blockEntityType) {
-		return Registry.register(Registries.BLOCK_ENTITY_TYPE, id, blockEntityType);
+		return Registry.register(Registry.BLOCK_ENTITY_TYPE, id, blockEntityType);
 	}
 
 	@Override
@@ -169,12 +157,12 @@ public class LibyImplementedRegistry implements LibyItemRegistry, LibyBlockRegis
 
 	@Override
 	public <T extends BlockEntity> BlockEntityType<T> registerBlockEntityType(String name, FabricBlockEntityTypeBuilder.Factory<T> factory, Class<? extends BlockEntityProvider> blockClass) {
-		return this.registerBlockEntityType(name, FabricBlockEntityTypeBuilder.create(factory).addBlocks(Registries.BLOCK.stream().filter(blockClass::isInstance).toArray(Block[]::new)).build());
+		return this.registerBlockEntityType(name, FabricBlockEntityTypeBuilder.create(factory).addBlocks(Registry.BLOCK.stream().filter(blockClass::isInstance).toArray(Block[]::new)).build());
 	}
 
 	@Override
 	public <T extends BlockEntity> BlockEntityType<T> registerBlockEntityType(Identifier id, FabricBlockEntityTypeBuilder.Factory<T> factory, Class<? extends BlockEntityProvider> blockClass) {
-		return this.registerBlockEntityType(id, FabricBlockEntityTypeBuilder.create(factory).addBlocks(Registries.BLOCK.stream().filter(blockClass::isInstance).toArray(Block[]::new)).build());
+		return this.registerBlockEntityType(id, FabricBlockEntityTypeBuilder.create(factory).addBlocks(Registry.BLOCK.stream().filter(blockClass::isInstance).toArray(Block[]::new)).build());
 	}
 
 	@Override
@@ -195,9 +183,9 @@ public class LibyImplementedRegistry implements LibyItemRegistry, LibyBlockRegis
 	}
 	@Override
 	public SoundEvent registerSoundEvent(Identifier id) {
-		SoundEvent event = SoundEvent.of(id);
+		SoundEvent event = new SoundEvent(id);
 		LibySoundRegistry.sounds.put(id.getNamespace(), event);
-		return Registry.register(Registries.SOUND_EVENT, id, event);
+		return Registry.register(Registry.SOUND_EVENT, id, event);
 	}
 
 	@Override
@@ -206,9 +194,9 @@ public class LibyImplementedRegistry implements LibyItemRegistry, LibyBlockRegis
 	}
 	@Override
 	public SoundEvent registerSoundEvent(Identifier id, float distanceToTravel) {
-		SoundEvent event = SoundEvent.of(id, distanceToTravel);
+		SoundEvent event = new SoundEvent(id, distanceToTravel);
 		LibySoundRegistry.sounds.put(id.getNamespace(), event);
-		return Registry.register(Registries.SOUND_EVENT, id, event);
+		return Registry.register(Registry.SOUND_EVENT, id, event);
 	}
 
 	@Unimplemented
@@ -224,7 +212,7 @@ public class LibyImplementedRegistry implements LibyItemRegistry, LibyBlockRegis
 	//region// * EntityTypes * //
 	@Override
 	public <T extends Entity> EntityType<T> registerEntityType(Identifier id, EntityType<T> type) {
-		return Registry.register(Registries.ENTITY_TYPE, id, type);
+		return Registry.register(Registry.ENTITY_TYPE, id, type);
 	}
 	@Override
 	public <T extends Entity> EntityType<T> registerEntityType(String name, EntityType<T> type) {
@@ -236,31 +224,31 @@ public class LibyImplementedRegistry implements LibyItemRegistry, LibyBlockRegis
 	@Override
 	public TagKey<Item> registerItemTag(Identifier tagId, ItemConvertible... items) {
 		LibyInternalTagRegistry.add(TagTypesList.ITEMS, tagId, this.namespace, Arrays.stream(items).map(itemConvertible -> TagEntry.create(itemConvertible.asItem().liby$getId())).toArray(TagEntry[]::new));
-		return TagKey.of(RegistryKeys.ITEM, tagId);
+		return TagKey.of(Registry.ITEM_KEY, tagId);
 	}
 
 	@Override
 	public TagKey<Block> registerBlockTag(Identifier tagId, Block... blocks) {
 		LibyInternalTagRegistry.add(TagTypesList.BLOCKS, tagId, this.namespace, Arrays.stream(blocks).map(block -> TagEntry.create(block.liby$getId())).toArray(TagEntry[]::new));
-		return TagKey.of(RegistryKeys.BLOCK, tagId);
+		return TagKey.of(Registry.BLOCK_KEY, tagId);
 	}
 
 	@Override
 	public TagKey<Fluid> registerFluidTag(Identifier tagId, Fluid... fluids) {
 		LibyInternalTagRegistry.add(TagTypesList.FLUIDS, tagId, this.namespace, Arrays.stream(fluids).map(fluid -> TagEntry.create(fluid.liby$getId())).toArray(TagEntry[]::new));
-		return TagKey.of(RegistryKeys.FLUID, tagId);
+		return TagKey.of(Registry.FLUID_KEY, tagId);
 	}
 
 	@Override
 	public TagKey<EntityType<?>> registerEntityTypeTag(Identifier tagId, EntityType<?>... entities) {
 		LibyInternalTagRegistry.add(TagTypesList.ENTITY_TYPES, tagId, this.namespace, Arrays.stream(entities).map(entityType -> TagEntry.create(entityType.getRegistryEntry().registryKey().getValue())).toArray(TagEntry[]::new));
-		return TagKey.of(RegistryKeys.ENTITY_TYPE, tagId);
+		return TagKey.of(Registry.ENTITY_TYPE_KEY, tagId);
 	}
 
 	@Override
 	public TagKey<SoundEvent> registerSoundEventTag(Identifier tagId, SoundEvent... soundEvents) {
 		LibyInternalTagRegistry.add(TagTypesList.SOUND_EVENT, tagId, this.namespace, Arrays.stream(soundEvents).map(soundEvent -> TagEntry.create(soundEvent.getId())).toArray(TagEntry[]::new));
-		return TagKey.of(RegistryKeys.SOUND_EVENT, tagId);
+		return TagKey.of(Registry.SOUND_EVENT_KEY, tagId);
 	}
 
 	@Override

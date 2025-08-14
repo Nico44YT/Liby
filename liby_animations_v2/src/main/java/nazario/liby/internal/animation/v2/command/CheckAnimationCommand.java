@@ -25,13 +25,13 @@ public class CheckAnimationCommand {
         if(context.getArgument("target", EntitySelector.class).getEntity(context.getSource()) instanceof LivingEntity target) {
             if(target.getLibyAnimation().isEmpty()) {
                 MutableText text = Text.literal(String.format("There is no animation playing for %s (%s)", target.getName().getString(), target.getUuid().toString()));
-                context.getSource().sendFeedback(() -> text, false);
+                context.getSource().sendFeedback(text, false);
                 return 0;
             }
 
             MutableText text = getMutableText(target);
 
-            context.getSource().sendFeedback(() -> text, false);
+            context.getSource().sendFeedback(text, false);
 
             return 0;
         }

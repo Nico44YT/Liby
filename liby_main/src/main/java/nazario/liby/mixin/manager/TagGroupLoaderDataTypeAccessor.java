@@ -1,6 +1,6 @@
 package nazario.liby.mixin.manager;
 
-import net.minecraft.registry.tag.TagGroupLoader;
+import net.minecraft.tag.TagGroupLoader;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.gen.Accessor;
 

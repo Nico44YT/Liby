@@ -34,7 +34,7 @@ dependencies {
 
     modImplementation "net.fabricmc.fabric-api:fabric-api:${project.fabric_version}"
 
-    api project(":liby_main")
+    modApi(files("./libs/liby_main-3.0.0.0-1.19.2.jar"))
 }
 
 processResources {

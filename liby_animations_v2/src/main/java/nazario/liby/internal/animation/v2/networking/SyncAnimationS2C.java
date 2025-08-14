@@ -4,12 +4,10 @@ import nazario.liby.LibyAnimationsV2;
 import nazario.liby.api.animation.v2.LibyAnimatable;
 import nazario.liby.api.util.nbt.LibyNbtCompound;
 import net.fabricmc.fabric.api.client.networking.v1.ClientPlayNetworking;
-import net.fabricmc.fabric.api.networking.v1.FabricPacket;
 import net.fabricmc.fabric.api.networking.v1.PacketSender;
-import net.fabricmc.fabric.api.networking.v1.PacketType;
 import net.minecraft.block.entity.BlockEntity;
 import net.minecraft.client.MinecraftClient;
-import net.minecraft.client.network.ClientPlayerEntity;
+import net.minecraft.client.network.ClientPlayNetworkHandler;
 import net.minecraft.entity.Entity;
 import net.minecraft.nbt.NbtCompound;
 import net.minecraft.network.PacketByteBuf;
@@ -17,10 +15,9 @@ import net.minecraft.util.Identifier;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 
-public record SyncAnimationS2C(NbtCompound animationData, NbtCompound animatableResolver) implements FabricPacket, ClientPlayNetworking.PlayPacketHandler<SyncAnimationS2C> {
+public record SyncAnimationS2C(NbtCompound animationData, NbtCompound animatableResolver) implements ClientPlayNetworking.PlayChannelHandler {
 
     public static final Identifier ID = LibyAnimationsV2.id("sync_animation_s2c");
-    public static final PacketType<SyncAnimationS2C> PACKET_TYPE = PacketType.create(ID, SyncAnimationS2C::fromPacketByteBuf);
 
     public static SyncAnimationS2C fromPacketByteBuf(PacketByteBuf packetByteBuf) {
         return new SyncAnimationS2C(packetByteBuf.readNbt(), packetByteBuf.readNbt());
@@ -47,27 +44,11 @@ public record SyncAnimationS2C(NbtCompound animationData, NbtCompound animatable
         return new SyncAnimationS2C(animationData, animatableResolver);
     }
 
-    @Override
-    public void write(PacketByteBuf packetByteBuf) {
+
+    public PacketByteBuf write(PacketByteBuf packetByteBuf) {
         packetByteBuf.writeNbt(animationData);
         packetByteBuf.writeNbt(animatableResolver);
-    }
-
-    @Override
-    public void receive(SyncAnimationS2C packet, ClientPlayerEntity clientPlayer, PacketSender packetSender) {
-        LibyAnimatable animatable = getAnimatable(MinecraftClient.getInstance().world, packet.animatableResolver);
-
-        if(animatable instanceof Entity entity) {
-            NbtCompound nbtCompound = new NbtCompound();
-            entity.writeNbt(nbtCompound);
-            nbtCompound.put("liby_animation", packet.animationData);
-            entity.readNbt(nbtCompound);
-        }
-    }
-
-    @Override
-    public PacketType<?> getType() {
-        return PACKET_TYPE;
+        return packetByteBuf;
     }
 
     public static LibyAnimatable getAnimatable(World world, NbtCompound animatableResolver) {
@@ -99,5 +80,16 @@ public record SyncAnimationS2C(NbtCompound animationData, NbtCompound animatable
         };
     }
 
+    @Override
+    public void receive(MinecraftClient minecraftClient, ClientPlayNetworkHandler clientPlayNetworkHandler, PacketByteBuf packetByteBuf, PacketSender packetSender) {
+        SyncAnimationS2C packet = SyncAnimationS2C.fromPacketByteBuf(packetByteBuf);
+        LibyAnimatable animatable = getAnimatable(MinecraftClient.getInstance().world, packet.animatableResolver);
 
+        if(animatable instanceof Entity entity) {
+            NbtCompound nbtCompound = new NbtCompound();
+            entity.writeNbt(nbtCompound);
+            nbtCompound.put("liby_animation", packet.animationData);
+            entity.readNbt(nbtCompound);
+        }
+    }
 }

@@ -4,6 +4,7 @@ import nazario.liby.api.util.LibyIdentifier;
 import nazario.liby.internal.animation.v2.networking.SyncAnimationS2C;
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
+import net.fabricmc.fabric.api.networking.v1.PacketByteBufs;
 import net.fabricmc.fabric.api.networking.v1.ServerPlayNetworking;
 import net.minecraft.client.render.Frustum;
 import net.minecraft.client.render.VertexConsumerProvider;
@@ -43,7 +44,7 @@ public abstract class LibyEntityAnimation<T extends Entity> extends LibyAnimatio
     public void syncAnimation(T animatable) {
         if(animatable.getWorld() instanceof ServerWorld serverWorld) {
             serverWorld.getPlayers().forEach(player -> {
-                ServerPlayNetworking.send(player, SyncAnimationS2C.create(animatable));
+                ServerPlayNetworking.send(player, SyncAnimationS2C.ID, SyncAnimationS2C.create(animatable).write(PacketByteBufs.create()));
             });
         }
     }

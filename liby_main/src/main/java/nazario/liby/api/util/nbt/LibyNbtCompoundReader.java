@@ -3,11 +3,11 @@ package nazario.liby.api.util.nbt;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityType;
 import net.minecraft.nbt.NbtCompound;
-import net.minecraft.registry.Registries;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Vec2f;
 import net.minecraft.util.math.Vec3d;
 import net.minecraft.util.math.Vec3i;
+import net.minecraft.util.registry.Registry;
 
 import java.util.UUID;
 
@@ -119,7 +119,7 @@ public class LibyNbtCompoundReader {
 
         try {
             if (element.getString("type").equals("entity_type")) {
-                EntityType<? extends Entity> entityType = Registries.ENTITY_TYPE.stream()
+                EntityType<? extends Entity> entityType = Registry.ENTITY_TYPE.stream()
                         .filter(entry -> entry.toString().equals(element.getString("entity_type")))
                         .findFirst()
                         .orElse(null);

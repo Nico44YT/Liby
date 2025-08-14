@@ -4,14 +4,16 @@ import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
 import nazario.liby.LibyAssetGenMain;
 import nazario.liby.internal.assetgen.v1.client.blockstate.LibyBlockState;
-import net.minecraft.resource.ResourcePack;
+import net.minecraft.client.util.math.Vector3d;
 import net.minecraft.util.Identifier;
 import org.jetbrains.annotations.Nullable;
-import org.joml.Vector3d;
 
 import java.io.ByteArrayInputStream;
+import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
+import java.util.function.Supplier;
 
 public class LibyMultipartBlockState extends LibyBlockState {
 
@@ -64,9 +66,9 @@ public class LibyMultipartBlockState extends LibyBlockState {
         applyObject.addProperty("model", modelIdentifier.toString());
         if(rotation != null) {
             JsonObject rotationObject = new JsonObject();
-            rotationObject.addProperty("x", rotation.x());
-            rotationObject.addProperty("y", rotation.y());
-            rotationObject.addProperty("z", rotation.z());
+            rotationObject.addProperty("x", rotation.x);
+            rotationObject.addProperty("y", rotation.y);
+            rotationObject.addProperty("z", rotation.z);
 
             applyObject.add("rotation", rotationObject);
         }
@@ -94,7 +96,7 @@ public class LibyMultipartBlockState extends LibyBlockState {
     }
 
     @Override
-    public void accept(Identifier resourceId, ResourcePack.ResultConsumer consumer) {
+    public void accept(Identifier resourceId, Map<Identifier, Supplier<InputStream>> map) {
         JsonObject mainJson = new JsonObject();
 
         JsonArray multipartArray = new JsonArray();
@@ -106,6 +108,6 @@ public class LibyMultipartBlockState extends LibyBlockState {
         mainJson.addProperty("format", LibyAssetGenMain.FORMAT);
         mainJson.add("multipart", multipartArray);
 
-        consumer.accept(resourceId, () -> new ByteArrayInputStream(mainJson.toString().getBytes()));
+        map.put(resourceId, () -> new ByteArrayInputStream(mainJson.toString().getBytes()));
     }
 }

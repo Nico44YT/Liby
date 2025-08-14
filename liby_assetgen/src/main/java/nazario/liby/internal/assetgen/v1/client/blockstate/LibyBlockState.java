@@ -1,7 +1,10 @@
 package nazario.liby.internal.assetgen.v1.client.blockstate;
 
-import net.minecraft.resource.ResourcePack;
 import net.minecraft.util.Identifier;
+
+import java.io.InputStream;
+import java.util.Map;
+import java.util.function.Supplier;
 
 public abstract class LibyBlockState {
     public Identifier id;
@@ -10,5 +13,5 @@ public abstract class LibyBlockState {
         return this.id;
     }
 
-    public abstract void accept(Identifier resourceId, ResourcePack.ResultConsumer consumer);
+    public abstract void accept(Identifier resourceId, Map<Identifier, Supplier<InputStream>> map);
 }

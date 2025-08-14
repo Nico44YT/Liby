@@ -7,8 +7,8 @@ import net.minecraft.client.render.model.json.ModelElementFace;
 import net.minecraft.client.render.model.json.ModelRotation;
 import net.minecraft.util.JsonHelper;
 import net.minecraft.util.math.Direction;
+import net.minecraft.util.math.Vec3f;
 import org.jetbrains.annotations.Nullable;
-import org.joml.Vector3f;
 
 import java.lang.reflect.Type;
 import java.util.Map;
@@ -21,8 +21,8 @@ public class LibyModelElementDeserializer extends ModelElement.Deserializer {
     @Override
     public ModelElement deserialize(JsonElement jsonElement, Type type, JsonDeserializationContext jsonDeserializationContext) throws JsonParseException {
         JsonObject elementObject = jsonElement.getAsJsonObject();
-        Vector3f from = this.deserializeVec3f(elementObject, "from");
-        Vector3f to = this.deserializeVec3f(elementObject, "to");
+        Vec3f from = this.deserializeVec3f(elementObject, "from");
+        Vec3f to = this.deserializeVec3f(elementObject, "to");
         Map<Direction, ModelElementFace> facesMap = this.deserializeFacesValidating(jsonDeserializationContext, elementObject);
 
         ModelRotation modelRotation = this.liby$deserializeRotation(elementObject);
@@ -34,20 +34,20 @@ public class LibyModelElementDeserializer extends ModelElement.Deserializer {
 
     @Nullable
     public ModelRotation liby$deserializeRotation(JsonObject object) {
-        ModelRotation modelRotation = new ModelRotation(new Vector3f(), null, 0, false);
+        ModelRotation modelRotation = new ModelRotation(new Vec3f(), null, 0, false);
         if (object.has("rotation")) {
             LibyFreeFormRotation libyFreeFormRotation = LibyFreeFormRotation.deserializeRotation(object.getAsJsonObject());
 
-            libyFreeFormRotation.getOrigin().mul(1/16f);
+            libyFreeFormRotation.getOrigin().scale(1/16f);
 
-            modelRotation = new ModelRotation(new Vector3f(), null, 0, false);
+            modelRotation = new ModelRotation(new Vec3f(), null, 0, false);
             modelRotation.libyAssets$setFreeFormRotation(libyFreeFormRotation);
         }
 
         return modelRotation;
     }
 
-    private Vector3f deserializeVec3f(JsonObject object, String name) {
+    private Vec3f deserializeVec3f(JsonObject object, String name) {
         JsonArray jsonArray = JsonHelper.getArray(object, name);
         if (jsonArray.size() != 3) {
             throw new JsonParseException("Expected 3 " + name + " values, found: " + jsonArray.size());
@@ -58,7 +58,7 @@ public class LibyModelElementDeserializer extends ModelElement.Deserializer {
                 fs[i] = JsonHelper.asFloat(jsonArray.get(i), name + "[" + i + "]");
             }
 
-            return new Vector3f(fs[0], fs[1], fs[2]);
+            return new Vec3f(fs[0], fs[1], fs[2]);
         }
     }
 

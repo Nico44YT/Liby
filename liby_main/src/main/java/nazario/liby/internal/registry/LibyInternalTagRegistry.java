@@ -1,8 +1,8 @@
 package nazario.liby.internal.registry;
 
 import nazario.liby.api.tag.TagTypesList;
-import net.minecraft.registry.tag.TagEntry;
-import net.minecraft.registry.tag.TagGroupLoader;
+import net.minecraft.tag.TagEntry;
+import net.minecraft.tag.TagGroupLoader;
 import net.minecraft.util.Identifier;
 import org.jetbrains.annotations.ApiStatus;
 

@@ -4,18 +4,15 @@ import nazario.liby.internal.injections.LibyIdentifierResolvable;
 import nazario.liby.internal.registry.LibyImplementableRegistry;
 import nazario.liby.internal.registry.LibyImplementedRegistry;
 import net.minecraft.block.Block;
-import net.minecraft.enchantment.Enchantment;
-import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityType;
-import net.minecraft.entity.effect.StatusEffect;
 import net.minecraft.fluid.Fluid;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemConvertible;
-import net.minecraft.registry.Registry;
-import net.minecraft.registry.RegistryKey;
-import net.minecraft.registry.tag.TagKey;
 import net.minecraft.sound.SoundEvent;
+import net.minecraft.tag.TagKey;
 import net.minecraft.util.Identifier;
+import net.minecraft.util.registry.Registry;
+import net.minecraft.util.registry.RegistryKey;
 
 public interface LibyTagRegistry extends LibyImplementableRegistry {
     static LibyTagRegistry of(String name) {

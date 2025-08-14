@@ -45,7 +45,7 @@ dependencies {
 
     modImplementation "net.fabricmc.fabric-api:fabric-api:${project.fabric_version}"
 
-    modApi(files("./libs/liby_main-3.0.0.0-1.20.1.jar"))
+    modApi(files("./libs/liby_main-3.0.0.0-1.19.2.jar"))
 
     annotationProcessor "org.spongepowered:mixin:0.8.5:processor"
 }

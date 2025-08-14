@@ -45,12 +45,12 @@ public class StartAnimationCommand {
                 LibyAnimation<LibyAnimatable> animation = optional.get().get();
 
                 if(!animation.checkPredicate(target)) {
-                    context.getSource().sendFeedback(() -> Text.translatable("liby.animation.fail", animation.liby$getId(), animation.getClass()), false);
+                    context.getSource().sendFeedback(Text.translatable("liby.animation.fail", animation.liby$getId(), animation.getClass()), false);
                     return 1;
                 }
 
                 target.startLibyAnimation(animation.liby$getId());
-                context.getSource().sendFeedback(() -> Text.literal(String.format("Started animation (%s)", animation.liby$getId())), true);
+                context.getSource().sendFeedback(Text.literal(String.format("Started animation (%s)", animation.liby$getId())), true);
                 return 0;
             }
         }

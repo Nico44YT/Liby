@@ -8,8 +8,10 @@ import net.minecraft.util.Identifier;
 import org.jetbrains.annotations.ApiStatus;
 import org.jetbrains.annotations.Nullable;
 
+import java.io.InputStream;
 import java.util.*;
 import java.util.concurrent.ConcurrentHashMap;
+import java.util.function.Supplier;
 
 @ApiStatus.Internal
 public class LibyModelRegistry implements LibyResourceRegistry {
@@ -53,11 +55,11 @@ public class LibyModelRegistry implements LibyResourceRegistry {
     }
 
     @Override
-    public void acceptResultConsumer(String namespace, String prefix, ResourcePack.ResultConsumer consumer) {
+    public void acceptResultConsumer(String namespace, String prefix, Map<Identifier, Supplier<InputStream>> map) {
         modelMap.getOrDefault(namespace, List.of()).forEach(model -> {
             Identifier id = Identifier.of(model.getId().getNamespace(), prefix + "/" + model.getId().getPath() + ".json");
             if(model instanceof LibyJsonModel jsonModel) {
-                consumer.accept(id, jsonModel.bake());
+                map.put(id, jsonModel.bake());
             }
         });
     }

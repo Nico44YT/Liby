@@ -7,8 +7,10 @@ import net.minecraft.util.Identifier;
 import org.jetbrains.annotations.ApiStatus;
 import org.jetbrains.annotations.Nullable;
 
+import java.io.InputStream;
 import java.util.*;
 import java.util.concurrent.ConcurrentHashMap;
+import java.util.function.Supplier;
 
 @ApiStatus.Internal
 public class LibyBlockStateRegistry implements LibyResourceRegistry {
@@ -52,10 +54,10 @@ public class LibyBlockStateRegistry implements LibyResourceRegistry {
     }
 
     @Override
-    public void acceptResultConsumer(String namespace, String prefix, ResourcePack.ResultConsumer consumer) {
+    public void acceptResultConsumer(String namespace, String prefix, Map<Identifier, Supplier<InputStream>> map) {
         blockstateMap.getOrDefault(namespace, List.of()).forEach(blockState -> {
             Identifier id = Identifier.of(blockState.getId().getNamespace(), prefix+"/"+blockState.getId().getPath() + ".json");
-            blockState.accept(id, consumer);
+            blockState.accept(id, map);
         });
     }
 

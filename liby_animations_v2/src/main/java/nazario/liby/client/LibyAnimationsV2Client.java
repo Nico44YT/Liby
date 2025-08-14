@@ -8,6 +8,6 @@ public class LibyAnimationsV2Client implements ClientModInitializer {
 
     @Override
     public void onInitializeClient() {
-        ClientPlayNetworking.registerGlobalReceiver(SyncAnimationS2C.PACKET_TYPE, new SyncAnimationS2C(null, null));
+        ClientPlayNetworking.registerGlobalReceiver(SyncAnimationS2C.ID, new SyncAnimationS2C(null, null));
     }
 }

@@ -23,7 +23,7 @@ public class StopAnimationCommand {
             if(target.getLibyAnimation().isPresent()) {
                 Identifier id = target.getLibyAnimation().get().liby$getId();
                 target.stopLibyAnimation();
-                context.getSource().sendFeedback(() -> Text.literal(String.format("Stopped animation (%s)", id)), true);
+                context.getSource().sendFeedback(Text.literal(String.format("Stopped animation (%s)", id)), true);
                 return 0;
             }
         }

@@ -1,14 +1,12 @@
 package nazario.liby.api.assetgen.v1.client.texture;
 
-import net.minecraft.resource.InputSupplier;
-import net.minecraft.util.Identifier;
-
 import javax.imageio.ImageIO;
 import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.InputStream;
+import java.util.function.Supplier;
 
 public class LibyTexture {
     protected Color[][] pixels;
@@ -21,7 +19,7 @@ public class LibyTexture {
         return pixels;
     }
 
-    public InputSupplier<InputStream> getInputStream() {
+    public Supplier<InputStream> getInputStream() {
         BufferedImage image = new BufferedImage(this.pixels.length, this.pixels[0].length, BufferedImage.TYPE_4BYTE_ABGR);
 
         for (int x = 0; x < image.getWidth(); x++) {
@@ -38,8 +36,12 @@ public class LibyTexture {
 
         return () -> {
             ByteArrayOutputStream baos = new ByteArrayOutputStream();
-            ImageIO.write(image, "png", baos);
-            baos.flush();
+            try{
+                ImageIO.write(image, "png", baos);
+                baos.flush();
+            }catch (Exception e) {
+                e.printStackTrace();
+            }
             return new ByteArrayInputStream(baos.toByteArray());
         };
     }

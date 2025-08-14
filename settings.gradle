@@ -11,4 +11,4 @@ pluginManagement {
 
 rootProject.name = "liby_root"
 
-include "test_mod", "liby_main", "liby_animations", "liby_animations_v2", "liby_networking", "liby_ui", "liby_assetgen"
+include "liby_main", "liby_animations_v2", "liby_assetgen"

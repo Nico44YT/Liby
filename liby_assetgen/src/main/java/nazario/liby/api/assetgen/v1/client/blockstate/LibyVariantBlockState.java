@@ -5,14 +5,16 @@ import nazario.liby.LibyAssetGenMain;
 import nazario.liby.internal.assetgen.v1.client.blockstate.LibyBlockState;
 import net.minecraft.block.Block;
 import net.minecraft.client.util.ModelIdentifier;
-import net.minecraft.resource.ResourcePack;
+import net.minecraft.client.util.math.Vector3d;
 import net.minecraft.util.Identifier;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
-import org.joml.Vector3d;
 
 import java.io.ByteArrayInputStream;
+import java.io.InputStream;
 import java.util.HashMap;
+import java.util.Map;
+import java.util.function.Supplier;
 
 public class LibyVariantBlockState extends LibyBlockState {
 
@@ -71,9 +73,9 @@ public class LibyVariantBlockState extends LibyBlockState {
         applyObject.addProperty("model", modelIdentifier.toString());
         if(rotation != null) {
             JsonObject rotationObject = new JsonObject();
-            rotationObject.addProperty("x", rotation.x());
-            rotationObject.addProperty("y", rotation.y());
-            rotationObject.addProperty("z", rotation.z());
+            rotationObject.addProperty("x", rotation.x);
+            rotationObject.addProperty("y", rotation.y);
+            rotationObject.addProperty("z", rotation.z);
 
             applyObject.add("rotation", rotationObject);
         }
@@ -86,7 +88,7 @@ public class LibyVariantBlockState extends LibyBlockState {
     }
 
     @Override
-    public void accept(Identifier resourceId, ResourcePack.ResultConsumer consumer) {
+    public void accept(Identifier resourceId, Map<Identifier, Supplier<InputStream>> map) {
         JsonObject mainJson = new JsonObject();
         JsonObject variants = new JsonObject();
 
@@ -99,7 +101,7 @@ public class LibyVariantBlockState extends LibyBlockState {
         mainJson.addProperty("format", LibyAssetGenMain.FORMAT);
         mainJson.add("variants", variants);
 
-        consumer.accept(resourceId, () -> new ByteArrayInputStream(mainJson.toString().getBytes()));
+        map.put(resourceId, () -> new ByteArrayInputStream(mainJson.toString().getBytes()));
     }
 
     public JsonObject getModel(ModelIdentifier modelIdentifier) {

@@ -3,23 +3,23 @@ package nazario.liby.internal.assetgen.v1.client.format;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
 import net.minecraft.util.math.AffineTransformation;
-import org.joml.Quaternionf;
-import org.joml.Vector3f;
+import net.minecraft.util.math.Quaternion;
+import net.minecraft.util.math.Vec3f;
 
 public class LibyFreeFormRotation {
     private final AffineTransformation affineTransformation;
-    private final Vector3f origin;
-    private final Vector3f rotationVector;
+    private final Vec3f origin;
+    private final Vec3f rotationVector;
 
-    public LibyFreeFormRotation(float x, float y, float z, Vector3f origin) {
-        Quaternionf quaternionf = (new Quaternionf()).rotateYXZ((float)Math.toRadians(-y), (float)Math.toRadians(-x), (float)Math.toRadians(-z));
+    public LibyFreeFormRotation(float x, float y, float z, Vec3f origin) {
+        Quaternion quaternion = (new Quaternion((float)Math.toRadians(-x), (float)Math.toRadians(-y), (float)Math.toRadians(-z), 0));
 
-        this.rotationVector = new Vector3f(x, y, z);
+        this.rotationVector = new Vec3f(x, y, z);
         this.affineTransformation = new AffineTransformation(
-                new Vector3f(), // Translation
-                quaternionf, // Left-Rotation
-                new Vector3f(1, 1, 1), // Scale
-                new Quaternionf() // Right-Rotation
+                new Vec3f(), // Translation
+                quaternion, // Left-Rotation
+                new Vec3f(1, 1, 1), // Scale
+                new Quaternion(0, 0, 0, 0) // Right-Rotation
         );
         this.origin = origin;
     }
@@ -32,27 +32,27 @@ public class LibyFreeFormRotation {
             float y = rotationObject.has("y") ? rotationObject.get("y").getAsFloat() : 0;
             float z = rotationObject.has("z") ? rotationObject.get("z").getAsFloat() : 0;
 
-            Vector3f origin = rotationObject.has("origin") ? deserializeRotationOrigin(rotationObject.get("origin").getAsJsonArray()) : new Vector3f();
+            Vec3f origin = rotationObject.has("origin") ? deserializeRotationOrigin(rotationObject.get("origin").getAsJsonArray()) : new Vec3f();
 
             return new LibyFreeFormRotation(x, y, z, origin);
         }
 
-        return new LibyFreeFormRotation(0, 0, 0, new Vector3f());
+        return new LibyFreeFormRotation(0, 0, 0, new Vec3f());
     }
 
-    private static Vector3f deserializeRotationOrigin(JsonArray originArray) {
-        return new Vector3f(originArray.get(0).getAsFloat(), originArray.get(1).getAsFloat(), originArray.get(2).getAsFloat());
+    private static Vec3f deserializeRotationOrigin(JsonArray originArray) {
+        return new Vec3f(originArray.get(0).getAsFloat(), originArray.get(1).getAsFloat(), originArray.get(2).getAsFloat());
     }
 
     public AffineTransformation getAffineTransformation() {
         return this.affineTransformation;
     }
 
-    public Vector3f getOrigin() {
+    public Vec3f getOrigin() {
         return this.origin;
     }
 
-    public Vector3f getRotationVector() {
+    public Vec3f getRotationVector() {
         return this.rotationVector;
     }
 

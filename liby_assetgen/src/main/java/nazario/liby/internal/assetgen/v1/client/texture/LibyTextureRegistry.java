@@ -7,8 +7,11 @@ import nazario.liby.internal.assetgen.v1.client.LibyResourceRegistry;
 import net.minecraft.resource.ResourcePack;
 import net.minecraft.util.Identifier;
 import org.jetbrains.annotations.ApiStatus;
+
+import java.io.InputStream;
 import java.util.*;
 import java.util.concurrent.ConcurrentHashMap;
+import java.util.function.Supplier;
 
 @ApiStatus.Internal
 public class LibyTextureRegistry implements LibyResourceRegistry {
@@ -41,11 +44,11 @@ public class LibyTextureRegistry implements LibyResourceRegistry {
     }
 
     @Override
-    public void acceptResultConsumer(String namespace, String prefix, ResourcePack.ResultConsumer consumer) {
+    public void acceptResultConsumer(String namespace, String prefix, Map<Identifier, Supplier<InputStream>> map) {
         textureMap.getOrDefault(namespace, new HashMap<>()).forEach((identifier, texture) -> {
             Identifier id = Identifier.of(identifier.getNamespace(), "textures/" + identifier.getPath() + ".png");
             TextureList.textures.put(identifier, texture.getPixels());
-            consumer.accept(id, texture.getInputStream());
+            map.put(id, texture.getInputStream());
         });
     }
 

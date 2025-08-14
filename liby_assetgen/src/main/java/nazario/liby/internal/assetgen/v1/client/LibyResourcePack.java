@@ -1,9 +1,8 @@
 package nazario.liby.internal.assetgen.v1.client;
 
+import com.mojang.bridge.game.PackType;
 import net.minecraft.SharedConstants;
 import net.minecraft.resource.*;
-import net.minecraft.resource.featuretoggle.FeatureSet;
-import net.minecraft.resource.metadata.PackFeatureSetMetadata;
 import net.minecraft.resource.metadata.PackResourceMetadata;
 import net.minecraft.resource.metadata.ResourceMetadataReader;
 import net.minecraft.text.Text;
@@ -13,14 +12,16 @@ import org.jetbrains.annotations.Nullable;
 
 import java.io.IOException;
 import java.io.InputStream;
-import java.util.Set;
+import java.util.*;
+import java.util.function.Predicate;
+import java.util.function.Supplier;
 
 @ApiStatus.Internal
 public class LibyResourcePack implements ResourcePack {
     public final String name = "liby_runtime_assets";
     public final ResourcePackProfile profile;
     public final PackResourceMetadata metadata;
-    public final PackFeatureSetMetadata featureMetadata;
+    public final Map<Identifier, Supplier<InputStream>> assetList;
     protected static final Text profileName = Text.translatable("resourcepack.liby.name");
     protected static final Text profileDescription = Text.translatable("resourcepack.liby.description");
 
@@ -31,32 +32,42 @@ public class LibyResourcePack implements ResourcePack {
     }
 
     public LibyResourcePack() {
-        this.metadata = new PackResourceMetadata(profileDescription, SharedConstants.getGameVersion().getResourceVersion(ResourceType.CLIENT_RESOURCES));
-        this.featureMetadata = new PackFeatureSetMetadata(FeatureSet.empty());
-        this.profile = ResourcePackProfile.create(
+        this.metadata = new PackResourceMetadata(profileDescription, SharedConstants.getGameVersion().getPackVersion(PackType.RESOURCE));
+        this.profile = new ResourcePackProfile(
                 name,
                 profileName,
                 true,
-                (_name) -> this,
+                () -> this,
+                this.metadata,
                 ResourceType.CLIENT_RESOURCES,
                 ResourcePackProfile.InsertionPosition.TOP,
-                ResourcePackSource.NONE
+                ResourcePackSource.PACK_SOURCE_NONE
         );
+
+        this.assetList = new HashMap<>();
     }
 
     @Override
-    public @Nullable InputSupplier<InputStream> openRoot(String... segments) {
+    public @Nullable InputStream openRoot(String fileName) throws IOException {
         return null;
     }
 
     @Override
-    public @Nullable InputSupplier<InputStream> open(ResourceType type, Identifier id) {
-        return null;
+    public InputStream open(ResourceType type, Identifier id) throws IOException {
+        if(type == ResourceType.SERVER_DATA) return null;
+        return assetList.get(id).get();
     }
 
     @Override
-    public void findResources(ResourceType type, String namespace, String prefix, ResultConsumer consumer) {
-        LibyResourceRegistries.get().callRegistry(namespace, prefix, consumer);
+    public Collection<Identifier> findResources(ResourceType type, String namespace, String prefix, Predicate<Identifier> allowedPathPredicate) {
+        LibyResourceRegistries.get().callRegistry(namespace, prefix, this.assetList);
+        return this.assetList.keySet();
+    }
+
+    @Override
+    public boolean contains(ResourceType type, Identifier id) {
+        if(type == ResourceType.SERVER_DATA) return false;
+        return assetList.containsKey(id);
     }
 
     @Override
@@ -68,7 +79,6 @@ public class LibyResourcePack implements ResourcePack {
     public @Nullable <T> T parseMetadata(ResourceMetadataReader<T> metaReader) throws IOException {
         return (T)switch(metaReader.getKey()) {
             case "pack" -> this.metadata;
-            case "features" -> this.featureMetadata;
             default -> null;
         };
     }
@@ -76,11 +86,6 @@ public class LibyResourcePack implements ResourcePack {
     @Override
     public String getName() {
         return name;
-    }
-
-    @Override
-    public boolean isAlwaysStable() {
-        return true;
     }
 
     @Override

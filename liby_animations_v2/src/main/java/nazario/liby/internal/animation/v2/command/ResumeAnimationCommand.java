@@ -23,7 +23,7 @@ public class ResumeAnimationCommand {
             if(target.getLibyAnimation().isPresent()) {
                 Identifier id = target.getLibyAnimation().get().liby$getId();
                 target.resumeLibyAnimation();
-                context.getSource().sendFeedback(() -> Text.literal(String.format("Resumed animation (%s)", id)), true);
+                context.getSource().sendFeedback(Text.literal(String.format("Resumed animation (%s)", id)), true);
                 return 0;
             }
         }

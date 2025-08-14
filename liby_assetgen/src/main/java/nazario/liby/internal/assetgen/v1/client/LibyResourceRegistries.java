@@ -1,12 +1,12 @@
 package nazario.liby.internal.assetgen.v1.client;
 
 import net.minecraft.resource.ResourcePack;
+import net.minecraft.util.Identifier;
 import org.jetbrains.annotations.ApiStatus;
 
-import java.util.ArrayList;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
+import java.io.InputStream;
+import java.util.*;
+import java.util.function.Supplier;
 
 @ApiStatus.Internal
 public class LibyResourceRegistries {
@@ -26,8 +26,8 @@ public class LibyResourceRegistries {
         this.registries.add(registry);
     }
 
-    public void callRegistry(String namespace, String prefix, ResourcePack.ResultConsumer consumer) {
-        this.registries.stream().filter(registry -> prefix.equals(registry.getPrefix())).forEach(registry -> registry.acceptResultConsumer(namespace, prefix, consumer));
+    public void callRegistry(String namespace, String prefix, Map<Identifier, Supplier<InputStream>> map) {
+        this.registries.stream().filter(registry -> prefix.equals(registry.getPrefix())).forEach(registry -> registry.acceptResultConsumer(namespace, prefix, map));
     }
 
     public Set<String> collectNamespaces() {
