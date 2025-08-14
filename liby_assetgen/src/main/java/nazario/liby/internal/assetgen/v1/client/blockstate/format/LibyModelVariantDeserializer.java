@@ -4,6 +4,7 @@ import com.google.gson.JsonDeserializationContext;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParseException;
+import nazario.liby.LibyAssetGenMain;
 import nazario.liby.internal.assetgen.v1.client.format.LibyFreeFormRotation;
 import net.minecraft.client.render.model.json.ModelVariant;
 import net.minecraft.util.Identifier;
@@ -17,6 +18,8 @@ public class LibyModelVariantDeserializer extends ModelVariant.Deserializer {
     public ModelVariant deserialize(JsonElement jsonElement, Type type, JsonDeserializationContext jsonDeserializationContext) throws JsonParseException {
         JsonObject jsonObject = jsonElement.getAsJsonObject();
         Identifier identifier = this.deserializeModel(jsonObject);
+
+        LibyAssetGenMain.libyModelRotationUsers.add(identifier);
 
         LibyFreeFormRotation modelRotation = LibyFreeFormRotation.deserializeRotation(jsonObject);
 

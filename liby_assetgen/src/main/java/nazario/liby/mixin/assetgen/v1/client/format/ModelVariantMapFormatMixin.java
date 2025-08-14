@@ -51,14 +51,11 @@ public abstract class ModelVariantMapFormatMixin {
         BufferedReader bufferedReader = new BufferedReader(reader);
         JsonElement json = JsonParser.parseReader(bufferedReader);
 
-
         if(json instanceof JsonObject jsonObject && jsonObject.has("format")) {
-            LibyAssetGenMain.libyModelRotationUsers.add(liby$context.getStateFactory().getOwner().liby$getId().prependPath("block/"));
             String format = jsonObject.get("format").getAsString();
 
             if(format.equals(LibyAssetGenMain.FORMAT)) {
-                ModelVariantMap map = liby$gsonInstance.fromJson(json, ModelVariantMap.class);
-                return map;
+                return liby$gsonInstance.fromJson(json, ModelVariantMap.class);
             }
         }
 

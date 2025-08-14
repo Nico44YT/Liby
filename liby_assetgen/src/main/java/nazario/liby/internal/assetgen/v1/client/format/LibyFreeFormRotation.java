@@ -12,14 +12,14 @@ public class LibyFreeFormRotation {
     private final Vec3f rotationVector;
 
     public LibyFreeFormRotation(float x, float y, float z, Vec3f origin) {
-        Quaternion quaternion = (new Quaternion((float)Math.toRadians(-x), (float)Math.toRadians(-y), (float)Math.toRadians(-z), 0));
+        Quaternion quaternion = (new Quaternion((float)x, (float)y, (float)z, true));
 
         this.rotationVector = new Vec3f(x, y, z);
         this.affineTransformation = new AffineTransformation(
                 new Vec3f(), // Translation
                 quaternion, // Left-Rotation
                 new Vec3f(1, 1, 1), // Scale
-                new Quaternion(0, 0, 0, 0) // Right-Rotation
+                null // Right-Rotation
         );
         this.origin = origin;
     }
@@ -58,6 +58,6 @@ public class LibyFreeFormRotation {
 
     @Override
     public String toString() {
-        return String.format("[%s, %s]", this.affineTransformation, this.origin);
+        return String.format("[%s, %s]", this.affineTransformation.getRotation1(), this.origin);
     }
 }

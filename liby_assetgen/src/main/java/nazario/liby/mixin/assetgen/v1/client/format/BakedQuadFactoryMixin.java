@@ -58,11 +58,12 @@ public abstract class BakedQuadFactoryMixin {
             float yRad = (float)Math.toRadians(rotationVector.getY());
             float zRad = (float)Math.toRadians(rotationVector.getZ());
 
-            Quaternion quaternion = new Quaternion(xRad, yRad, zRad,0);
+            Quaternion quaternion = Quaternion.fromEulerYxz(xRad, yRad, zRad);
 
-            Matrix4f matrix = new Matrix4f();
-            matrix.multiply(quaternion);
+            Matrix4f matrix = new Matrix4f(quaternion);
+
             Vec3f scale = new Vec3f(1.0f, 1.0f, 1.0f); // No scaling
+
             this.transformVertex(vertex, origin, matrix, scale);
 
             ci.cancel();
