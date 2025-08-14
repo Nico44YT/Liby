@@ -10,7 +10,7 @@ import org.spongepowered.asm.mixin.Unique;
 public abstract class ModelRotationInjection implements LibyModelRotation {
 
     @Unique
-    private boolean isSet;
+    private boolean isSet = false;
     @Unique
     private LibyFreeFormRotation libyFreeFormRotation;
 
