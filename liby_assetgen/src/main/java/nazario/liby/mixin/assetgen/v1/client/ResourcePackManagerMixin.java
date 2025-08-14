@@ -1,4 +1,4 @@
-package nazario.liby.mixin.assetgen.v1.manager.client;
+package nazario.liby.mixin.assetgen.v1.client;
 
 import com.google.common.collect.ImmutableMap;
 import nazario.liby.internal.assetgen.v1.client.LibyResourcePack;

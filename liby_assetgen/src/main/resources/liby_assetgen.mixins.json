@@ -6,13 +6,14 @@
   "mixins": [
   ],
   "client": [
-    "manager.client.PackScreenMixin",
-    "manager.client.ResourcePackManagerMixin",
-    "manager.client.SpriteLoaderMixin",
-    "manager.client.format.BakedQuadFactoryMixin",
-    "manager.client.format.JsonUnbakedModelMixin",
-    "manager.client.format.ModelRotationInjection",
-    "manager.client.format.ModelVariantMapFormatMixin"
+    "client.ItemRendererAccessor",
+    "client.ItemRendererMixin",
+    "client.PackScreenMixin",
+    "client.ResourcePackManagerMixin",
+    "client.format.BakedQuadFactoryMixin",
+    "client.format.JsonUnbakedModelMixin",
+    "client.format.ModelRotationInjection",
+    "client.format.ModelVariantMapFormatMixin"
   ],
   "injectors": {
     "defaultRequire": 1
