@@ -53,6 +53,7 @@ public abstract class ModelVariantMapFormatMixin {
 
 
         if(json instanceof JsonObject jsonObject && jsonObject.has("format")) {
+            LibyAssetGenMain.libyModelRotationUsers.add(liby$context.getStateFactory().getOwner().liby$getId().prependPath("block/"));
             String format = jsonObject.get("format").getAsString();
 
             if(format.equals(LibyAssetGenMain.FORMAT)) {
