@@ -1,8 +1,30 @@
-Liby version 3 brings many new features, like rendering obj models, a custom model and blockstate format and a revamped registration system.
+Liby version 3 brings many new additions and now the library is split up into multiple modules for you to choose from:
 
-**As of now version 3 has not been released**
+* `liby_main`
+  Liby Main is the bases for everything, it provides the registry helpers and the automatic registry calling,
+  it also provides useful inject into vanilla classes, to get the id of an item/block with `liby$getId()` for example.
+
+* `liby_assetgen`
+  Liby AssetGen as the name implies is all about asset generation on runtime, you can add models, blockstates and even textures while the game is running,
+  it also allows you to set a predicate for an item model, so you can have different models for the in hand item and the gui item.
+  It also features the custom model format for more than 22.5° rotation in models, and all axis rotation for blockstates
+
+* `liby_animations_v2`
+  Liby Animations v2 is about animations, but not in the tradition sense of animating an object with bones, it's more of a time procedure that plays
+  for example if you want something to happen after 5 seconds and in that time you want to have some particle effects or sounds playing, then a liby animation is the thing you need.
+
+* `liby_animations`
+  This was the predecessor of v2, it uses cardinal components for saving under the hood, you can achieve the same effects with this one, but its use is not recommended since it's deprecated.
+
+* `liby_networking`
+  Liby Networking is all about network, it gives you a simple annotation to sync a value, (an integer, blockpos or itemstack) in a blockentity (EXPERIMENTAL / W.I.P)
+
+* `liby_ui`
+  Liby UI is all about simple screen sync with the server, it automatically sends the state of the screen to the server. (EXPERIMENTAL / W.I.P)
 
 [![](https://jitpack.io/v/Nico44YT/Liby.svg)](https://jitpack.io/#Nico44YT/Liby)
+
+# Liby Main
 
 ## Registry Loading
 
@@ -21,10 +43,11 @@ public class YourFabricMod implements ModInitializer {
 
     @Override
     public void onInitialize() {
-        LibyRegistryLoader.load("group.your_fabric_mod.registry", LOGGER, LibyEntrypoints.MAIN);
+        LibyRegistryLoader.load("group.your_fabric_mod", LOGGER, LibyEntrypoints.MAIN);
     }
 }
 ```
+This will check every class inside of `group.your_fabric_mod` and every subclass.
 
 Now in our `ModBlocks.class` we can annotate the entire class with `@LibyAutoRegister`
 
@@ -57,7 +80,7 @@ Both annotations can have an entrypoint specified
 ```java
 package group.your_fabric_mod.registry;
 
-public class BlockRegistry {
+public class ModBlocks {
     @LibyAutoRegisterMethod(entrypoint = LibyEntrypoints.MAIN)
     public static void register() {
      
@@ -65,12 +88,11 @@ public class BlockRegistry {
 }
 ```
 
-LibyEntrypoints has 7 possible values
+LibyEntrypoints has 6 possible values
 * `MAIN`
 * `CLIENT`
 * `DATA_GEN`
 * `SERVER`
-* `ASSET_LOADER`
 * `CUSTOM1`
 * `CUSTOM2`
 
@@ -109,7 +131,7 @@ Supported Types
 ```java
 package group.your_fabric_mod.registry;
 
-public class BlockRegistry {
+public class ModBlocks {
     private static final LibyBlockRegistry REGISTRY = LibyBlockRegistry.of(YourFabricMod.MOD_ID);
 
     public static final Block TEST_BLOCK = REGISTRY.registerBlock("test_block", new Block(AbstractBlock.Settings.copy(Blocks.DIRT)));
@@ -123,20 +145,22 @@ public class BlockRegistry {
 
 Each type has its own interface (e.g., `LibyItemRegistry`, `LibyBlockRegistry`) with factory accessors like `LibyBlockRegistry.of(namespace)`.
 
+# Liby AssetGen
+
 ## Liby Model Format
 The liby model format allows you to have three axis rotation that is not bound to Minecraft's 22.5° turns.
 
-For starters we need to define the format, that is as simple as just adding a property `format` with the value `liby`
+For starters, we need to define the format, that is as simple as just adding a property `format` with the value `liby_v1`
 ```json
 {
-    "format": "liby"
+    "format": "liby_v1"
 }
 ```
 
 Another key difference between a normal minecraft model and a liby model is the rotation property of an element.
 ```json
 {
-    "format": "liby",
+    "format": "liby_v1",
     "textures": {
         "0": "block/dirt",
         "particle": "block/dirt"
@@ -173,109 +197,110 @@ The plugin can be found [here](https://m.youtube.com/watch?v=dQw4w9WgXcQ)
 As like the liby model format, the blockstate format also allows free rotation in all three axis.
 ```json
 {
-  "format": "liby",
+  "format": "liby_v1",
   "variants": {
     "": {
       "model": "your_fabric_mod:block/test_block",
-      "x": 35,
-      "y": 45,
-      "z": 0
+      "rotation": {
+        "x": 35,
+        "y": 45,
+        "z": 10
+      }
     }
   }
 }
 ```
 
-## Liby Asset Loading Entrypoint (Injecting Blockstates and Models)
+## Liby Asset Registry
 
-To start you need to implement the interface `LibyAssetLoadingEntrypoint` in your client class for example. (Note that asset loading is client side only)
+To start we need to create a new instance of an `LibyAssetRegistry` in your client class for example.
+
 ```java
 package group.your_fabric_mod.client;
 
-import nazario.liby.api.client.entrypoint.LibyAssetLoadingEntrypoint;
-import nazario.liby.api.client.entrypoint.LibyAssetRegistryAccess;
+import nazario.liby.api.assetgen.v1.client.LibyAssetRegistry;
 import net.fabricmc.api.ClientModInitializer;
 
-public class YourFabricModClient implements ClientModInitializer, LibyAssetLoadingEntrypoint {
-
+public class YourFabricModClient implements ClientModInitializer {
+    
     @Override
     public void onInitializeClient() {
-
-    }
-
-    @Override
-    public void onLibyAssetLoading(LibyAssetRegistryAccess registryAccess) {
-        
+        LibyAssetRegistry assetRegistry = LibyAssetRegistry.of("your_fabric_mod");
     }
 }
 ```
 
-Now you need to add the entrypoint to your `fabric.mod.json`
-
-```json
-"entrypoints": {
-    "client": [
-      "group.your_fabric_mod.client.YourFabricModClient"
-    ],
-    "main": [
-      "group.your_fabric_mod.YourFabricMod"
-    ],
-    "liby_asset_loader": [
-      "group.your_fabric_mod.client.YourFabricModClient"
-    ]
-  },
+### Generating Blockstates
+```java
+    @Override
+    public void onInitializeClient() {
+        LibyAssetRegistry assetRegistry = LibyAssetRegistry.of("your_fabric_mod");
+    }
 ```
 
-### Injecting Blockstates
-To inject blockstates we will need the `onLibyAssetLoading` method along with the `registryAccess`
+### Adding a variant blockstate
 
-There are two possible ways to have them 1. variant blockstate, which has a model for every possible variant of a block or 2. a multipart blockstate.
+A variant blockstate is commonly used for simple models like a redstone lamp, where you have two distinct states, lamp on and lamp off.
 
-An example of a variant blockstate would be the redstone lamp.
-An example of a multipart blockstate would be a fence.
+```java
+    @Override
+    public void onInitializeClient() {
+        LibyAssetRegistry assetRegistry = LibyAssetRegistry.of("your_fabric_mod");
+        
+        // This will create a new variant blockstate for our test block we created prior.
+        assetRegistry.registerBlockState(
+                new LibyVariantBlockState(ModBlocks.TEST_BLOCK)
+                        .addState("power=true",  Identifier.of("your_fabric_mod", "block/test_block_on"))
+                        .addState("power=false", Identifier.of("your_fabric_mod", "block/test_block_off"))
+        );
+    }
+```
+
+It can also be used for directional models
+
+```java
+    @Override
+    public void onInitializeClient() {
+        LibyAssetRegistry assetRegistry = LibyAssetRegistry.of("your_fabric_mod");
+        
+        assetRegistry.registerBlockState(
+                new LibyVariantBlockState(ModBlocks.TEST_BLOCK)
+                        .addState("facing=north", Identifier.of("your_fabric_mod", "block/test_block"), new Vector3d(0, 0, 0))
+                        .addState("facing=east",  Identifier.of("your_fabric_mod", "block/test_block"), new Vector3d(0, 90, 0))
+                        .addState("facing=south", Identifier.of("your_fabric_mod", "block/test_block"), new Vector3d(0, 180, 0))
+                        .addState("facing=west",  Identifier.of("your_fabric_mod", "block/test_block"), new Vector3d(0, 270, 0))
+        );
+    }
+```
 
 ```java
 .addState(
     "north=true", // The state when the model should be applied
     Identifier.of("your_fabric_mod" "block/fence_post"), // The model that gets applied
-    new Vector3f(0, 0, 0), // The rotation of the model in (x, y, z)
+    new Vector3d(0, 0, 0), // The rotation of the model in (x, y, z)
     false // If the texture of the model should be uv locked
 )
-```
-
-### Adding a variant blockstate
-
-```java
-    @Override
-    public void onLibyAssetLoading(LibyAssetRegistryAccess registryAccess) {
-        registryAccess.addBlockState(
-                new LibyVariantBlockState(ModBlocks.LAMP_BLOCK)
-                        .addState("power=on", Identifier.of("your_fabric_mod", "block/lamp_on"))
-                        .addState("power=off", Identifier.of("your_fabric_mod", "block/lamp_off"))
-        );
-    }
 ```
 
 ### Adding a multipart blockstate
 ```java
     @Override
-    public void onLibyAssetLoading(LibyAssetRegistryAccess registryAccess) {
-        final Identifier fenceSideModel = Identifier.of("your_fabric_mod", "block/fence_side");
+    public void onInitializeClient() {
+    LibyAssetRegistry assetRegistry = LibyAssetRegistry.of("your_fabric_mod");
+
+
+    final Identifier fenceSideModel = Identifier.of("your_fabric_mod", "block/fence_side");
         
-        registryAccess.addBlockState(
+        registryAccess.registerBlockState(
                 new LibyMultipartBlockState(ModBlocks.FENCE_BLOCK)
                         .addState(null, Identifier.of("your_fabric_mod", "block/fence_post"))
-                        .addState("north=true", fenceSideModel, null, false)
-                        .addState("east=true", fenceSideModel, new Vector3f(0, 90, 0), false)
+                        .addState("north=true", fenceSideModel, new Vector3f(0, 0, 0),   false)
+                        .addState("east=true",  fenceSideModel, new Vector3f(0, 90, 0),  false)
                         .addState("south=true", fenceSideModel, new Vector3f(0, 180, 0), false)
-                        .addState("when=true", fenceSideModel, new Vector3f(0, 0, 0), false)
+                        .addState("when=true",  fenceSideModel, new Vector3f(0, 0, 0),   false)
         );
     }
 ```
 
 ### Injecting Models
-
-## Utilites
-Liby also offers a lot of util methods and classes.
-
-### Nbt Utils
 
