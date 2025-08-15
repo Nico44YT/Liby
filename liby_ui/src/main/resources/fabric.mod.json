@@ -25,5 +25,14 @@
     "fabricloader": ">=${loader_version}",
     "fabric": "*",
     "minecraft": "${minecraft_version}"
+  },
+
+  "custom": {
+    "modmenu": {
+      "parent": "liby",
+      "links": {
+        "modmenu.wiki": "https://github.com/Nico44YT/Liby/wiki"
+      }
+    }
   }
 }
