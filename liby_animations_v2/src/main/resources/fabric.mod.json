@@ -35,6 +35,12 @@
       "nazario/liby/internal/registry/LibyImplementedRegistry": ["nazario/liby/api/animation/v2/registry/LibyAnimationRegistry"],
       "net/minecraft/class_1297": ["nazario/liby/api/animation/v2/LibyAnimatable"],
       "net/minecraft/class_2586": ["nazario/liby/api/animation/v2/LibyAnimatable"]
+    },
+    "modmenu": {
+      "parent": "liby",
+      "links": {
+        "modmenu.wiki": "https://github.com/Nico44YT/Liby/wiki"
+      }
     }
   }
 }

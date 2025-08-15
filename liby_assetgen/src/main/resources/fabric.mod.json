@@ -37,6 +37,12 @@
   "custom": {
     "loom:injected_interfaces": {
       "net/minecraft/class_789":  ["nazario/liby/internal/assetgen/v1/client/mixin_injects/LibyModelRotation"]
+    },
+    "modmenu": {
+      "parent": "liby",
+      "links": {
+        "modmenu.wiki": "https://github.com/Nico44YT/Liby/wiki"
+      }
     }
   }
 }
