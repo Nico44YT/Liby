@@ -13,11 +13,12 @@ import org.jetbrains.annotations.Nullable;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.*;
+import java.util.function.Consumer;
 import java.util.function.Predicate;
 import java.util.function.Supplier;
 
 @ApiStatus.Internal
-public class LibyResourcePack implements ResourcePack {
+public class LibyResourcePack implements ResourcePack, ResourcePackProvider {
     public final String name = "liby_runtime_assets";
     public final ResourcePackProfile profile;
     public final PackResourceMetadata metadata;
@@ -91,5 +92,10 @@ public class LibyResourcePack implements ResourcePack {
     @Override
     public void close() {
 
+    }
+
+    @Override
+    public void register(Consumer<ResourcePackProfile> profileAdder, ResourcePackProfile.Factory factory) {
+        profileAdder.accept(this.profile);
     }
 }

@@ -1,22 +1,24 @@
 package nazario.liby.mixin.assetgen.v1.client;
 
-import com.google.common.collect.ImmutableMap;
 import nazario.liby.internal.assetgen.v1.client.LibyResourcePack;
 import net.minecraft.resource.ResourcePackManager;
 import net.minecraft.resource.ResourcePackProfile;
+import net.minecraft.resource.ResourcePackProvider;
+import org.spongepowered.asm.mixin.Final;
 import org.spongepowered.asm.mixin.Mixin;
+import org.spongepowered.asm.mixin.Shadow;
 import org.spongepowered.asm.mixin.injection.At;
-import org.spongepowered.asm.mixin.injection.Redirect;
+import org.spongepowered.asm.mixin.injection.Inject;
+import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
-import java.util.HashMap;
-import java.util.Map;
+import java.util.Set;
 
 @Mixin(ResourcePackManager.class)
 public abstract class ResourcePackManagerMixin {
-    @Redirect(method = "providePackProfiles", at = @At(value = "INVOKE", target = "Lcom/google/common/collect/ImmutableMap;copyOf(Ljava/util/Map;)Lcom/google/common/collect/ImmutableMap;"), remap = false)
-    public <T extends String, U extends ResourcePackProfile> ImmutableMap<T, U> liby$injectLibyPackProfile(Map<T, U> kvMap) {
-        HashMap<String, ResourcePackProfile> profiles = new HashMap<>(Map.copyOf(kvMap));
-        profiles.put(LibyResourcePack.get().getName(), LibyResourcePack.get().profile);
-        return (ImmutableMap<T, U>)ImmutableMap.copyOf(profiles);
+    @Shadow @Final private Set<ResourcePackProvider> providers;
+
+    @Inject(method = "<init>(Lnet/minecraft/resource/ResourcePackProfile$Factory;[Lnet/minecraft/resource/ResourcePackProvider;)V", at = @At("TAIL"))
+    public void liby$injectPackProvider(ResourcePackProfile.Factory profileFactory, ResourcePackProvider[] providers, CallbackInfo ci) {
+        this.providers.add(LibyResourcePack.get());
     }
 }
