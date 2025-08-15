@@ -30,11 +30,10 @@ dependencies {
 
     modImplementation "net.fabricmc.fabric-api:fabric-api:${project.fabric_version}"
 
+    // Only includes stable modules
     compileOnlyApi(include project(":liby_main"))
     compileOnlyApi(include project(":liby_assetgen"))
     compileOnlyApi(include project(":liby_animations_v2"))
-    compileOnlyApi(include project(":liby_networking"))
-    compileOnlyApi(include project(":liby_ui"))
 
     implementation "org.reflections:reflections:${project.reflections_version}"
     include "org.reflections:reflections:${project.reflections_version}"
