@@ -1,10 +1,16 @@
 package nazario.liby.client;
 
+import nazario.liby.internal.assetgen.v1.client.resource_loader.LibyObjResourceLoader;
 import net.fabricmc.api.ClientModInitializer;
+import net.fabricmc.fabric.api.resource.ResourceManagerHelper;
+import net.minecraft.resource.ResourceType;
+import net.minecraft.util.Identifier;
 
 public class LibyAssetGenClient implements ClientModInitializer {
     @Override
     public void onInitializeClient() {
+        ResourceManagerHelper.get(ResourceType.CLIENT_RESOURCES).registerReloadListener(new LibyObjResourceLoader(Identifier.of("liby", "obj_loader")));
+
         /*
                 LibyTexture texture = new LibyTextureBuilder(Identifier.of("test","block/test_block"), 16, 16)
                 .load(Identifier.of("test","block/template"))
