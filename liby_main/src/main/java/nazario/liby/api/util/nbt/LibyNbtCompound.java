@@ -95,6 +95,22 @@ public class LibyNbtCompound extends NbtCompound {
         return ItemStack.fromNbt(nbt.getCompound("value"));
     }
 
+    public ItemStack[] getItemStackArray(String key) {
+        LibyNbtCompound nbt = this.getLibyCompound(key);
+
+        if(!nbt.getString("type").equals("itemstackArray")) return null;
+
+        int length = nbt.getInt("length");
+
+        ItemStack[] array = new ItemStack[length];
+
+        for (int i = 0; i < length; i++) {
+            array[i] = nbt.getItemStack(String.valueOf(i));
+        }
+
+        return array;
+    }
+
     public Identifier getIdentifier(String key) {
         NbtCompound idNbt = this.getCompound(key);
         String path = idNbt.getString("path");
@@ -341,6 +357,19 @@ public class LibyNbtCompound extends NbtCompound {
         nbt.put("value", value.writeNbt(new NbtCompound()));
 
         this.put(key, nbt);
+    }
+
+    public void putItemStackArray(String key, ItemStack[] value) {
+        LibyNbtCompound array = new LibyNbtCompound();
+
+        array.putString("type", "itemstackArray");
+        array.putInt("length", value.length);
+
+        for (int i = 0; i < value.length; i++) {
+            array.putItemStack(String.valueOf(i), value[i]);
+        }
+
+        this.put(key, array);
     }
 
     public void putIdentifier(String key, Identifier value) {
