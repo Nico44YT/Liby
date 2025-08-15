@@ -1,6 +1,7 @@
 package nazario.liby.internal.assetgen.v1.client;
 
 import nazario.liby.api.assetgen.v1.client.LibyAssetRegistry;
+import nazario.liby.api.assetgen.v1.client.model.obj.LibyObjModel;
 import nazario.liby.api.assetgen.v1.client.texture.LibyTexture;
 import nazario.liby.internal.assetgen.v1.client.blockstate.LibyBlockState;
 import nazario.liby.internal.assetgen.v1.client.blockstate.LibyBlockStateRegistry;
@@ -8,6 +9,7 @@ import nazario.liby.internal.assetgen.v1.client.model.LibyModel;
 import nazario.liby.internal.assetgen.v1.client.model.LibyModelRegistry;
 import nazario.liby.internal.assetgen.v1.client.model.item_model_predicate.LibyItemModelPredicate;
 import nazario.liby.internal.assetgen.v1.client.model.item_model_predicate.LibyItemModelRule;
+import nazario.liby.internal.assetgen.v1.client.resource_loader.LibyObjResourceLoader;
 import nazario.liby.internal.assetgen.v1.client.texture.LibyTextureRegistry;
 import net.minecraft.client.util.ModelIdentifier;
 import net.minecraft.item.ItemConvertible;
@@ -17,6 +19,7 @@ import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
 import java.util.concurrent.ConcurrentHashMap;
+import java.util.function.Supplier;
 
 public class LibyInternalAssetRegistry implements LibyAssetRegistry {
     public static final Map<String, LibyAssetRegistry> registries = new ConcurrentHashMap<>();
@@ -59,6 +62,10 @@ public class LibyInternalAssetRegistry implements LibyAssetRegistry {
     @Override
     public void registerItemPredicateModel(ItemConvertible item, ModelIdentifier modelIdentifier, LibyItemModelPredicate predicate) {
         itemModelRules.add(new LibyItemModelRule(item, modelIdentifier, predicate));
+    }
+
+    public static Supplier<LibyObjModel> getObjModel(Identifier id) {
+        return () -> LibyObjResourceLoader.get().getMap().get(id);
     }
 
     public String getPackNamespace() {
