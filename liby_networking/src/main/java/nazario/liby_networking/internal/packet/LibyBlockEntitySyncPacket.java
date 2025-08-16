@@ -11,7 +11,10 @@ import net.minecraft.nbt.NbtCompound;
 import net.minecraft.network.PacketByteBuf;
 import net.minecraft.server.network.ServerPlayerEntity;
 import net.minecraft.util.math.BlockPos;
+import org.jetbrains.annotations.ApiStatus;
 
+@ApiStatus.Internal
+@ApiStatus.Experimental
 public record LibyBlockEntitySyncPacket(BlockPos pos, NbtCompound nbtCompound) implements FabricPacket, ServerPlayNetworking.PlayPacketHandler<LibyBlockEntitySyncPacket>, ClientPlayNetworking.PlayPacketHandler<LibyBlockEntitySyncPacket> {
 
     public static final PacketType<LibyBlockEntitySyncPacket> PACKET_TYPE = PacketType.create(LibyNetworkingMain.id("sync_block_entity"), LibyBlockEntitySyncPacket::fromPacketByteBuf);

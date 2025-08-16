@@ -64,6 +64,11 @@ public class LibyInternalAssetRegistry implements LibyAssetRegistry {
         itemModelRules.add(new LibyItemModelRule(item, modelIdentifier, predicate));
     }
 
+    @Override
+    public void registerLang(String langCode, Map<String, String> keys) {
+
+    }
+
     public static Supplier<LibyObjModel> getObjModel(Identifier id) {
         return () -> LibyObjResourceLoader.get().getMap().get(id);
     }

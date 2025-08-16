@@ -9,6 +9,8 @@ import net.minecraft.client.util.ModelIdentifier;
 import net.minecraft.item.ItemConvertible;
 import net.minecraft.util.Identifier;
 
+import java.util.Map;
+
 public interface LibyAssetRegistry {
     static LibyAssetRegistry of(String packNamespace) {
         return LibyInternalAssetRegistry.create(packNamespace);
@@ -21,4 +23,5 @@ public interface LibyAssetRegistry {
     LibyTexture registerTexture(Identifier textureIdentifier, LibyTexture libyTexture);
     LibyTexture registerTexture(String prefix, Identifier identifier, LibyTexture texture);
     void registerItemPredicateModel(ItemConvertible item, ModelIdentifier modelIdentifier, LibyItemModelPredicate predicate);
+    void registerLang(String langCode, Map<String, String> keys);
 }
