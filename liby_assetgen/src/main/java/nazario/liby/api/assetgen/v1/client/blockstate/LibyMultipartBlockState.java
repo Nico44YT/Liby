@@ -54,7 +54,7 @@ public class LibyMultipartBlockState extends LibyBlockState {
      * <a href="https://minecraft.wiki/w/Blockstates_definition">For a more detailed explanation check out the Minecraft wiki</a>
      *
      * @param modelIdentifier {@linkplain Identifier Identifier} of the model, e.g: "minecraft:block/cobblestone"
-     * @param rotation      Rotation of the model
+     * @param rotation        Rotation of the model
      * @param uv_lock         Locks the rotation of the texture.
      * @param weight          Probability of the model being used; default is 1.
      * @param when            Conditions for when this model should be applied (e.g., "power=true,facing=west").

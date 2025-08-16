@@ -62,7 +62,7 @@ public class LibyVariantBlockState extends LibyBlockState {
      *
      * @param variant Name of the variant along with its value, (e.g., "power=true,facing=west").
      * @param modelIdentifier {@linkplain Identifier Identifier} of the model, e.g: "minecraft:block/cobblestone"
-     * @param rotation      Rotation of the model
+     * @param rotation        Rotation of the model
      * @param uv_lock         Locks the rotation of the texture.
      * @param weight          Probability of the model being used; default is 1.
      * @return The {@linkplain LibyVariantBlockState LibyBlockState} with the state added.
