@@ -2,6 +2,8 @@ package nazario.liby.mixin;
 
 
 import nazario.liby.internal.injections.LibyBlockEntityInjects;
+import net.fabricmc.fabric.api.networking.v1.PlayerLookup;
+import net.fabricmc.fabric.api.networking.v1.ServerPlayNetworking;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.entity.BlockEntity;

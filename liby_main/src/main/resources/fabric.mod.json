@@ -37,6 +37,7 @@
       "net/minecraft/class_2248": ["nazario/liby/internal/injections/LibyIdentifierResolvable"],
       "net/minecraft/class_2960": ["nazario/liby/internal/injections/LibyIdentifierResolvable"],
       "net/minecraft/class_3611": ["nazario/liby/internal/injections/LibyIdentifierResolvable"],
+      "net/minecraft/class_1937": ["nazario/liby/internal/injections/LibyIdentifierResolvable"],
       "net/minecraft/class_2586": ["nazario/liby/internal/injections/LibyBlockEntityInjects"]
     },
     "modmenu": {

@@ -1,10 +1,13 @@
 package nazario.liby_networking.mixin;
 
 import nazario.liby.api.util.nbt.LibyNbtCompound;
+import nazario.liby.internal.injections.LibyBlockEntityInjects;
+import nazario.liby_networking.api.LibyBlockEntityNbtUpdateS2C;
 import nazario.liby_networking.api.LibySyncedValue;
 import nazario.liby_networking.internal.BlockEntityInjects;
 import nazario.liby_networking.internal.packet.LibyBlockEntitySyncPacket;
 import net.fabricmc.fabric.api.client.networking.v1.ClientPlayNetworking;
+import net.fabricmc.fabric.api.networking.v1.PlayerLookup;
 import net.fabricmc.fabric.api.networking.v1.ServerPlayNetworking;
 import net.minecraft.block.entity.BlockEntity;
 import net.minecraft.server.network.ServerPlayerEntity;
@@ -17,7 +20,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 @Mixin(BlockEntity.class)
-public abstract class BlockEntityMixin implements BlockEntityInjects {
+public abstract class BlockEntityMixin implements BlockEntityInjects, LibyBlockEntityInjects {
 
     @Unique
     private static Map<Class<?>, TriConsumer<Field, LibyNbtCompound, BlockEntity>> typeHandlers;
@@ -63,5 +66,13 @@ public abstract class BlockEntityMixin implements BlockEntityInjects {
         }catch (Exception e) {
             return null;
         }
+    }
+
+    @Override
+    public void liby$sendUpdatesToClient() {
+        BlockEntity blockEntity = (BlockEntity)(Object)this;
+        PlayerLookup.tracking(blockEntity).forEach(player -> {
+            ServerPlayNetworking.send(player, LibyBlockEntityNbtUpdateS2C.create(blockEntity));
+        });
     }
 }

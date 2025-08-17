@@ -1,28 +1,30 @@
 package nazario.liby.internal.assetgen.v1.client.model.obj;
 
+import nazario.liby.api.client.renderer.LibyFace;
+import nazario.liby.api.client.renderer.LibyTriangleData;
 import net.minecraft.resource.Resource;
+import net.minecraft.util.math.Vec2f;
+import net.minecraft.util.math.Vec3d;
 import org.jetbrains.annotations.ApiStatus;
-import org.joml.Vector2d;
-import org.joml.Vector3d;
 
 import java.util.ArrayList;
 import java.util.List;
 
 @ApiStatus.Internal
 public class LibyObjDeserializer {
-    public static List<Face> objToFaceList(Resource resource) {
+    public static List<LibyFace> objToFaceList(Resource resource) {
         try {
-            List<Vector3d> vertices = new ArrayList<>();
-            List<Vector3d> normals = new ArrayList<>();
-            List<Vector2d> texCoords = new ArrayList<>();
-            List<Face> faces = new ArrayList<>();
+            List<Vec3d> vertices = new ArrayList<>();
+            List<Vec3d> normals = new ArrayList<>();
+            List<Vec2f> texCoords = new ArrayList<>();
+            List<LibyFace> faces = new ArrayList<>();
 
             List<String> lines = resource.getReader().lines().toList();
 
             lines.forEach(line -> {
                 String[] parts = line.split(" ");
                 if(line.startsWith("v ")) {
-                    vertices.add(new Vector3d(
+                    vertices.add(new Vec3d(
                             Double.parseDouble(parts[1]),
                             Double.parseDouble(parts[2]),
                             Double.parseDouble(parts[3])
@@ -30,7 +32,7 @@ public class LibyObjDeserializer {
                 }
 
                 if(line.startsWith("vn ")) {
-                    normals.add(new Vector3d(
+                    normals.add(new Vec3d(
                             Double.parseDouble(parts[1]),
                             Double.parseDouble(parts[2]),
                             Double.parseDouble(parts[3])
@@ -38,16 +40,16 @@ public class LibyObjDeserializer {
                 }
 
                 if(line.startsWith("vt ")) {
-                    texCoords.add(new Vector2d(Double.parseDouble(parts[1]), Double.parseDouble(parts[2])));
+                    texCoords.add(new Vec2f(Float.parseFloat(parts[1]), Float.parseFloat(parts[2])));
                 }
 
 
                 if(line.startsWith("f ")) {
                     try{
-                        faces.add(new Face(convertFace(new String[]{parts[1],parts[2],parts[3]}, vertices, normals, texCoords)));
+                        faces.add(new LibyFace(convertFace(new String[]{parts[1],parts[2],parts[3]}, vertices, normals, texCoords)));
 
                         if(parts.length >= 5) {
-                            faces.add(new Face(convertFace(new String[]{parts[1],parts[3],parts[4]}, vertices, normals, texCoords)));
+                            faces.add(new LibyFace(convertFace(new String[]{parts[1],parts[3],parts[4]}, vertices, normals, texCoords)));
 
                         }
                     }catch (Exception e) {
@@ -64,10 +66,10 @@ public class LibyObjDeserializer {
         }
     }
 
-    public static TriangleData[] convertFace(String[] parts, List<Vector3d> vertices, List<Vector3d> normals, List<Vector2d> texCoords) {
+    public static LibyTriangleData[] convertFace(String[] parts, List<Vec3d> vertices, List<Vec3d> normals, List<Vec2f> texCoords) {
         //vertex/texCoord/normal
 
-        TriangleData[] triangleData = new TriangleData[4];
+        LibyTriangleData[] triangleData = new LibyTriangleData[4];
 
         for(int i = 0;i<3;i++) {
             String[] faceDataPoints = parts[i].split("/");
@@ -76,7 +78,7 @@ public class LibyObjDeserializer {
             int textureIndex = Integer.parseInt(faceDataPoints[1]) - 1;
             int normalIndex = Integer.parseInt(faceDataPoints[2]) - 1;
 
-            triangleData[i] = new TriangleData(
+            triangleData[i] = new LibyTriangleData(
                     vertices.get(vertexIndex),
                     normals.get(normalIndex).normalize(),
                     texCoords.get(textureIndex)

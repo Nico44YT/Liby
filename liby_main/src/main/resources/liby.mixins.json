@@ -6,10 +6,12 @@
   "mixins": [
     "BlockEntityMixin",
     "BlockMixin",
+    "BlockStateArgumentMixin",
     "FluidMixin",
     "IdentifierMixin",
     "ItemMixin",
     "LivingEntityMixin",
+    "WorldMixin",
     "manager.RecipeManagerMixin",
     "manager.TagGroupLoaderDataTypeAccessor",
     "manager.TagGroupLoaderMixin"

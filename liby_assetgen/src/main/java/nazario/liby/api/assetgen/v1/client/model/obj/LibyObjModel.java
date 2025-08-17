@@ -1,8 +1,8 @@
 package nazario.liby.api.assetgen.v1.client.model.obj;
 
+import nazario.liby.api.client.renderer.LibyFace;
 import nazario.liby.internal.assetgen.v1.client.LibyInternalAssetRegistry;
 import nazario.liby.internal.assetgen.v1.client.model.LibyModel;
-import nazario.liby.internal.assetgen.v1.client.model.obj.Face;
 import nazario.liby.internal.assetgen.v1.client.model.obj.LibyObjDeserializer;
 import net.minecraft.client.render.RenderLayer;
 import net.minecraft.client.render.VertexConsumer;
@@ -15,16 +15,16 @@ import org.joml.Matrix4f;
 
 import java.util.function.Supplier;
 
-public class LibyObjModel implements LibyModel<Face[]> {
+public class LibyObjModel implements LibyModel<LibyFace[]> {
 
     private final Identifier identifier;
-    private final Face[] faces;
+    private final LibyFace[] faces;
 
     public LibyObjModel(Identifier identifier, Resource resourceFile) {
-        this(identifier, LibyObjDeserializer.objToFaceList(resourceFile).toArray(Face[]::new));
+        this(identifier, LibyObjDeserializer.objToFaceList(resourceFile).toArray(LibyFace[]::new));
     }
 
-    public LibyObjModel(Identifier identifier, Face[] faces) {
+    public LibyObjModel(Identifier identifier, LibyFace[] faces) {
         this.identifier = identifier;
         this.faces = faces;
     }
@@ -35,7 +35,7 @@ public class LibyObjModel implements LibyModel<Face[]> {
     }
 
     @Override
-    public Face[] bake() {
+    public LibyFace[] bake() {
         return this.faces;
     }
 
@@ -51,7 +51,7 @@ public class LibyObjModel implements LibyModel<Face[]> {
     }
 
     public void render(VertexConsumer vertexConsumer, Matrix4f modelMatrix, Matrix3f normalMatrix, int light, int overlay, int[] rgba, boolean[] mirror) {
-        for (Face face : this.faces) {
+        for (LibyFace face : this.faces) {
             face.render(vertexConsumer, modelMatrix, normalMatrix, light, overlay, rgba, mirror);
         }
     }

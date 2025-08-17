@@ -23,7 +23,7 @@ public record LibyBlockEntityNbtUpdateS2C(Identifier worldId, BlockPos blockPos,
 
     public static LibyBlockEntityNbtUpdateS2C create(BlockEntity blockEntity) {
         return new LibyBlockEntityNbtUpdateS2C(
-                blockEntity.getWorld().getRegistryKey().getValue(),
+                blockEntity.getWorld().liby$getId(),
                 blockEntity.getPos(),
                 blockEntity.createNbt()
         );
@@ -46,7 +46,7 @@ public record LibyBlockEntityNbtUpdateS2C(Identifier worldId, BlockPos blockPos,
     public void receive(LibyBlockEntityNbtUpdateS2C packet, ClientPlayerEntity clientPlayerEntity, PacketSender packetSender) {
         Identifier worldId = packet.worldId;
 
-        if(clientPlayerEntity.getWorld().getRegistryKey().getValue().equals(worldId)) {
+        if(clientPlayerEntity.getWorld().liby$getId().equals(worldId)) {
             BlockEntity block = clientPlayerEntity.getWorld().getBlockEntity(packet.blockPos);
             block.readNbt(packet.nbtCompound);
         }

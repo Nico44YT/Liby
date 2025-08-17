@@ -1,0 +1,40 @@
+{
+  "schemaVersion": 1,
+  "id": "liby_world",
+  "version": "${version}",
+
+  "name": "LibyWorld-1.20.1",
+  "description": "",
+  "authors": [
+    "Nico_44"
+  ],
+  "contact": {},
+
+  "license": "GPL-3.0",
+  "icon": "assets/liby_world/icon.png",
+  "accessWidener": "liby_world.accesswidener",
+  "environment": "*",
+
+  "entrypoints": {
+
+  },
+
+  "mixins": [
+    "liby_world.mixins.json"
+  ],
+
+  "depends": {
+    "fabricloader": ">=${loader_version}",
+    "fabric": "*",
+    "minecraft": "${minecraft_version}"
+  },
+
+  "custom": {
+    "modmenu": {
+      "parent": "liby",
+      "links": {
+        "modmenu.wiki": "https://github.com/Nico44YT/Liby/wiki"
+      }
+    }
+  }
+}
