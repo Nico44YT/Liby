@@ -45,12 +45,12 @@ public class LibyObjModel implements LibyModel<LibyFace[]> {
 
     public void render(VertexConsumer vertexConsumer, MatrixStack matrices, int light, int overlay) {
         Matrix4f modelMatrix = matrices.peek().getPositionMatrix();
-        Matrix3f normalMatrix = matrices.peek().getNormalMatrix();
+        MatrixStack.Entry normalMatrix = matrices.peek();
 
         this.render(vertexConsumer, modelMatrix, normalMatrix, light, overlay, new int[]{255, 255, 255, 255}, new boolean[]{false, false, false});
     }
 
-    public void render(VertexConsumer vertexConsumer, Matrix4f modelMatrix, Matrix3f normalMatrix, int light, int overlay, int[] rgba, boolean[] mirror) {
+    public void render(VertexConsumer vertexConsumer, Matrix4f modelMatrix, MatrixStack.Entry normalMatrix, int light, int overlay, int[] rgba, boolean[] mirror) {
         for (LibyFace face : this.faces) {
             face.render(vertexConsumer, modelMatrix, normalMatrix, light, overlay, rgba, mirror);
         }

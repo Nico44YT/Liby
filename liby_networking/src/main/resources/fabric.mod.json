@@ -3,7 +3,7 @@
   "id": "liby_networking",
   "version": "${version}",
 
-  "name": "LibyNetworking-1.20.1",
+  "name": "liby_networking",
   "description": "",
   "authors": [],
   "contact": {},
@@ -14,9 +14,11 @@
   "environment": "*",
   "entrypoints": {
     "client": [
-      "nazario.liby_networking.client.LibyNetworkingClient"
+      "nazario.liby.client.LibyNetworkingClient"
     ],
-    "main": ["nazario.liby_networking.LibyNetworkingMain"]
+    "main": [
+      "nazario.liby.LibyNetworkingMain"
+    ]
   },
 
   "mixins": [
@@ -27,13 +29,5 @@
     "fabricloader": ">=${loader_version}",
     "fabric": "*",
     "minecraft": "${minecraft_version}"
-  },
-  "custom": {
-    "modmenu": {
-      "parent": "liby",
-      "links": {
-        "modmenu.wiki": "https://github.com/Nico44YT/Liby/wiki"
-      }
-    }
   }
 }

@@ -19,3 +19,7 @@ accessible method net/minecraft/client/render/model/json/JsonUnbakedModel$Deseri
 accessible method net/minecraft/client/render/model/json/ModelElement$Deserializer deserializeFacesValidating (Lcom/google/gson/JsonDeserializationContext;Lcom/google/gson/JsonObject;)Ljava/util/Map;
 accessible method net/minecraft/client/render/model/json/ModelElement$Deserializer deserializeVec3f (Lcom/google/gson/JsonObject;Ljava/lang/String;)Lorg/joml/Vector3f;
 accessible method net/minecraft/client/render/model/json/ModelElement$Deserializer deserializeRotation (Lcom/google/gson/JsonObject;)Lnet/minecraft/client/render/model/json/ModelRotation;
+
+# I hate mojang (Because they made Identifier final (FOR WHATEVER REASON))
+extendable class net/minecraft/util/Identifier
+accessible method net/minecraft/util/Identifier <init> (Ljava/lang/String;Ljava/lang/String;)V

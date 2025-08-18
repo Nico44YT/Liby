@@ -10,6 +10,7 @@
     "FluidMixin",
     "IdentifierMixin",
     "ItemMixin",
+    "ItemStackMixin",
     "LivingEntityMixin",
     "WorldMixin",
     "manager.RecipeManagerMixin",
@@ -20,7 +21,6 @@
     "client.BipedEntityModelMixin",
     "client.EntityRendererMixin",
     "client.HeldItemRendererMixin",
-    "client.ItemRendererAccessor",
     "client.ItemRendererMixin",
     "client.PlayerEntityRendererMixin"
   ],

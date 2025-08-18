@@ -6,9 +6,16 @@ import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
 import nazario.liby.LibyAssetGenMain;
 import nazario.liby.api.util.LibyGenericUtils;
+import nazario.liby.internal.assetgen.v1.client.LibyAssetGenMixinPublics;
 import nazario.liby.internal.assetgen.v1.client.format.LibyJsonUnbakedModelDeserializer;
 import nazario.liby.internal.assetgen.v1.client.format.LibyModelFormat;
+import net.minecraft.client.render.model.BakedModel;
+import net.minecraft.client.render.model.Baker;
+import net.minecraft.client.render.model.ModelBakeSettings;
 import net.minecraft.client.render.model.json.JsonUnbakedModel;
+import net.minecraft.client.texture.Sprite;
+import net.minecraft.client.util.SpriteIdentifier;
+import net.minecraft.util.Identifier;
 import net.minecraft.util.JsonHelper;
 import org.spongepowered.asm.mixin.Final;
 import org.spongepowered.asm.mixin.Mixin;
@@ -20,6 +27,7 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 
 import java.io.BufferedReader;
 import java.io.Reader;
+import java.util.function.Function;
 
 @Mixin(JsonUnbakedModel.class)
 public abstract class JsonUnbakedModelMixin {
@@ -63,6 +71,11 @@ public abstract class JsonUnbakedModelMixin {
             //cir.setReturnValue(LibyObjModelFormatDeserializer.deserialize(jsonElement.toString()));
             return;
         }
+    }
+
+    @Inject(method = "bake(Lnet/minecraft/client/render/model/Baker;Lnet/minecraft/client/render/model/json/JsonUnbakedModel;Ljava/util/function/Function;Lnet/minecraft/client/render/model/ModelBakeSettings;Z)Lnet/minecraft/client/render/model/BakedModel;", at = @At("HEAD"))
+    public void liby$getId(Baker baker, JsonUnbakedModel parent, Function<SpriteIdentifier, Sprite> textureGetter, ModelBakeSettings settings, boolean bl, CallbackInfoReturnable<BakedModel> cir) {
+        //LibyAssetGenMixinPublics.modelId.set(Identifier.tryParse(id));
     }
 
     @Unique

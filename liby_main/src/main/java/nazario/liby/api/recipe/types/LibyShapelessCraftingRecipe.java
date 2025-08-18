@@ -12,7 +12,7 @@ import java.util.Arrays;
 import java.util.List;
 
 public class LibyShapelessCraftingRecipe extends LibyRecipe {
-    private static final Identifier TYPE = new Identifier("minecraft","crafting_shapeless");
+    private static final Identifier TYPE = Identifier.of("minecraft","crafting_shapeless");
 
     public LibyShapelessCraftingRecipe(LibyIngredient[] ingredients, Identifier result, int count) {
         JsonObject recipe = this.createBasicJson();

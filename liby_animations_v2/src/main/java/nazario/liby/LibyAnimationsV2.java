@@ -1,7 +1,9 @@
 package nazario.liby;
 
 import com.mojang.brigadier.builder.ArgumentBuilder;
+import nazario.liby.api.networking.v1.wrapper.LibyPacketTypeRegistry;
 import nazario.liby.internal.animation.v2.command.*;
+import nazario.liby.internal.animation.v2.networking.SyncAnimationS2C;
 import nazario.liby.internal.command.LibyMainCommand;
 import net.fabricmc.api.ModInitializer;
 import net.minecraft.server.command.CommandManager;
@@ -15,6 +17,8 @@ public class LibyAnimationsV2 implements ModInitializer {
     @Override
     public void onInitialize() {
         LibyMainCommand.registerSubCommand(getSubCommandParts());
+
+        LibyPacketTypeRegistry.registerS2CPlayPacket(SyncAnimationS2C.PACKET_TYPE, SyncAnimationS2C.CODEC);
     }
 
     public static ArgumentBuilder<ServerCommandSource, ?> getSubCommandParts() {

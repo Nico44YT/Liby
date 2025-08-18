@@ -28,7 +28,7 @@ public abstract class LivingEntityMixin {
     }
 
     @Inject(method = "applyMovementInput", at = @At("HEAD"), cancellable = true)
-    public void libyAnimations$applyMovementInpu(Vec3d movementInput, float slipperiness, CallbackInfoReturnable<Vec3d> cir) {
+    public void libyAnimations$applyMovementInput(Vec3d movementInput, float slipperiness, CallbackInfoReturnable<Vec3d> cir) {
         LivingEntity entity = (LivingEntity)(Object)this;
 
         if(entity.isPlayingLibyAnimation()) {

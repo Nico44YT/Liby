@@ -13,17 +13,20 @@ import org.jetbrains.annotations.Nullable;
 
 import java.io.IOException;
 import java.io.InputStream;
+import java.util.Optional;
 import java.util.Set;
 import java.util.function.Consumer;
 
 @ApiStatus.Internal
-public class LibyResourcePack implements ResourcePack, ResourcePackProvider {
+public class LibyResourcePack implements ResourcePack, ResourcePackProvider, ResourcePackProfile.PackFactory {
     public final String name = "liby_runtime_assets";
     public final ResourcePackProfile profile;
     public final PackResourceMetadata metadata;
     public final PackFeatureSetMetadata featureMetadata;
     protected static final Text profileName = Text.translatable("resourcepack.liby.name");
     protected static final Text profileDescription = Text.translatable("resourcepack.liby.description");
+    protected final ResourcePackInfo info;
+    protected final ResourcePackPosition position;
 
     private static LibyResourcePack INSTANCE;
     public static LibyResourcePack get() {
@@ -32,16 +35,15 @@ public class LibyResourcePack implements ResourcePack, ResourcePackProvider {
     }
 
     public LibyResourcePack() {
-        this.metadata = new PackResourceMetadata(profileDescription, SharedConstants.getGameVersion().getResourceVersion(ResourceType.CLIENT_RESOURCES));
+        this.metadata = new PackResourceMetadata(profileDescription, SharedConstants.getGameVersion().getResourceVersion(ResourceType.CLIENT_RESOURCES), Optional.empty());
         this.featureMetadata = new PackFeatureSetMetadata(FeatureSet.empty());
+        this.info = new ResourcePackInfo(name, profileName, ResourcePackSource.NONE, Optional.empty());
+        this.position = new ResourcePackPosition(true, ResourcePackProfile.InsertionPosition.TOP, false);
         this.profile = ResourcePackProfile.create(
-                name,
-                profileName,
-                true,
-                (_name) -> this,
+                this.info,
+                this,
                 ResourceType.CLIENT_RESOURCES,
-                ResourcePackProfile.InsertionPosition.TOP,
-                ResourcePackSource.NONE
+                this.position
         );
     }
 
@@ -75,13 +77,8 @@ public class LibyResourcePack implements ResourcePack, ResourcePackProvider {
     }
 
     @Override
-    public String getName() {
-        return name;
-    }
-
-    @Override
-    public boolean isAlwaysStable() {
-        return true;
+    public ResourcePackInfo getInfo() {
+        return this.info;
     }
 
     @Override
@@ -92,5 +89,15 @@ public class LibyResourcePack implements ResourcePack, ResourcePackProvider {
     @Override
     public void register(Consumer<ResourcePackProfile> profileAdder) {
         profileAdder.accept(this.profile);
+    }
+
+    @Override
+    public ResourcePack open(ResourcePackInfo info) {
+        return this;
+    }
+
+    @Override
+    public ResourcePack openWithOverlays(ResourcePackInfo info, ResourcePackProfile.Metadata metadata) {
+        return this;
     }
 }

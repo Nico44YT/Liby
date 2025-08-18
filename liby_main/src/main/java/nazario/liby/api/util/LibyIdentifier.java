@@ -3,8 +3,9 @@ package nazario.liby.api.util;
 import net.minecraft.util.Identifier;
 
 public class LibyIdentifier extends Identifier {
+
     public LibyIdentifier(String id) {
-        super(id);
+        this(Identifier.tryParse(id));
     }
 
     public LibyIdentifier(String namespace, String path) {

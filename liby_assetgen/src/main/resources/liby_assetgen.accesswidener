@@ -1,6 +1,6 @@
 accessWidener v2 named
 
-accessible method net/minecraft/resource/ResourcePackProfile <init> (Ljava/lang/String;ZLnet/minecraft/resource/ResourcePackProfile$PackFactory;Lnet/minecraft/text/Text;Lnet/minecraft/resource/ResourcePackProfile$Metadata;Lnet/minecraft/resource/ResourcePackCompatibility;Lnet/minecraft/resource/ResourcePackProfile$InsertionPosition;ZLnet/minecraft/resource/ResourcePackSource;)V
+#accessible method net/minecraft/resource/ResourcePackProfile <init> (Ljava/lang/String;ZLnet/minecraft/resource/ResourcePackProfile$PackFactory;Lnet/minecraft/text/Text;Lnet/minecraft/resource/ResourcePackProfile$Metadata;Lnet/minecraft/resource/ResourcePackCompatibility;Lnet/minecraft/resource/ResourcePackProfile$InsertionPosition;ZLnet/minecraft/resource/ResourcePackSource;)V
 accessible class net/minecraft/client/texture/ResourceTexture$TextureData
 accessible method net/minecraft/client/texture/ResourceTexture loadTextureData (Lnet/minecraft/resource/ResourceManager;)Lnet/minecraft/client/texture/ResourceTexture$TextureData;
 

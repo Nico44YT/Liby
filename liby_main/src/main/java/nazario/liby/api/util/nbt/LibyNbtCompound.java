@@ -8,6 +8,7 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NbtCompound;
 import net.minecraft.nbt.NbtElement;
 import net.minecraft.registry.Registries;
+import net.minecraft.registry.RegistryWrapper;
 import net.minecraft.util.Identifier;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Vec2f;
@@ -20,10 +21,7 @@ import org.joml.Vector4f;
 
 import java.io.StringReader;
 import java.time.Instant;
-import java.util.Date;
-import java.util.List;
-import java.util.Objects;
-import java.util.UUID;
+import java.util.*;
 import java.util.function.BiConsumer;
 import java.util.function.Consumer;
 import java.util.function.Function;
@@ -87,25 +85,25 @@ public class LibyNbtCompound extends NbtCompound {
         return function.apply(nbt.getCompound("nbtconvertible"));
     }
 
-    public ItemStack getItemStack(String key) {
+    public Optional<ItemStack> getItemStack(RegistryWrapper.WrapperLookup registries, String key) {
         NbtCompound nbt = this.getCompound(key);
 
         if(!nbt.getString("type").equals("itemstack")) return null;
 
-        return ItemStack.fromNbt(nbt.getCompound("value"));
+        return ItemStack.fromNbt(registries, nbt.getCompound("value"));
     }
 
-    public ItemStack[] getItemStackArray(String key) {
+    public Optional<ItemStack>[] getItemStackArray(RegistryWrapper.WrapperLookup registries, String key) {
         LibyNbtCompound nbt = this.getLibyCompound(key);
 
         if(!nbt.getString("type").equals("itemstackArray")) return null;
 
         int length = nbt.getInt("length");
 
-        ItemStack[] array = new ItemStack[length];
+        Optional<ItemStack>[] array = new Optional[length];
 
         for (int i = 0; i < length; i++) {
-            array[i] = nbt.getItemStack(String.valueOf(i));
+            array[i] = nbt.getItemStack(registries, String.valueOf(i));
         }
 
         return array;
@@ -350,14 +348,16 @@ public class LibyNbtCompound extends NbtCompound {
     }
 
 
+    /* TODO
     public void putItemStack(String key, ItemStack value) {
         NbtCompound nbt = new NbtCompound();
 
         nbt.putString("type", "itemstack");
-        nbt.put("value", value.writeNbt(new NbtCompound()));
+        nbt.put("value", value.applyComponentsFrom(new NbtCompound()));
 
         this.put(key, nbt);
     }
+
 
     public void putItemStackArray(String key, ItemStack[] value) {
         LibyNbtCompound array = new LibyNbtCompound();
@@ -371,6 +371,7 @@ public class LibyNbtCompound extends NbtCompound {
 
         this.put(key, array);
     }
+     */
 
     public void putIdentifier(String key, Identifier value) {
         NbtCompound idNbt = new NbtCompound();

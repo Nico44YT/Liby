@@ -7,7 +7,7 @@ import net.minecraft.item.ItemConvertible;
 import net.minecraft.util.Identifier;
 
 public class LibyStoneCuttingRecipe extends LibyRecipe {
-    private static final Identifier TYPE = new Identifier("minecraft", "stonecutting");
+    private static final Identifier TYPE = Identifier.of("minecraft", "stonecutting");
 
     public LibyStoneCuttingRecipe(LibyIngredient ingredient, Identifier result, int count) {
         JsonObject recipe = new JsonObject();

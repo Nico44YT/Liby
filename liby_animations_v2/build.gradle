@@ -34,7 +34,13 @@ dependencies {
 
     modImplementation "net.fabricmc.fabric-api:fabric-api:${project.fabric_version}"
 
-    api project(":liby_main")
+    modRuntimeOnly(modApi project(":liby_main"))
+    modRuntimeOnly(modApi project(":liby_assetgen"))
+    modRuntimeOnly(modApi project(":liby_networking"))
+
+    compileOnlyApi(project(":liby_main"))
+    compileOnlyApi(project(":liby_assetgen"))
+    compileOnlyApi(project(":liby_networking"))
 }
 
 processResources {

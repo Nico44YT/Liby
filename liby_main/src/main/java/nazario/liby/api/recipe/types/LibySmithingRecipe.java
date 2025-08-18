@@ -6,7 +6,7 @@ import nazario.liby.api.recipe.LibyRecipe;
 import net.minecraft.util.Identifier;
 
 public class LibySmithingRecipe extends LibyRecipe {
-    private static final Identifier TYPE = new Identifier("minecraft", "smithing");
+    private static final Identifier TYPE = Identifier.of("minecraft", "smithing");
 
     public LibySmithingRecipe(LibyIngredient base, LibyIngredient addition, Identifier result) {
         JsonObject recipe = this.createBasicJson();
