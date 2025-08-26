@@ -6,9 +6,11 @@ import net.fabricmc.fabric.api.client.networking.v1.ClientPlayNetworking;
 import net.minecraft.network.listener.ServerCommonPacketListener;
 import net.minecraft.network.packet.Packet;
 
+import java.util.function.Consumer;
+
 public class LibyClientNetworking {
-    public static <T extends LibyPacket<T>, U extends LibyClientPlayReceiver<T>> boolean registerGlobalReceiver(LibyPacketType<T> libyPacket, U handler) {
-        return ClientPlayNetworking.registerGlobalReceiver(libyPacket.getPacketId(), handler);
+    public static <T extends LibyPacket<T>> boolean registerGlobalReceiver(LibyPacketType<T> libyPacket, LibyClientPlayReceiver<T> handler) {
+        return ClientPlayNetworking.registerGlobalReceiver(libyPacket.getPacketId(), handler::receive);
     }
 
     public static <T extends LibyPacket<T>> LibyClientPlayReceiver<T> unregisterGlobalReceiver(LibyPacketType<T> libyPacket) {

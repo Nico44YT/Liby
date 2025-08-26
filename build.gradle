@@ -3,8 +3,6 @@ plugins {
     id 'maven-publish'
 }
 
-jar.enabled = true
-
 version = project.mod_version
 group = project.maven_group
 
@@ -31,9 +29,9 @@ dependencies {
     modImplementation "net.fabricmc.fabric-api:fabric-api:${project.fabric_version}"
 
     // Only includes stable modules
-    compileOnlyApi(include project(":liby_main"))
-    compileOnlyApi(include project(":liby_assetgen"))
-    compileOnlyApi(include project(":liby_animations_v2"))
+    implementation project(":liby_main")
+    implementation project(":liby_assetgen")
+    implementation project(":liby_animations_v2")
 
     implementation "org.reflections:reflections:${project.reflections_version}"
     include "org.reflections:reflections:${project.reflections_version}"

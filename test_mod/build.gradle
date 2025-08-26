@@ -3,6 +3,7 @@ plugins {
     id 'maven-publish'
 }
 
+jar.enabled = true
 
 def propertiesFile = file("${project.projectDir}/gradle.properties")
 if (propertiesFile.exists()) {
@@ -32,6 +33,11 @@ repositories {
     maven {
         url = "https://repo.spongepowered.org/repository/maven-public/"
     }
+
+    maven {
+        name = "Terraformers"
+        url = "https://maven.terraformersmc.com/"
+    }
 }
 
 dependencies {
@@ -42,7 +48,20 @@ dependencies {
 
     modImplementation "net.fabricmc.fabric-api:fabric-api:${project.fabric_version}"
 
-    implementation project(":liby_main")
+
+    runtimeOnly(modApi project(":"))
+    runtimeOnly(modApi project(":liby_main"))
+    runtimeOnly(modApi project(":liby_assetgen"))
+    runtimeOnly(modApi project(":liby_networking"))
+    runtimeOnly(modApi project(":liby_animations_v2"))
+
+    compileOnlyApi(project(":"))
+    compileOnlyApi(project(":liby_main"))
+    compileOnlyApi(project(":liby_assetgen"))
+    compileOnlyApi(project(":liby_networking"))
+    compileOnlyApi(project(":liby_animations_v2"))
+
+    modImplementation("com.terraformersmc:modmenu:${project.modmenu_version}")
 }
 
 processResources {

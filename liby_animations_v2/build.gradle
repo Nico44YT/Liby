@@ -3,8 +3,6 @@ plugins {
     id 'maven-publish'
 }
 
-jar.enabled = true
-
 def propertiesFile = file("${project.projectDir}/gradle.properties")
 if (propertiesFile.exists()) {
     def props = new Properties()
@@ -34,13 +32,8 @@ dependencies {
 
     modImplementation "net.fabricmc.fabric-api:fabric-api:${project.fabric_version}"
 
-    modRuntimeOnly(modApi project(":liby_main"))
-    modRuntimeOnly(modApi project(":liby_assetgen"))
-    modRuntimeOnly(modApi project(":liby_networking"))
-
-    compileOnlyApi(project(":liby_main"))
-    compileOnlyApi(project(":liby_assetgen"))
-    compileOnlyApi(project(":liby_networking"))
+    modImplementation project(":liby_main")
+    implementation project(":liby_networking")
 }
 
 processResources {

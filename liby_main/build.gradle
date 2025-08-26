@@ -3,8 +3,6 @@ plugins {
     id 'maven-publish'
 }
 
-jar.enabled = true
-
 def propertiesFile = file("${project.projectDir}/gradle.properties")
 if (propertiesFile.exists()) {
     def props = new Properties()

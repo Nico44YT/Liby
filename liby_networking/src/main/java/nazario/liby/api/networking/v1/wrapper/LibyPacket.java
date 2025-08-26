@@ -9,7 +9,7 @@ import net.minecraft.network.packet.CustomPayload;
 import net.minecraft.network.packet.Packet;
 import net.minecraft.network.packet.PacketType;
 
-public interface LibyPacket<T extends LibyPacket<T>> extends CustomPayload, Packet<LibyPacket<T>>, PacketListener, LibyIdentifierResolvable {
+public interface LibyPacket<T extends LibyPacket<T>> extends CustomPayload, Packet<T>, PacketListener, LibyIdentifierResolvable {
 
     LibyPacketType<T> getPacketType();
     NetworkPhase getPhase();
