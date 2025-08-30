@@ -53,4 +53,9 @@ public abstract class LibyEntityAnimation<T extends Entity> extends LibyAnimatio
         DEFAULT_RENDER,
         NEVER_RENDER;
     }
+
+    @FunctionalInterface
+    public interface EntityFactory<T extends LibyEntityAnimation<U>, U extends Entity & LibyAnimatable> extends LibyAnimation.Factory<T, U> {
+        T apply(LibyIdentifier identifier, Predicate<U> predicate);
+    }
 }

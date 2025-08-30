@@ -88,7 +88,7 @@ public abstract class BlockEntityInjectMixin implements LibyAnimatable {
                 .orElse(LibyAnimationPlayState.NO_ANIMATION);
     }
 
-    @Inject(method = "tick", at = @At("TAIL"))
+    @Inject(method = "tick", at = @At("TAIL"), remap = false)
     public void libyAnimations$tick(CallbackInfo ci) {
         BlockEntity entity = (BlockEntity)(Object)this;
         if(this.playingAnimation != null) this.playingAnimation.tick(entity.getWorld(), entity);

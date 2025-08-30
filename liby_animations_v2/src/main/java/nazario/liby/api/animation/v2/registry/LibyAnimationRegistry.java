@@ -1,39 +1,57 @@
 package nazario.liby.api.animation.v2.registry;
 
-import nazario.liby.internal.registry.LibyImplementableRegistry;
-import nazario.liby.internal.registry.LibyImplementedRegistry;
 import nazario.liby.api.animation.v2.LibyAnimatable;
 import nazario.liby.api.animation.v2.LibyAnimation;
+import nazario.liby.api.util.LibyIdentifier;
+import nazario.liby.internal.animation.v2.LibyInternalAnimationRegistry;
+import nazario.liby.internal.registry.LibyImplementableRegistry;
 import net.minecraft.util.Identifier;
 
+import java.util.Objects;
 import java.util.function.Predicate;
 
-public interface LibyAnimationRegistry extends LibyImplementableRegistry {
-    static LibyAnimationRegistry of(String namespace) {
-        return (LibyAnimationRegistry) LibyImplementedRegistry.ofGeneric(namespace);
+public class LibyAnimationRegistry implements LibyImplementableRegistry {
+
+    private final String namespace;
+
+    protected LibyAnimationRegistry(String namespace) {
+        this.namespace = namespace;
     }
 
-    default Identifier registerAnimation(String name, LibyAnimation.Factory animationFactory) {
-        return null;
+    public static LibyAnimationRegistry of(String namespace) {
+        return new LibyAnimationRegistry(namespace);
     }
 
-    default Identifier registerAnimation(String name, LibyAnimation.Factory animationFactory, Class<LibyAnimatable> predicateClass) {
-        return null;
+    public <T extends LibyAnimation<U>, U extends LibyAnimatable> Identifier registerAnimation(String name, LibyAnimation.Factory<T, U> animationFactory, Predicate<U> predicate) {
+        LibyIdentifier identifier = LibyIdentifier.of(this.namespace, name);
+        if (LibyInternalAnimationRegistry.getAnimations().containsKey(identifier)) {
+            throw new RuntimeException(
+                    String.format("[LibyAnimations] Animation with id \"%s\" has already been registered", identifier));
+        }
+
+        LibyInternalAnimationRegistry.registerAnimation(identifier, animationFactory, predicate);
+        return identifier;
     }
 
-    default Identifier registerAnimation(String name, LibyAnimation.Factory animationFactory, Predicate<LibyAnimatable> predicate) {
-        return null;
+    public <T extends LibyAnimation<U>, U extends LibyAnimatable> Identifier registerAnimation(String name, LibyAnimation.Factory<T, U> animationFactory, Class<U> predicateClass) {
+        return registerAnimation(name, animationFactory, predicateClass::isInstance);
     }
 
-    default Identifier setAnimation(String name, LibyAnimation.Factory animationFactory) {
-        return null;
+    public <T extends LibyAnimation<U>, U extends LibyAnimatable> Identifier registerAnimation(String name, LibyAnimation.Factory<T, U> animationFactory) {
+        return registerAnimation(name, animationFactory, Objects::nonNull);
     }
 
-    default Identifier setAnimation(String name, LibyAnimation.Factory animationFactory, Class<LibyAnimatable> predicateClass) {
-        return null;
+    public <T extends LibyAnimation<U>, U extends LibyAnimatable> Identifier overwriteAnimation(String name, LibyAnimation.Factory<T, U> animationFactory, Predicate<U> predicate) {
+        LibyIdentifier identifier = LibyIdentifier.of(this.namespace, name);
+        LibyInternalAnimationRegistry.setAnimation(identifier, animationFactory, predicate);
+        return identifier;
     }
 
-    default Identifier setAnimation(String name, LibyAnimation.Factory animationFactory, Predicate<LibyAnimatable> predicate) {
-        return null;
+    public <T extends LibyAnimation<U>, U extends LibyAnimatable> Identifier overwriteAnimation(String name, LibyAnimation.Factory<T, U> animationFactory, Class<U> predicateClass) {
+        return overwriteAnimation(name, animationFactory, predicateClass::isInstance);
+    }
+
+    public <T extends LibyAnimation<U>, U extends LibyAnimatable> Identifier overwriteAnimation(String name, LibyAnimation.Factory<T, U> animationFactory) {
+        return overwriteAnimation(name, animationFactory, Objects::nonNull);
     }
 }

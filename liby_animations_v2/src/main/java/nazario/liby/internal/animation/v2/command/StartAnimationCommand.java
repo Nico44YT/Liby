@@ -39,7 +39,7 @@ public class StartAnimationCommand {
 
     public static int execute(CommandContext<ServerCommandSource> context) throws CommandSyntaxException {
         if(context.getArgument("target", EntitySelector.class).getEntity(context.getSource()) instanceof LivingEntity target) {
-            Optional<Supplier<LibyAnimation<LibyAnimatable>>> optional = LibyInternalAnimationRegistry.getAnimation(context.getArgument("animation_identifier", Identifier.class));
+            Optional<Supplier<LibyAnimation<LibyAnimatable>>> optional = LibyInternalAnimationRegistry.getAnimationSupplier(context.getArgument("animation_identifier", Identifier.class));
 
             if(optional.isPresent()) {
                 LibyAnimation<LibyAnimatable> animation = optional.get().get();
@@ -65,7 +65,7 @@ public class StartAnimationCommand {
         StringReader stringReader = new StringReader(suggestionsBuilder.getInput());
         stringReader.setCursor(suggestionsBuilder.getStart());
 
-        LibyInternalAnimationRegistry.getAnimations().entrySet().stream().filter(entry -> entry.getValue() instanceof LibyEntityAnimation).forEach(entry -> {
+        LibyInternalAnimationRegistry.getAnimations().entrySet().stream().filter(entry -> entry.getValue().factory() instanceof LibyEntityAnimation.EntityFactory<?,?>).forEach(entry -> {
             suggestions.add(new Suggestion(StringRange.between(stringReader.getCursor(), stringReader.getCursor()+entry.getKey().toString().length()), entry.getKey().toString()));
         });
 

@@ -24,13 +24,13 @@ public class ListAnimationsCommand {
                 .executes(ListAnimationsCommand::execute);
     }
 
-    public static int execute(CommandContext<ServerCommandSource> context) {
-        Map<Identifier, Supplier<LibyAnimation<LibyAnimatable>>> animationMap = LibyInternalAnimationRegistry.getAnimations();
+    public static <T extends LibyAnimation<U>, U extends LibyAnimatable> int execute(CommandContext<ServerCommandSource> context) {
+        Map<Identifier, LibyInternalAnimationRegistry.AnimationEntry<?, ?>> animationMap = LibyInternalAnimationRegistry.getAnimations();
 
         try{
             String namespace = context.getArgument("namespace", String.class);
             if(namespace != null) animationMap = LibyInternalAnimationRegistry.getAllFromNamespace(namespace);
-        } catch (Exception e){}
+        } catch (Exception ignored){}
 
         ServerCommandSource source = context.getSource();
         MutableText text = Text.literal(String.format("Animations (%s):" + (animationMap.isEmpty()?"":"\n"), String.valueOf(animationMap.size())));

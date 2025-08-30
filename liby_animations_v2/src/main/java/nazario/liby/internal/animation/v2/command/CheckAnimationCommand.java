@@ -45,9 +45,11 @@ public class CheckAnimationCommand {
         return Text.literal
                 (String.format(
                         "Animation Info:\n" +
+                                "Animation: %s\n" +
                                 "Target: §7%s (%s)§r\n" +
                                 "Ticks-Left: §7%s§r\n" +
                                 "Play-State: §7%s§r",
+                        animation.liby$getId(),
                         target.getName().getString(),
                         target.getUuid().toString(),
                         String.format("%dt, %ds, %smin", animation.getTicksLeft(), animation.getTicksLeft()/20, animation.getTicksLeft()/20/60), animation.getPlayState().name()

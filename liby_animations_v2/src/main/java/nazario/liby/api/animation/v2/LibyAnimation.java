@@ -148,7 +148,7 @@ public abstract class LibyAnimation<T extends LibyAnimatable> implements LibyIde
     }
 
     @FunctionalInterface
-    public interface Factory {
-        LibyAnimation<LibyAnimatable> apply(LibyIdentifier identifier, Predicate<LibyAnimatable> predicate);
+    public interface Factory<T extends LibyAnimation<U>, U extends LibyAnimatable> {
+        T apply(LibyIdentifier identifier, Predicate<U> predicate);
     }
 }
