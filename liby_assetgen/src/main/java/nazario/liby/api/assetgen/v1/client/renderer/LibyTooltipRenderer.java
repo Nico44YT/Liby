@@ -1,11 +1,19 @@
 package nazario.liby.api.assetgen.v1.client.renderer;
 
 import nazario.liby.api.assetgen.v1.client.LibyDrawContext;
+import net.minecraft.client.font.TextRenderer;
 import net.minecraft.client.gui.tooltip.TooltipBackgroundRenderer;
+import net.minecraft.client.gui.tooltip.TooltipComponent;
+import net.minecraft.client.render.VertexConsumerProvider;
 import net.minecraft.item.ItemStack;
+import org.joml.Matrix4f;
 
 public interface LibyTooltipRenderer {
     void render(ItemStack stack, LibyDrawContext drawContext, int x, int y, int width, int height, int z);
+
+    default void renderText(TooltipComponent tooltip, TextRenderer textRenderer, int x, int y, Matrix4f matrix, VertexConsumerProvider.Immediate vertexConsumers) {
+        tooltip.drawText(textRenderer, x, y, matrix, vertexConsumers);
+    }
 
     default void renderHorizontalLine(ItemStack stack, LibyDrawContext context, int x, int y, int width, int height, int z, int startColor, int endColor) {
         TooltipBackgroundRenderer.renderBorder(context, x, y, width, height, z, startColor, endColor);

@@ -24,7 +24,6 @@ public abstract class TooltipBackgroundRendererMixin {
             if(renderer != null) {
                 renderer.render(stack, new LibyDrawContext(context), x, y, width, height, z);
                 ci.cancel();
-                LibyAssetGenFlags.tooltipItemStack = null;
             }
         }
     }
