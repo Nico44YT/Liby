@@ -4,8 +4,10 @@
   "package": "nazario.liby.mixin.world.v1",
   "compatibilityLevel": "JAVA_17",
   "mixins": [
+    "BoatEntityMixin"
   ],
   "client": [
+    "client.BoatEntityRendererMixin"
   ],
   "injectors": {
     "defaultRequire": 1

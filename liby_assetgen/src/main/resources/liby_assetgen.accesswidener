@@ -20,3 +20,5 @@ accessible method net/minecraft/client/gui/tooltip/TooltipBackgroundRenderer ren
 accessible method net/minecraft/client/gui/tooltip/TooltipBackgroundRenderer renderVerticalLine (Lnet/minecraft/client/gui/DrawContext;IIIII)V
 accessible method net/minecraft/client/gui/tooltip/TooltipBackgroundRenderer renderVerticalLine (Lnet/minecraft/client/gui/DrawContext;IIIIII)V
 accessible method net/minecraft/client/gui/tooltip/TooltipBackgroundRenderer renderBorder (Lnet/minecraft/client/gui/DrawContext;IIIIIII)V
+
+accessible field net/minecraft/client/render/model/ModelLoader jsonUnbakedModels Ljava/util/Map;

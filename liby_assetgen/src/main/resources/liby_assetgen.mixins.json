@@ -10,6 +10,7 @@
     "client.ItemRendererAccessor",
     "client.ItemRendererMixin",
     "client.ItemStackMixin",
+    "client.ModelLoaderMixin",
     "client.PackScreenMixin",
     "client.ResourcePackManagerMixin",
     "client.TooltipBackgroundRendererMixin",
