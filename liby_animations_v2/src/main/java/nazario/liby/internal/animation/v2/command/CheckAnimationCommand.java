@@ -3,6 +3,8 @@ package nazario.liby.internal.animation.v2.command;
 import com.mojang.brigadier.builder.ArgumentBuilder;
 import com.mojang.brigadier.context.CommandContext;
 import com.mojang.brigadier.exceptions.CommandSyntaxException;
+import nazario.liby.api.animation.v2.LibyAnimatable;
+import nazario.liby.api.animation.v2.LibyAnimation;
 import nazario.liby.api.animation.v2.LibyEntityAnimation;
 import net.minecraft.command.EntitySelector;
 import net.minecraft.command.argument.EntityArgumentType;
@@ -40,7 +42,7 @@ public class CheckAnimationCommand {
     }
 
     private static @NotNull MutableText getMutableText(LivingEntity target) {
-        LibyEntityAnimation<LivingEntity> animation = (LibyEntityAnimation) target.getLibyAnimation().get();
+        LibyAnimation<LibyAnimatable> animation = target.getLibyAnimation().get();
 
         return Text.literal
                 (String.format(

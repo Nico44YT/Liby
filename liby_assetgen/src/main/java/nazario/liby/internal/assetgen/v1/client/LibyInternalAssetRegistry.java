@@ -2,6 +2,7 @@ package nazario.liby.internal.assetgen.v1.client;
 
 import nazario.liby.api.assetgen.v1.client.LibyAssetRegistry;
 import nazario.liby.api.assetgen.v1.client.model.obj.LibyObjModel;
+import nazario.liby.api.assetgen.v1.client.renderer.LibyTooltipRenderer;
 import nazario.liby.api.assetgen.v1.client.texture.LibyTexture;
 import nazario.liby.internal.assetgen.v1.client.blockstate.LibyBlockState;
 import nazario.liby.internal.assetgen.v1.client.blockstate.LibyBlockStateRegistry;
@@ -12,9 +13,11 @@ import nazario.liby.internal.assetgen.v1.client.model.item_model_predicate.LibyI
 import nazario.liby.internal.assetgen.v1.client.resource_loader.LibyObjResourceLoader;
 import nazario.liby.internal.assetgen.v1.client.texture.LibyTextureRegistry;
 import net.minecraft.client.util.ModelIdentifier;
+import net.minecraft.item.Item;
 import net.minecraft.item.ItemConvertible;
 import net.minecraft.util.Identifier;
 
+import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
@@ -30,6 +33,7 @@ public class LibyInternalAssetRegistry implements LibyAssetRegistry {
 
     protected final String packNamespace;
     public static final Set<LibyItemModelRule> itemModelRules = new HashSet<>();
+    public static final Map<Item, LibyTooltipRenderer> tooltipRenderers = new HashMap<>();
 
     public LibyInternalAssetRegistry(String packNamespace) {
         this.packNamespace = packNamespace;
@@ -67,6 +71,11 @@ public class LibyInternalAssetRegistry implements LibyAssetRegistry {
     @Override
     public void registerLang(String langCode, Map<String, String> keys) {
 
+    }
+
+    @Override
+    public void registerTooltipRenderer(Item item, LibyTooltipRenderer.Factory renderer) {
+        tooltipRenderers.put(item, renderer.apply());
     }
 
     public static Supplier<LibyObjModel> getObjModel(Identifier id) {

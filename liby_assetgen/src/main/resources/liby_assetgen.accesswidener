@@ -14,3 +14,9 @@ accessible method net/minecraft/client/render/model/json/JsonUnbakedModel$Deseri
 accessible method net/minecraft/client/render/model/json/JsonUnbakedModel$Deserializer texturesFromJson (Lcom/google/gson/JsonObject;)Ljava/util/Map;
 
 accessible method net/minecraft/client/render/model/json/ModelElement$Deserializer deserializeFaces (Lcom/google/gson/JsonDeserializationContext;Lcom/google/gson/JsonObject;)Ljava/util/Map;
+
+accessible method net/minecraft/client/gui/tooltip/TooltipBackgroundRenderer renderHorizontalLine (Lnet/minecraft/client/gui/DrawContext;IIIII)V
+accessible method net/minecraft/client/gui/tooltip/TooltipBackgroundRenderer renderRectangle (Lnet/minecraft/client/gui/DrawContext;IIIIII)V
+accessible method net/minecraft/client/gui/tooltip/TooltipBackgroundRenderer renderVerticalLine (Lnet/minecraft/client/gui/DrawContext;IIIII)V
+accessible method net/minecraft/client/gui/tooltip/TooltipBackgroundRenderer renderVerticalLine (Lnet/minecraft/client/gui/DrawContext;IIIIII)V
+accessible method net/minecraft/client/gui/tooltip/TooltipBackgroundRenderer renderBorder (Lnet/minecraft/client/gui/DrawContext;IIIIIII)V

@@ -6,10 +6,12 @@
   "mixins": [
   ],
   "client": [
+    "client.ItemStackMixin",
     "client.ItemRendererAccessor",
     "client.ItemRendererMixin",
     "client.PackScreenMixin",
     "client.ResourcePackManagerMixin",
+    "client.TooltipBackgroundRendererMixin",
     "client.format.BakedQuadFactoryMixin",
     "client.format.JsonUnbakedModelMixin",
     "client.format.ModelRotationInjection",
