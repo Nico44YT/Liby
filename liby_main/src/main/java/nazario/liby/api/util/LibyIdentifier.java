@@ -31,6 +31,12 @@ public class LibyIdentifier extends Identifier {
         return new LibyIdentifier(Identifier.REALMS_NAMESPACE, path);
     }
 
+    public static LibyIdentifier tryParseOrDefault(String id, String defaultNamespace) {
+        String[] parts = id.split(":");
+        if(parts.length >= 2) return LibyIdentifier.of(parts[0], parts[1]);
+        return LibyIdentifier.of(defaultNamespace, parts[0]);
+    }
+
     public LibyIdentifier append(String namespace, String path) {
         return new LibyIdentifier(this.getNamespace() + namespace, this.getPath() + path);
     }

@@ -18,10 +18,7 @@ public abstract class BoatEntityMixin {
     public <T> void liby$initDataTracker(DataTracker instance, TrackedData<T> key, T initialValue) {
         BoatEntity entity = (BoatEntity)(Object)this;
 
-        if(entity instanceof LibyBoat) {
-            if(!key.equals(BOAT_TYPE)) instance.startTracking(key, initialValue);
-            return;
-        }
+        if(entity instanceof LibyBoat && key.equals(BOAT_TYPE)) return;
 
         instance.startTracking(key, initialValue);
     }

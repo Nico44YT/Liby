@@ -1,4 +1,4 @@
-package nazario.liby.mixin.world.v1.client;
+package nazario.liby.mixin.world.v1.client.boat;
 
 import com.mojang.datafixers.util.Pair;
 import nazario.liby.api.world.v1.client.renderer.entity.LibyBoatEntityRenderer;
