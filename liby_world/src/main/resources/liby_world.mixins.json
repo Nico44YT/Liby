@@ -8,6 +8,7 @@
     "BoatEntityMixin"
   ],
   "client": [
+    "client.TexturedRenderLayersMixin",
     "client.boat.BoatEntityRendererMixin",
     "client.hanging_sign.HangingSignBlockEntityRendererMixin",
     "client.sign.SignBlockEntityRendererMixin",
