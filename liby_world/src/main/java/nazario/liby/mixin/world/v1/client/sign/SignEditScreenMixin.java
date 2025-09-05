@@ -48,7 +48,7 @@ public abstract class SignEditScreenMixin {
 
     @Redirect(method = "renderSignBackground", at = @At(value = "INVOKE", target = "Lnet/minecraft/client/render/TexturedRenderLayers;getSignTextureId(Lnet/minecraft/block/WoodType;)Lnet/minecraft/client/util/SpriteIdentifier;"))
     public SpriteIdentifier getSignTexture(WoodType signType) {
-        LibySign sign = liby$typeToModel.getOrDefault(signType, null).getB();
+        LibySign sign = liby$typeToModel.getOrDefault(signType, new Pair<>(null, null)).getB();
         if(sign != null) {
             return new SpriteIdentifier(TexturedRenderLayers.SIGNS_ATLAS_TEXTURE, sign.getTexture());
         }
